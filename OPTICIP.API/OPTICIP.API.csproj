@@ -1,0 +1,67 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <UserSecretsId>a90864b8-7897-41aa-8a17-a79f672ec902</UserSecretsId>
+    <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
+    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+</PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="jsreport\**" />
+    <Content Remove="jsreport\**" />
+    <EmbeddedResource Remove="jsreport\**" />
+    <None Remove="jsreport\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Application\Queries\Implementation\DeclarationsQuerie.cs" />
+    <Compile Remove="Application\Queries\Interfaces\IDeclarationsQuerie.cs" />
+    <Compile Remove="Application\Queries\ViewModels\ChequeIrregulierViewModel.cs" />
+    <Compile Remove="Application\Queries\ViewModels\IncidentChequeViewModel.cs" />
+    <Compile Remove="Application\Queries\ViewModels\IncidentEffetViewModel.cs" />
+    <Compile Remove="Application\Queries\ViewModels\Pers_MoraleViewModel.cs" />
+    <Compile Remove="Application\Queries\ViewModels\Pers_PhysiqueViewModel.cs" />
+    <Compile Remove="Controllers\DeclarationsFichierApiController.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="6.0.0" />
+    <PackageReference Include="Dapper" Version="2.0.35" />
+    <PackageReference Include="FastReport.OpenSource.Data.OracleODPCore" Version="2020.3.14" />
+    <PackageReference Include="FastReport.OpenSource.Export.PdfSimple" Version="2020.3.14" />
+    <PackageReference Include="FastReport.OpenSource.Web" Version="2020.3.14" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="8.6.2" />
+    <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="2.3.0" />
+    <PackageReference Include="MediatR" Version="8.0.1" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="8.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.2.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.4.10" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.4" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="2.19.70" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.4.1" />
+    <PackageReference Include="System.DirectoryServices" Version="6.0.0" />
+    <PackageReference Include="System.DirectoryServices.AccountManagement" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Logger\Logger.csproj" />
+    <ProjectReference Include="..\OPTICIP.BusinessLogicLayer\OPTICIP.BusinessLogicLayer.csproj" />
+    <ProjectReference Include="..\OPTICIP.DataAccessLayer\OPTICIP.DataAccessLayer.csproj" />
+    <ProjectReference Include="..\OPTICIP.Entities\OPTICIP.Entities.csproj" />
+    <ProjectReference Include="..\OPTICIP.IContractLayer\OPTICIP.IContractLayer.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Application\Commands\ParametrageCommands\" />
+  </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
+
+</Project>

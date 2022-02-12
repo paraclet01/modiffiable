@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  opticip.api:
+    image: ${DOCKER_REGISTRY-}opticipapi
+    build:
+      context: .
+      dockerfile: OPTICIP.API\Dockerfile

@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="BusinessLogicRepository\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OPTICIP.Entities\OPTICIP.Entities.csproj" />
+    <ProjectReference Include="..\OPTICIP.SeedWork\OPTICIP.SeedWork.csproj" />
+  </ItemGroup>
+
+</Project>

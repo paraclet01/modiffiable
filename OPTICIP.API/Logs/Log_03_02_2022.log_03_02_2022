@@ -1,0 +1,63 @@
+03/02/2022 10:37:34 v1.0.0.0 INFO  Demarrage du service WEB OPTICIP.API
+03/02/2022 11:36:10 v1.0.0.0 INFO  Demarrage du service WEB OPTICIP.API
+03/02/2022 11:51:01 v1.0.0.0 INFO  Demarrage du service WEB OPTICIP.API
+03/02/2022 12:36:49 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = adseka
+03/02/2022 13:18:43 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = adseka
+03/02/2022 13:20:19 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = ADSEKA
+03/02/2022 13:45:20 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = ADSEKA
+03/02/2022 13:50:51 v1.0.0.0 INFO  Demarrage du service WEB OPTICIP.API
+03/02/2022 13:51:14 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = adseka
+03/02/2022 15:06:00 v1.0.0.0 INFO  Demarrage du service WEB OPTICIP.API
+03/02/2022 15:06:16 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = adseka
+03/02/2022 15:26:32 v1.0.0.0 INFO  Demarrage du service WEB OPTICIP.API
+03/02/2022 15:39:58 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = adseka
+03/02/2022 16:57:59 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = adseka
+03/02/2022 21:41:51 v1.0.0.0 INFO  Demarrage du service WEB OPTICIP.API
+03/02/2022 21:42:19 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = adseka
+03/02/2022 21:42:19 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = adseka
+03/02/2022 21:42:20 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = adseka
+03/02/2022 21:42:43 v1.0.0.0 ERROR The server could not be contacted.
+System.DirectoryServices.AccountManagement.PrincipalServerDownException: The server could not be contacted.
+ ---> System.DirectoryServices.Protocols.LdapException: The LDAP server is unavailable.
+   at System.DirectoryServices.Protocols.LdapConnection.Connect()
+   at System.DirectoryServices.Protocols.LdapConnection.SendRequestHelper(DirectoryRequest request, Int32& messageID)
+   at System.DirectoryServices.Protocols.LdapConnection.SendRequest(DirectoryRequest request, TimeSpan requestTimeout)
+   at System.DirectoryServices.Protocols.LdapConnection.SendRequest(DirectoryRequest request)
+   at System.DirectoryServices.AccountManagement.PrincipalContext.ReadServerConfig(String serverName, ServerProperties& properties)
+   --- End of inner exception stack trace ---
+   at System.DirectoryServices.AccountManagement.PrincipalContext.ReadServerConfig(String serverName, ServerProperties& properties)
+   at System.DirectoryServices.AccountManagement.PrincipalContext.DoServerVerifyAndPropRetrieval()
+   at System.DirectoryServices.AccountManagement.PrincipalContext..ctor(ContextType contextType, String name, String container, ContextOptions options, String userName, String password)
+   at System.DirectoryServices.AccountManagement.PrincipalContext..ctor(ContextType contextType, String name)
+   at OPTICIP.API.Application.Queries.Implementation.UsersQuerie.GetUser(String Login, String MotPasse) in D:\HOLY TECH\Paraclet\XCIP\Sources\XCIP_SOURCES\opticip.api\OPTICIP.API\Application\Queries\Implementation\UsersQuerie.cs:line 199
+03/02/2022 21:42:43 v1.0.0.0 ERROR The server could not be contacted.
+System.DirectoryServices.AccountManagement.PrincipalServerDownException: The server could not be contacted.
+ ---> System.DirectoryServices.Protocols.LdapException: The LDAP server is unavailable.
+   at System.DirectoryServices.Protocols.LdapConnection.Connect()
+   at System.DirectoryServices.Protocols.LdapConnection.SendRequestHelper(DirectoryRequest request, Int32& messageID)
+   at System.DirectoryServices.Protocols.LdapConnection.SendRequest(DirectoryRequest request, TimeSpan requestTimeout)
+   at System.DirectoryServices.Protocols.LdapConnection.SendRequest(DirectoryRequest request)
+   at System.DirectoryServices.AccountManagement.PrincipalContext.ReadServerConfig(String serverName, ServerProperties& properties)
+   --- End of inner exception stack trace ---
+   at System.DirectoryServices.AccountManagement.PrincipalContext.ReadServerConfig(String serverName, ServerProperties& properties)
+   at System.DirectoryServices.AccountManagement.PrincipalContext.DoServerVerifyAndPropRetrieval()
+   at System.DirectoryServices.AccountManagement.PrincipalContext..ctor(ContextType contextType, String name, String container, ContextOptions options, String userName, String password)
+   at System.DirectoryServices.AccountManagement.PrincipalContext..ctor(ContextType contextType, String name)
+   at OPTICIP.API.Application.Queries.Implementation.UsersQuerie.GetUser(String Login, String MotPasse) in D:\HOLY TECH\Paraclet\XCIP\Sources\XCIP_SOURCES\opticip.api\OPTICIP.API\Application\Queries\Implementation\UsersQuerie.cs:line 199
+03/02/2022 21:42:43 v1.0.0.0 ERROR The server could not be contacted.
+System.DirectoryServices.AccountManagement.PrincipalServerDownException: The server could not be contacted.
+ ---> System.DirectoryServices.Protocols.LdapException: The LDAP server is unavailable.
+   at System.DirectoryServices.Protocols.LdapConnection.Connect()
+   at System.DirectoryServices.Protocols.LdapConnection.SendRequestHelper(DirectoryRequest request, Int32& messageID)
+   at System.DirectoryServices.Protocols.LdapConnection.SendRequest(DirectoryRequest request, TimeSpan requestTimeout)
+   at System.DirectoryServices.Protocols.LdapConnection.SendRequest(DirectoryRequest request)
+   at System.DirectoryServices.AccountManagement.PrincipalContext.ReadServerConfig(String serverName, ServerProperties& properties)
+   --- End of inner exception stack trace ---
+   at System.DirectoryServices.AccountManagement.PrincipalContext.ReadServerConfig(String serverName, ServerProperties& properties)
+   at System.DirectoryServices.AccountManagement.PrincipalContext.DoServerVerifyAndPropRetrieval()
+   at System.DirectoryServices.AccountManagement.PrincipalContext..ctor(ContextType contextType, String name, String container, ContextOptions options, String userName, String password)
+   at System.DirectoryServices.AccountManagement.PrincipalContext..ctor(ContextType contextType, String name)
+   at OPTICIP.API.Application.Queries.Implementation.UsersQuerie.GetUser(String Login, String MotPasse) in D:\HOLY TECH\Paraclet\XCIP\Sources\XCIP_SOURCES\opticip.api\OPTICIP.API\Application\Queries\Implementation\UsersQuerie.cs:line 199
+03/02/2022 21:43:25 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = adseka
+03/02/2022 22:20:54 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = ADSEKA
+03/02/2022 22:35:53 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = adseka

@@ -1,0 +1,51 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <UserSecretsId>a90864b8-7897-41aa-8a17-a79f672ec902</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Application\Queries\Implementation\DeclarationsQuerie.cs" />
+    <Compile Remove="Controllers\DeclarationsFichierApiController.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="6.0.0" />
+    <PackageReference Include="Dapper" Version="2.0.35" />
+    <PackageReference Include="FastReport.OpenSource.Data.OracleODPCore" Version="2020.3.14" />
+    <PackageReference Include="FastReport.OpenSource.Export.PdfSimple" Version="2020.3.14" />
+    <PackageReference Include="FastReport.OpenSource.Web" Version="2020.3.14" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="8.6.2" />
+    <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="2.3.0" />
+    <PackageReference Include="MediatR" Version="8.0.1" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="8.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.4" />
+    <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="2.19.70" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.4.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OPTICIP.BusinessLogicLayer\OPTICIP.BusinessLogicLayer.csproj" />
+    <ProjectReference Include="..\OPTICIP.DataAccessLayer\OPTICIP.DataAccessLayer.csproj" />
+    <ProjectReference Include="..\OPTICIP.Entities\OPTICIP.Entities.csproj" />
+    <ProjectReference Include="..\OPTICIP.IContractLayer\OPTICIP.IContractLayer.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="jsreport\data\data\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="jsreport\data\assets\warning-styles.css\content.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="jsreport\data\templates\Warning\content.handlebars">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,25 @@
+01/02/2022 12:31:52 v1.0.0.0 INFO  Demarrage du service WEB OPTICIP.API
+01/02/2022 12:40:43 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = ADMIN
+01/02/2022 12:42:04 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = ADSEKA
+01/02/2022 12:43:40 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = ADSEKA
+01/02/2022 12:43:40 v1.0.0.0 ERROR The user name and password must either both be null or both must be non-null.
+System.ArgumentException: The user name and password must either both be null or both must be non-null.
+   at System.DirectoryServices.AccountManagement.PrincipalContext.ValidateCredentials(String userName, String password)
+   at OPTICIP.API.Application.Queries.Implementation.UsersQuerie.GetUser(String Login, String MotPasse) in D:\HOLY TECH\Paraclet\XCIP\Sources\XCIP_SOURCES\opticip.api\OPTICIP.API\Application\Queries\Implementation\UsersQuerie.cs:line 202
+01/02/2022 12:43:49 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = ADSEKA
+01/02/2022 14:56:27 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = YVESCK
+01/02/2022 14:56:55 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = ADSEKA
+01/02/2022 15:11:55 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = ADSEKA
+01/02/2022 15:15:23 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = ADSEKA
+01/02/2022 15:16:37 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = ADSEKA
+01/02/2022 15:21:49 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = ADSEKA
+01/02/2022 15:24:58 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = ADSEKA
+01/02/2022 15:29:05 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = ADSEKA
+01/02/2022 15:45:00 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = adseka
+01/02/2022 16:00:57 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = adseka
+01/02/2022 17:26:07 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = adseka
+01/02/2022 17:26:31 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = adseka
+01/02/2022 17:26:31 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = adseka
+01/02/2022 17:33:45 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = adseka
+01/02/2022 21:20:21 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = adseka
+01/02/2022 21:20:25 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = adseka
