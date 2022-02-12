@@ -97,8 +97,16 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<CompteViewModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetListComptes(string agence)
         {
-            var result = await _declarationQueries.GetComptesAsync(agence, "C");
-            return Ok(result);
+            try
+            {
+                var result = await _declarationQueries.GetComptesAsync(agence, "C");
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
@@ -106,8 +114,16 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<CompteViewModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetListComptesRetires(string agence)
         {
-            var result = await _declarationQueries.GetComptesAsync(agence);
-            return Ok(result);
+            try
+            {
+                var result = await _declarationQueries.GetComptesAsync(agence);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
@@ -115,8 +131,16 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<PersPhysiqueViewModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetListPersPhysiques(string agence)
         {
-            var result = await _declarationQueries.GetPersPhysiquesAsync(agence, "C");
-            return Ok(result);
+            try
+            {
+                var result = await _declarationQueries.GetPersPhysiquesAsync(agence, "C");
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
@@ -124,8 +148,16 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<PersPhysiqueViewModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetListPersPhysiquesRetires(string agence)
         {
-            var result = await _declarationQueries.GetPersPhysiquesAsync(agence);
-            return Ok(result);
+            try
+            {
+                var result = await _declarationQueries.GetPersPhysiquesAsync(agence);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
@@ -133,8 +165,16 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<PersPhysiqueErreurViewModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetListPersPhysiquesErreurs(string agence)
         {
-            var result = await _declarationQueries.GetPersPhysiquesErreursAsync(agence);
-            return Ok(result);
+            try
+            {
+                var result = await _declarationQueries.GetPersPhysiquesErreursAsync(agence);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
@@ -142,8 +182,16 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<ErreurEnregistrementViewModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetListErreurs(string enregistrementID, string enregistrementTable)
         {
-            var result = await _declarationQueries.GetListErreurs(enregistrementID, enregistrementTable);
-            return Ok(result);
+            try
+            {
+                var result = await _declarationQueries.GetListErreurs(enregistrementID, enregistrementTable);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
@@ -151,8 +199,16 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<PersMoraleViewModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetListPersMorales(string agence)
         {
-            var result = await _declarationQueries.GetPersMoralesAsync(agence, "C");
-            return Ok(result);
+            try
+            {
+                var result = await _declarationQueries.GetPersMoralesAsync(agence, "C");
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
@@ -160,8 +216,16 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<PersMoraleErreurViewModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetListPersMoralesEnErreur(string agence)
         {
-            var result = await _declarationQueries.GetPersMoralesErreursAsync(agence);
-            return Ok(result);
+            try
+            {
+                var result = await _declarationQueries.GetPersMoralesErreursAsync(agence);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
@@ -169,8 +233,16 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<PersMoraleViewModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetListPersMoralesRetires(string agence)
         {
-            var result = await _declarationQueries.GetPersMoralesAsync(agence);
-            return Ok(result);
+            try
+            {
+                var result = await _declarationQueries.GetPersMoralesAsync(agence);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
@@ -178,8 +250,16 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<CartesViewModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetListCartes(string agence)
         {
-            var result = await _declarationQueries.GetCartesAsync(agence, "C");
-            return Ok(result);
+            try
+            {
+                var result = await _declarationQueries.GetCartesAsync(agence, "C");
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
@@ -187,8 +267,16 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<CartesViewModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetListCartesRetires(string agence)
         {
-            var result = await _declarationQueries.GetCartesAsync(agence);
-            return Ok(result);
+            try
+            {
+                var result = await _declarationQueries.GetCartesAsync(agence);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
@@ -196,8 +284,16 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<IncidentsChequesViewModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetListIncidentsCheques(string agence)
         {
-            var result = await _declarationQueries.GetIncidentsChequesAsync(agence, "C");
-            return Ok(result);
+            try
+            {
+                var result = await _declarationQueries.GetIncidentsChequesAsync(agence, "C");
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
@@ -205,8 +301,16 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<IncidentsChequesViewModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetListIncidentsChequesRetires(string agence)
         {
-            var result = await _declarationQueries.GetIncidentsChequesAsync(agence);
-            return Ok(result);
+            try
+            {
+                var result = await _declarationQueries.GetIncidentsChequesAsync(agence);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
@@ -214,8 +318,16 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<ChequesIrreguliersViewModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetListChequesIrreguliers(string agence)
         {
-            var result = await _declarationQueries.GetChequesIrreguliersAsync(agence, "C");
-            return Ok(result);
+            try
+            {
+                var result = await _declarationQueries.GetChequesIrreguliersAsync(agence, "C");
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
@@ -223,8 +335,16 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<ChequesIrreguliersViewModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetListChequesIrreguliersRetires(string agence)
         {
-            var result = await _declarationQueries.GetChequesIrreguliersAsync(agence);
-            return Ok(result);
+            try
+            {
+                var result = await _declarationQueries.GetChequesIrreguliersAsync(agence);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
@@ -232,8 +352,16 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<IncidentsEffetsViewModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetListIncidentsEffets(string agence)
         {
-            var result = await _declarationQueries.GetIncidentsEffetsAsync(agence, "C");
-            return Ok(result);
+            try
+            {
+                var result = await _declarationQueries.GetIncidentsEffetsAsync(agence, "C");
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
@@ -241,8 +369,16 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<IncidentsEffetsViewModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetListIncidentsEffetsRetires(string agence)
         {
-            var result = await _declarationQueries.GetIncidentsEffetsAsync(agence);
-            return Ok(result);
+            try
+            {
+                var result = await _declarationQueries.GetIncidentsEffetsAsync(agence);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpPost]
@@ -251,15 +387,23 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> PostCreateDonneeRetire([FromBody] CreateDonneeRetireCommand command, [FromHeader(Name = "x-requestid")] string requestId)
         {
-            bool commandResult = false;
-            //if (Guid.TryParse(requestId, out Guid guid) && guid != Guid.Empty)
-            //{
-            //    commandResult = await _mediator.Send(command);
-            //}
-            commandResult = await _mediator.Send(command);
-            var retour = await GetInfo(command.Agence, command.Table_Item);
+            try
+            {
+                bool commandResult = false;
+                //if (Guid.TryParse(requestId, out Guid guid) && guid != Guid.Empty)
+                //{
+                //    commandResult = await _mediator.Send(command);
+                //}
+                commandResult = await _mediator.Send(command);
+                var retour = await GetInfo(command.Agence, command.Table_Item);
 
-            return commandResult ? (IActionResult)Ok(retour) : (IActionResult)BadRequest();
+                return commandResult ? (IActionResult)Ok(retour) : (IActionResult)BadRequest();
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
@@ -267,10 +411,18 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<object>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> DeleteAllErrorsData(string table, string agence)
         {
-            await _declarationQueries.DeleteAllErrorsDatasAsync(table, agence);
-            var retour = await GetErrorsInfo(agence, table);
+            try
+            {
+                await _declarationQueries.DeleteAllErrorsDatasAsync(table, agence);
+                var retour = await GetErrorsInfo(agence, table);
 
-            return Ok(retour);
+                return Ok(retour);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpPost]
@@ -279,11 +431,19 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> PostDeleteDonneeRetire([FromBody] DeleteDonneeRetireCommand command, [FromHeader(Name = "x-requestid")] string requestId)
         {
-            bool commandResult = false;
-            commandResult = await _mediator.Send(command);
-            var retour = await GetInfo(command.Agence, command.Table_Item);
+            try
+            {
+                bool commandResult = false;
+                commandResult = await _mediator.Send(command);
+                var retour = await GetInfo(command.Agence, command.Table_Item);
 
-            return commandResult ? (IActionResult)Ok(retour) : (IActionResult)BadRequest();
+                return commandResult ? (IActionResult)Ok(retour) : (IActionResult)BadRequest();
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpPost]
@@ -292,10 +452,18 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> PostDeleteDonneeErreur([FromBody] DeleteDonneeErreurCommand command, [FromHeader(Name = "x-requestid")] string requestId)
         {
-            bool commandResult = false;
-            commandResult = await _mediator.Send(command);
+            try
+            {
+                bool commandResult = false;
+                commandResult = await _mediator.Send(command);
 
-            return commandResult ? (IActionResult)Ok() : (IActionResult)BadRequest();
+                return commandResult ? (IActionResult)Ok() : (IActionResult)BadRequest();
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
@@ -378,11 +546,11 @@ namespace OPTICIP.API.Controllers
                     return Ok(new List<DeclarationsViewModel> { new DeclarationsViewModel { NomFichier = FolderNameZip } });
                 }
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                throw ex;
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
             }
-
         }
 
         [HttpPost]
@@ -391,18 +559,34 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetHistoriqueListDonneesDeclarees([FromBody] CreateHistoDeclarationCommand command, [FromHeader(Name = "x-requestid")] string requestId)
         {
-            var result = await _declarationQueries.PostHistorisationDeclarationInfoAsync(command.NomFichier, command.Nombre_Compte_CIP, command.CreatedBy, command.Agence);
+            try
+            {
+                var result = await _declarationQueries.PostHistorisationDeclarationInfoAsync(command.NomFichier, command.Nombre_Compte_CIP, command.CreatedBy, command.Agence);
 
-            return result !=null ? (IActionResult)Ok() : (IActionResult)BadRequest();
+                return result != null ? (IActionResult)Ok() : (IActionResult)BadRequest();
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
-        
+
         [HttpGet]
         [Route("ListHistoriqueListDonneesDeclarees")]
         [ProducesResponseType(typeof(IEnumerable<HistorisationDeclarationsViewModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetListHistoriqueListDonneesDeclarees()
         {
-            var result = await _declarationQueries.GetListHistorisationDeclarationInfoSync();
-            return Ok(result);
+            try
+            {
+                var result = await _declarationQueries.GetListHistorisationDeclarationInfoSync();
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
@@ -410,10 +594,18 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<Object>), (int)HttpStatusCode.OK)]
         public IActionResult GetDetailListHistoriqueListDonneesDeclarees(string Id)
         {
-            var SyntheseHisto =  _declarationQueries.GetListHistorisationDeclarationInfo(Id);
-            var DetailHisto = _declarationQueries.GetDetailListHistorisationDeclarationInfo(Id);
+            try
+            {
+                var SyntheseHisto = _declarationQueries.GetListHistorisationDeclarationInfo(Id);
+                var DetailHisto = _declarationQueries.GetDetailListHistorisationDeclarationInfo(Id);
 
-            return Ok(new { SyntheseHisto, DetailHisto });
+                return Ok(new { SyntheseHisto, DetailHisto });
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
@@ -421,9 +613,17 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(FileDeclarationInfoViewModel), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetFileDeclarationInfoc()
         {
-            var FileDeclarationInfo = await _declarationQueries.GetFileDeclarationInfoAsync();
+            try
+            {
+                var FileDeclarationInfo = await _declarationQueries.GetFileDeclarationInfoAsync();
 
-            return Ok(FileDeclarationInfo);
+                return Ok(FileDeclarationInfo);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpPost]
@@ -432,10 +632,18 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> PostCreateDeclarationFileHisto([FromBody] SaveDeclarationFileCommand command, [FromHeader(Name = "x-requestid")] string requestId)
         {
-            bool commandResult = false;
-            commandResult = await _mediator.Send(command);
+            try
+            {
+                bool commandResult = false;
+                commandResult = await _mediator.Send(command);
 
-            return commandResult ? (IActionResult)Ok() : (IActionResult)BadRequest();
+                return commandResult ? (IActionResult)Ok() : (IActionResult)BadRequest();
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
@@ -443,50 +651,75 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(FileDeclarationInfoViewModel), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetCreateFileDeclarationInfoc()
         {
-            var FileDeclarationInfo = await _declarationQueries.GetFileDeclarationInfoAsync();
-            //var ListDonneesADeclarer = await _declarationQueries.GetDeclarationsAsync();
+            try
+            {
+                var FileDeclarationInfo = await _declarationQueries.GetFileDeclarationInfoAsync();
+                //var ListDonneesADeclarer = await _declarationQueries.GetDeclarationsAsync();
 
-            //var path = Path.Combine("E:\\INFORMATIQUE\\PROJET\\CIP\\CIP.WEB", "Files", FileDeclarationInfo.NomFicher);
+                //var path = Path.Combine("E:\\INFORMATIQUE\\PROJET\\CIP\\CIP.WEB", "Files", FileDeclarationInfo.NomFicher);
 
-            //using (StreamWriter writer = new StreamWriter(path))
-            //{
-            //    foreach (var item in ListDonneesADeclarer)
-            //    {
-            //        await writer.WriteLineAsync(item.Data);
-            //    }
-            //}
+                //using (StreamWriter writer = new StreamWriter(path))
+                //{
+                //    foreach (var item in ListDonneesADeclarer)
+                //    {
+                //        await writer.WriteLineAsync(item.Data);
+                //    }
+                //}
 
-            return Ok();
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
         [Route("DownloadFileDeclaration")]
         public async Task<IActionResult> DownloadFileDeclaration(string filename)
         {
-            //if (filename == null)
-            //    return Content("filename not present");
+            try
+            {
+                //if (filename == null)
+                //    return Content("filename not present");
 
-            //var path = Path.Combine( Directory.GetCurrentDirectory(), "Files", filename);
+                //var path = Path.Combine( Directory.GetCurrentDirectory(), "Files", filename);
 
-            //var memory = new MemoryStream();
-            //using (var stream = new FileStream(path, FileMode.Open))
-            //{
-            //    await stream.CopyToAsync(memory);
-            //}
-            //memory.Position = 0;
-            ////return File(memory, "text/plain", Path.GetFileName(path));
+                //var memory = new MemoryStream();
+                //using (var stream = new FileStream(path, FileMode.Open))
+                //{
+                //    await stream.CopyToAsync(memory);
+                //}
+                //memory.Position = 0;
+                ////return File(memory, "text/plain", Path.GetFileName(path));
 
-            //return File(path, "text/plain", "foo.txt");
+                //return File(path, "text/plain", "foo.txt");
 
-            return Ok();
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
+
         }
 
         [HttpGet]
         [Route("IntegrerFichierRetour")]
         public async Task<IActionResult> IntegrerFichierRetour(string nomFichierRetour, string idFichierAller)
         {
-            _retourQueries.IntegrerFichierRetour(nomFichierRetour, idFichierAller);
-            return Ok();
+            try
+            {
+                _retourQueries.IntegrerFichierRetour(nomFichierRetour, idFichierAller);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
@@ -494,8 +727,16 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<CompteErreurRetourViewModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetListComptesDeclares(string idFichierAller, string agence, string etat)
         {
-            var result = await _declarationQueries.GetComptesDeclaresAsync(idFichierAller, agence, etat);
-            return Ok(result);
+            try
+            {
+                var result = await _declarationQueries.GetComptesDeclaresAsync(idFichierAller, agence, etat);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
@@ -503,8 +744,16 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<PersPhysiqueErreurRetourViewModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetListPersPhysiquesDeclares(string idFichierAller, string agence, string etat)
         {
-            var result = await _declarationQueries.GetPersPhysiquesDeclaresAsync(idFichierAller, agence, etat);
-            return Ok(result);
+            try
+            {
+                var result = await _declarationQueries.GetPersPhysiquesDeclaresAsync(idFichierAller, agence, etat);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
@@ -512,8 +761,16 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<PersMoraleErreurRetourViewModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetListPersMoralesDeclares(string idFichierAller, string agence, string etat)
         {
-            var result = await _declarationQueries.GetPersMoralesDeclaresAsync(idFichierAller, agence, etat);
-            return Ok(result);
+            try
+            {
+                var result = await _declarationQueries.GetPersMoralesDeclaresAsync(idFichierAller, agence, etat);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
@@ -521,8 +778,16 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<IncidentsChequesErreurRetourViewModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetListIncidentsChequesDeclares(string idFichierAller, string agence, string etat)
         {
-            var result = await _declarationQueries.GetIncidentsChequesDeclaresAsync(idFichierAller, agence, etat);
-            return Ok(result);
+            try
+            {
+                var result = await _declarationQueries.GetIncidentsChequesDeclaresAsync(idFichierAller, agence, etat);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
@@ -530,8 +795,16 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<ChequesIrreguliersErreurRetourViewModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetListChequesIrreguliersDeclares(string idFichierAller, string agence, string etat)
         {
-            var result = await _declarationQueries.GetChequesIrreguliersDeclaresAsync(idFichierAller, agence, etat);
-            return Ok(result);
+            try
+            {
+                var result = await _declarationQueries.GetChequesIrreguliersDeclaresAsync(idFichierAller, agence, etat);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
@@ -539,8 +812,16 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<IncidentsEffetsErreurRetourViewModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetListIncidentsEffetsDeclares(string idFichierAller, string agence, string etat)
         {
-            var result = await _declarationQueries.GetIncidentsEffetsDeclaresAsync(idFichierAller, agence, etat);
-            return Ok(result);
+            try
+            {
+                var result = await _declarationQueries.GetIncidentsEffetsDeclaresAsync(idFichierAller, agence, etat);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
@@ -548,8 +829,16 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<ErreurEnregistrementDeclareViewModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetListErreursEnregistrementsDeclares(string enregistrementID, string enregistrementTable)
         {
-            var result = await _declarationQueries.GetErreursEnregistrementsDeclaresAsync(enregistrementID, enregistrementTable);
-            return Ok(result);
+            try
+            {
+                var result = await _declarationQueries.GetErreursEnregistrementsDeclaresAsync(enregistrementID, enregistrementTable);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
@@ -557,8 +846,16 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(TraitementAllerViewModel), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetResumeTraitementAller(string idFichierAller)
         {
-            var result = await _declarationQueries.GetResumeTraitementAllerAsync(idFichierAller);
-            return Ok(result);
+            try
+            {
+                var result = await _declarationQueries.GetResumeTraitementAllerAsync(idFichierAller);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpPost]
@@ -584,9 +881,9 @@ namespace OPTICIP.API.Controllers
             }
             catch (Exception e)
             {
+                Logger.ApplicationLogger.LogError(e);
                 return (IActionResult)BadRequest(e.Message);
             }
-
         }
 
 
@@ -596,9 +893,17 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> PutUpdateCompte([FromBody] UpdateCompteCommand command, [FromHeader(Name = "x-requestid")] string requestId)
         {
-            bool commandResult = false;
-            commandResult = await _mediator.Send(command);
-            return commandResult ? (IActionResult)Ok() : (IActionResult)BadRequest();
+            try
+            {
+                bool commandResult = false;
+                commandResult = await _mediator.Send(command);
+                return commandResult ? (IActionResult)Ok() : (IActionResult)BadRequest();
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpPut]
@@ -607,9 +912,17 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> PutUpdatePersPhysique([FromBody] UpdatePersPhysiqueCommand command, [FromHeader(Name = "x-requestid")] string requestId)
         {
-            bool commandResult = false;
-            commandResult = await _mediator.Send(command);
-            return commandResult ? (IActionResult)Ok() : (IActionResult)BadRequest();
+            try
+            {
+                bool commandResult = false;
+                commandResult = await _mediator.Send(command);
+                return commandResult ? (IActionResult)Ok() : (IActionResult)BadRequest();
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpPut]
@@ -618,9 +931,17 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> PutUpdatePersMorale([FromBody] UpdatePersMoraleCommand command, [FromHeader(Name = "x-requestid")] string requestId)
         {
-            bool commandResult = false;
-            commandResult = await _mediator.Send(command);
-            return commandResult ? (IActionResult)Ok() : (IActionResult)BadRequest();
+            try
+            {
+                bool commandResult = false;
+                commandResult = await _mediator.Send(command);
+                return commandResult ? (IActionResult)Ok() : (IActionResult)BadRequest();
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpPut]
@@ -629,9 +950,17 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> PutUpdateIncidentCheque([FromBody] UpdateIncidentChequeCommand command, [FromHeader(Name = "x-requestid")] string requestId)
         {
-            bool commandResult = false;
-            commandResult = await _mediator.Send(command);
-            return commandResult ? (IActionResult)Ok() : (IActionResult)BadRequest();
+            try
+            {
+                bool commandResult = false;
+                commandResult = await _mediator.Send(command);
+                return commandResult ? (IActionResult)Ok() : (IActionResult)BadRequest();
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpPut]
@@ -640,9 +969,17 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> PutUpdateChequeIrregulier([FromBody] UpdateChequeIrregulierCommand command, [FromHeader(Name = "x-requestid")] string requestId)
         {
-            bool commandResult = false;
-            commandResult = await _mediator.Send(command);
-            return commandResult ? (IActionResult)Ok() : (IActionResult)BadRequest();
+            try
+            {
+                bool commandResult = false;
+                commandResult = await _mediator.Send(command);
+                return commandResult ? (IActionResult)Ok() : (IActionResult)BadRequest();
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpPut]
@@ -651,12 +988,18 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> PutUpdateIncidentEffet([FromBody] UpdateIncidentEffetCommand command, [FromHeader(Name = "x-requestid")] string requestId)
         {
-            bool commandResult = false;
-            commandResult = await _mediator.Send(command);
-            return commandResult ? (IActionResult)Ok() : (IActionResult)BadRequest();
+            try
+            {
+                bool commandResult = false;
+                commandResult = await _mediator.Send(command);
+                return commandResult ? (IActionResult)Ok() : (IActionResult)BadRequest();
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
-
-
     }
 
 }

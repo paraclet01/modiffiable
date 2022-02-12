@@ -25,8 +25,16 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<CompteBancaireViewModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetComptesBancairesDeclares(String dateDebut, String dateFin)
         {
-            var result = await _statistiquesQueries.GetComptesBancairesDeclares(dateDebut,dateFin);
-            return Ok(result);
+            try
+            {
+                var result = await _statistiquesQueries.GetComptesBancairesDeclares(dateDebut, dateFin);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
@@ -34,8 +42,16 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<CompteMandataireViewModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetComptesMandataires(String dateDebut, String dateFin)
         {
-            var result = await _statistiquesQueries.GetComptesMandataires(dateDebut, dateFin);
-            return Ok(result);
+            try
+            {
+                var result = await _statistiquesQueries.GetComptesMandataires(dateDebut, dateFin);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
@@ -43,8 +59,16 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<IncidentDePaiementChequeViewModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetIncidentsDePaiementCheques(String dateDebut, String dateFin)
         {
-            var result = await _statistiquesQueries.GetIncidentsDePaiementCheques(dateDebut, dateFin);
-            return Ok(result);
+            try
+            {
+                var result = await _statistiquesQueries.GetIncidentsDePaiementCheques(dateDebut, dateFin);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
@@ -52,8 +76,16 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<IncidentDePaiementEffetViewModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetIncidentsDePaiementEffets(String dateDebut, String dateFin)
         {
-            var result = await _statistiquesQueries.GetIncidentsDePaiementEffets(dateDebut, dateFin);
-            return Ok(result);
+            try
+            {
+                var result = await _statistiquesQueries.GetIncidentsDePaiementEffets(dateDebut, dateFin);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         /*
@@ -72,8 +104,16 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<IncidentDePaiementRegulariseViewModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetIncidentsDePaiementRegularises(String dateDebut, String dateFin)
         {
-            var result = await _statistiquesQueries.GetIncidentsDePaiementRegularises(dateDebut, dateFin);
-            return Ok(result);
+            try
+            {
+                var result = await _statistiquesQueries.GetIncidentsDePaiementRegularises(dateDebut, dateFin);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
@@ -81,8 +121,16 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<CompteEnInterditBancaireViewModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetComptesEnInterditBancaire(String dateDebut, String dateFin)
         {
-            var result = await _statistiquesQueries.GetComptesEnInterditBancaire(dateDebut, dateFin);
-            return Ok(result);
+            try
+            {
+                var result = await _statistiquesQueries.GetComptesEnInterditBancaire(dateDebut, dateFin);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
@@ -90,8 +138,16 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<CompteEnInterditionLeveeViewModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetComptesEnInterditionLevee(String dateDebut, String dateFin)
         {
-            var result = await _statistiquesQueries.GetComptesEnInterditionLevee(dateDebut, dateFin);
-            return Ok(result);
+            try
+            {
+                var result = await _statistiquesQueries.GetComptesEnInterditionLevee(dateDebut, dateFin);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
@@ -99,8 +155,16 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<PersPhysiqueViewModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetPersPhysiquesDeclarees(String dateDebut, String dateFin)
         {
-            var result = await _statistiquesQueries.GetPersPhysiquesDeclarees(dateDebut, dateFin);
-            return Ok(result);
+            try
+            {
+                var result = await _statistiquesQueries.GetPersPhysiquesDeclarees(dateDebut, dateFin);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
@@ -108,8 +172,16 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<PersMoraleDeclareeViewModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetPersMoralesDeclarees(String dateDebut, String dateFin)
         {
-            var result = await _statistiquesQueries.GetPersMoralesDeclarees(dateDebut, dateFin);
-            return Ok(result);
+            try
+            {
+                var result = await _statistiquesQueries.GetPersMoralesDeclarees(dateDebut, dateFin);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
     }
 }

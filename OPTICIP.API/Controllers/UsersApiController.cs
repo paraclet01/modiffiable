@@ -34,6 +34,8 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> PostCreateUser([FromBody]CreateUserCommand command, [FromHeader(Name = "x-requestid")] string requestId)
         {
+            try
+            { 
             bool commandResult = false;
             //if (Guid.TryParse(requestId, out Guid guid) && guid != Guid.Empty)
             //{
@@ -42,6 +44,12 @@ namespace OPTICIP.API.Controllers
 
             commandResult = await _mediator.Send(command);
             return commandResult ? (IActionResult)Ok() : (IActionResult)BadRequest();
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
 
@@ -51,6 +59,7 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> PutUpdateUser([FromBody]UpdateUserCommand command, [FromHeader(Name = "x-requestid")] string requestId)
         {
+            try{ 
             bool commandResult = false;
             //if (Guid.TryParse(requestId, out Guid guid) && guid != Guid.Empty)
             //{
@@ -58,7 +67,13 @@ namespace OPTICIP.API.Controllers
             //}
             commandResult = await _mediator.Send(command);
             return commandResult ? (IActionResult)Ok() : (IActionResult)BadRequest();
-           
+
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpPut]
@@ -67,6 +82,8 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> PutUpdateUserPassWord([FromBody]UpdateUserPassWordCommand command, [FromHeader(Name = "x-requestid")] string requestId)
         {
+            try
+            { 
             bool commandResult = false;
             //if (Guid.TryParse(requestId, out Guid guid) && guid != Guid.Empty)
             //{
@@ -74,6 +91,12 @@ namespace OPTICIP.API.Controllers
             //}
             commandResult = await _mediator.Send(command);
             return commandResult ? (IActionResult)Ok() : (IActionResult)BadRequest();
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpPut]
@@ -82,9 +105,17 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> PutUpdateStatutUser([FromBody]ChangeStatutUserCommand command, [FromHeader(Name = "x-requestid")] string requestId)
         {
+            try
+            { 
             bool commandResult = false;
             commandResult = await _mediator.Send(command);
             return commandResult ? (IActionResult)Ok() : (IActionResult)BadRequest();
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
@@ -92,17 +123,33 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<UsersViewModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetListUsers(string Statut)
         {
+            try
+            { 
             var Users = await _userQueries.GetUsersAsync(int.Parse(Statut));
             return Ok(Users);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet("User", Name = "Get")]
         [ProducesResponseType(typeof(UsersViewModel), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetUser(string Id)
         {
+            try
+            { 
             var user = await _userQueries.GetUserAsync(Guid.Parse(Id));
 
             return Ok(user);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet("LoginUser")]
@@ -114,11 +161,11 @@ namespace OPTICIP.API.Controllers
                 var user = _userQueries.GetUser(Login, MotPasse);
                 return user != null ? Ok(user) : (IActionResult)BadRequest();
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                throw ex;
-            }        
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
-
     }
 }

@@ -14,7 +14,7 @@ namespace OPTICIP.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-   // [Authorize]
+    // [Authorize]
     public class PreparationApiController : ControllerBase
     {
 
@@ -31,9 +31,17 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<TCompte>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> PreparationComptes(string userID)
         {
-            await _detectionQueries.LancerDetectionComptes(userID);
-            var result = await _preparationQueries.LancerPreparationComptes(userID);        
-            return Ok(result);
+            try
+            {
+                await _detectionQueries.LancerDetectionComptes(userID);
+                var result = await _preparationQueries.LancerPreparationComptes(userID);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
@@ -41,9 +49,17 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<TPersPhysique>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> PreparationPersonnesPhysiques(string userID)
         {
-            await _detectionQueries.LancerDetectionPersonnesPhysiques(userID);
-            var result = await _preparationQueries.LancerPreparationPersonnesPhysiques(userID);
-            return Ok(result);  
+            try
+            {
+                await _detectionQueries.LancerDetectionPersonnesPhysiques(userID);
+                var result = await _preparationQueries.LancerPreparationPersonnesPhysiques(userID);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
@@ -51,9 +67,17 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<TPersMorale>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> PreparationPersonnesMorales(string userID)
         {
-            await _detectionQueries.LancerDetectionPersonnesMorales(userID);
-            var result = await _preparationQueries.LancerPreparationPersonnesMorales(userID);
-            return Ok(result);
+            try
+            {
+                await _detectionQueries.LancerDetectionPersonnesMorales(userID);
+                var result = await _preparationQueries.LancerPreparationPersonnesMorales(userID);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
@@ -61,9 +85,17 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<TCarte>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> PreparationCartes(string userID)
         {
-            await _detectionQueries.LancerDetectionCartes(userID);
-            var result = await _preparationQueries.LancerPreparationCartes(userID);
-            return Ok(result);
+            try
+            {
+                await _detectionQueries.LancerDetectionCartes(userID);
+                var result = await _preparationQueries.LancerPreparationCartes(userID);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
@@ -71,9 +103,17 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<TIncidentCheque>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> PreparationCheques(string userID)
         {
-            await _detectionQueries.LancerDetectionCheques(userID);
-            var result = await _preparationQueries.LancerPreparationCheques(userID);
-            return Ok(result);
+            try
+            {
+                await _detectionQueries.LancerDetectionCheques(userID);
+                var result = await _preparationQueries.LancerPreparationCheques(userID);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
@@ -81,9 +121,17 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<TChequeIrregulier>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> PreparationChequesIrreguliers(string userID)
         {
-            await _detectionQueries.LancerDetectionChequesIrreguliers(userID);
-            var result = await _preparationQueries.LancerPreparationChequesIrreguliers(userID);
-            return Ok(result);
+            try
+            {
+                await _detectionQueries.LancerDetectionChequesIrreguliers(userID);
+                var result = await _preparationQueries.LancerPreparationChequesIrreguliers(userID);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
@@ -91,9 +139,17 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<TIncidentEffet>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> PreparationEffets(string userID)
         {
-            await _detectionQueries.LancerDetectionEffets(userID);
-            var result = await _preparationQueries.LancerPreparationEffets(userID);
-            return Ok(result);
+            try
+            {
+                await _detectionQueries.LancerDetectionEffets(userID);
+                var result = await _preparationQueries.LancerPreparationEffets(userID);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
@@ -101,9 +157,17 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<CIP1ViewModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> PreparationInitialeComptes()
         {
-            await _detectionQueries.LancerDetectionComptes("");
-            var result = await _preparationQueries.LancerPreparationInitialeComptes();
-            return Ok(result);
+            try
+            {
+                await _detectionQueries.LancerDetectionComptes("");
+                var result = await _preparationQueries.LancerPreparationInitialeComptes();
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
@@ -111,9 +175,17 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<CIP2ViewModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> PreparationInitialePersonnesPhysiques()
         {
-            await _detectionQueries.LancerDetectionPersonnesPhysiques("");
-            var result = await _preparationQueries.LancerPreparationInitialePersonnesPhysiques();
-            return Ok(result);
+            try
+            {
+                await _detectionQueries.LancerDetectionPersonnesPhysiques("");
+                var result = await _preparationQueries.LancerPreparationInitialePersonnesPhysiques();
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
@@ -121,9 +193,17 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<CIP3ViewModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> PreparationInitialePersonnesMorales()
         {
-            await _detectionQueries.LancerDetectionPersonnesMorales("");
-            var result = await _preparationQueries.LancerPreparationInitialePersonnesMorales();
-            return Ok(result);
+            try
+            {
+                await _detectionQueries.LancerDetectionPersonnesMorales("");
+                var result = await _preparationQueries.LancerPreparationInitialePersonnesMorales();
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
@@ -131,9 +211,17 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<CIP5ViewModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> PreparationInitialeCheques()
         {
-            await _detectionQueries.LancerDetectionCheques("");
-            var result = await _preparationQueries.LancerPreparationInitialeCheques();
-            return Ok(result);
+            try
+            {
+                await _detectionQueries.LancerDetectionCheques("");
+                var result = await _preparationQueries.LancerPreparationInitialeCheques();
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
@@ -141,9 +229,17 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<CIP6ViewModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> PreparationInitialeChequesIrreguliers()
         {
-            await _detectionQueries.LancerDetectionChequesIrreguliers("");
-            var result = await _preparationQueries.LancerPreparationInitialeChequesIrreguliers();
-            return Ok(result);
+            try
+            {
+                await _detectionQueries.LancerDetectionChequesIrreguliers("");
+                var result = await _preparationQueries.LancerPreparationInitialeChequesIrreguliers();
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
@@ -151,9 +247,17 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<CIP7ViewModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> PreparationInitialeEffets()
         {
-            await _detectionQueries.LancerDetectionEffets("");
-            var result = await _preparationQueries.LancerPreparationInitialeEffets();
-            return Ok(result);
+            try
+            {
+                await _detectionQueries.LancerDetectionEffets("");
+                var result = await _preparationQueries.LancerPreparationInitialeEffets();
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
@@ -161,16 +265,32 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<TDonnees_A_Declarer>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> PreparationDonnees(string agence)
         {
-            var result = await _preparationQueries.LancerPreparationDonnees(agence);
-            return Ok(result);
+            try
+            {
+                var result = await _preparationQueries.LancerPreparationDonnees(agence);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
         [Route("TraitementCheques")]
         public async Task<IActionResult> TraitementCheques()
         {
-            await _detectionQueries.LancerTraitementCheques();
-            return Ok();
+            try
+            {
+                await _detectionQueries.LancerTraitementCheques();
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
@@ -178,8 +298,16 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<IncidChqEbViewModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> ListIncidChqEb()
         {
-            var result = await _detectionQueries.GetIncidChqEbAsync();
-            return Ok(result);
+            try
+            {
+                var result = await _detectionQueries.GetIncidChqEbAsync();
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
@@ -187,9 +315,17 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<IncidChqEbViewModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetIncidChqEb(string compte, string cheque, string dateOperation)
         {
-            var Datoper = String.IsNullOrEmpty(dateOperation) ? DateTime.MinValue : DateTime.Parse(dateOperation);
-            var result = await _detectionQueries.GetIncidChqEbAsync(compte, cheque, Datoper);
-            return Ok(result);
+            try
+            {
+                var Datoper = String.IsNullOrEmpty(dateOperation) ? DateTime.MinValue : DateTime.Parse(dateOperation);
+                var result = await _detectionQueries.GetIncidChqEbAsync(compte, cheque, Datoper);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
@@ -197,8 +333,16 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<IncidChqViewModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> ListIncidChq()
         {
-            var result = await _detectionQueries.GetIncidChqAsync();
-            return Ok(result);
+            try
+            {
+                var result = await _detectionQueries.GetIncidChqAsync();
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
@@ -206,32 +350,56 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<IncidChqViewModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetIncidChq(string compte, string cheque)
         {
-            var result = await _detectionQueries.GetIncidChqAsync(compte, cheque);
-            return Ok(result);
+            try
+            {
+                var result = await _detectionQueries.GetIncidChqAsync(compte, cheque);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpPut]
         [Route("UpdatIncidentChqEB")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> PutUpdatIncidentChqEB([FromBody]UpdateIncidentChqEbCommand command, [FromHeader(Name = "x-requestid")] string requestId)
+        public async Task<IActionResult> PutUpdatIncidentChqEB([FromBody] UpdateIncidentChqEbCommand command, [FromHeader(Name = "x-requestid")] string requestId)
         {
-            var result = await _detectionQueries.UpdateIncidChqEbAsync(command.Compte, command.Cheque, command.Datoper, command.Beneficiaire, command.Dateemi);
-            return result >= 1 ? (IActionResult)Ok() : (IActionResult)BadRequest();
+            try
+            {
+                var result = await _detectionQueries.UpdateIncidChqEbAsync(command.Compte, command.Cheque, command.Datoper, command.Beneficiaire, command.Dateemi);
+                return result >= 1 ? (IActionResult)Ok() : (IActionResult)BadRequest();
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpPut]
         [Route("UpdatIncidentChq")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> PutUpdatIncidentChq([FromBody]UpdateIncidentChqCommand command, [FromHeader(Name = "x-requestid")] string requestId)
+        public async Task<IActionResult> PutUpdatIncidentChq([FromBody] UpdateIncidentChqCommand command, [FromHeader(Name = "x-requestid")] string requestId)
         {
-            var result = await _detectionQueries.UpdateIncidChqAsync(command.Compte, command.Cheque, command.DateRegulatisation, command.DatJustification,command.MotifRegularisation,command.NumeroPenalite,command.MontantPenalite);
+            try
+            {
+                var result = await _detectionQueries.UpdateIncidChqAsync(command.Compte, command.Cheque, command.DateRegulatisation, command.DatJustification, command.MotifRegularisation, command.NumeroPenalite, command.MontantPenalite);
 
-            if (result >= 1)
-                return (IActionResult)Ok();
-            else
-                return (IActionResult)BadRequest();
+                if (result >= 1)
+                    return (IActionResult)Ok();
+                else
+                    return (IActionResult)BadRequest();
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
     }
 }

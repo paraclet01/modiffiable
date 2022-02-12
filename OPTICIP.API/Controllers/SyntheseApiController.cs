@@ -25,8 +25,16 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<SyntheseViewModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetSyntheseDeclaration(String dateDebut, String dateFin)
         {
+            try
+            { 
             var result = await _syntheseQueries.GetSyntheseDeclarationAsync(dateDebut, dateFin);
             return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
     }

@@ -20,8 +20,16 @@ namespace OPTICIP.API.Controllers
         [Route("IntegrerFichierRetour")]
         public async Task<IActionResult> IntegrerFichierRetour(string nomFichierRetour, string idFichierAller)
         {
-            _retourQueries.IntegrerFichierRetour(nomFichierRetour, idFichierAller);
-            return Ok();
+            try
+            {
+                _retourQueries.IntegrerFichierRetour(nomFichierRetour, idFichierAller);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
     }
 }

@@ -25,40 +25,80 @@ namespace OPTICIP.API.Controllers
         [Route("DetectionComptes")]
         public async Task<IActionResult> DetectionPersonnesComptes()
         {
-            await _detectionQueries.LancerDetectionComptes("");
-            return Ok();
+            try
+            {
+                await _detectionQueries.LancerDetectionComptes("");
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
         [Route("DetectionPersonnesPhysiques")]
         public async Task<IActionResult> DetectionPersonnesPhysiques()
         {
-            await _detectionQueries.LancerDetectionPersonnesPhysiques("");
-            return Ok();
+            try
+            {
+                await _detectionQueries.LancerDetectionPersonnesPhysiques("");
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
         [Route("DetectionPersonnesMorales")]
         public async Task<IActionResult> DetectionPersonnesMorales()
         {
-            await _detectionQueries.LancerDetectionPersonnesMorales("");
-            return Ok();
+            try
+            {
+                await _detectionQueries.LancerDetectionPersonnesMorales("");
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
         [Route("DetectionCartes")]
         public async Task<IActionResult> DetectionCartes()
         {
-            await _detectionQueries.LancerDetectionCartes("");
-            return Ok();
+            try
+            {
+                await _detectionQueries.LancerDetectionCartes("");
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
         [Route("DetectionChequesTFJ")]
         public async Task<IActionResult> DetectionChequesTFJ()
         {
-            await _detectionQueries.LancerDetectionChequesTFJ();
-            return Ok();
+            try
+            {
+                await _detectionQueries.LancerDetectionChequesTFJ();
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
@@ -66,8 +106,16 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<ChqRejViewModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> ListChequesDetectesTFJ()
         {
-            var result = await _detectionQueries.ListChequesDetectesTFJ();
-            return Ok(result);
+            try
+            {
+                var result = await _detectionQueries.ListChequesDetectesTFJ();
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
@@ -75,40 +123,80 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<ChqRejViewModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> ListEffetsDetectesTFJ()
         {
-            var result = await _detectionQueries.ListEffetsDetectesTFJ();
-            return Ok(result);
+            try
+            {
+                var result = await _detectionQueries.ListEffetsDetectesTFJ();
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
         [Route("DetectionCheques")]
         public async Task<IActionResult> DetectionCheques()
         {
-            await _detectionQueries.LancerDetectionCheques("");
-            return Ok();
+            try
+            {
+                await _detectionQueries.LancerDetectionCheques("");
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
         [Route("DetectionChequesIrreguliers")]
         public async Task<IActionResult> DetectionChequesIrreguliers()
         {
-            await _detectionQueries.LancerDetectionChequesIrreguliers("");
-            return Ok();
+            try
+            {
+                await _detectionQueries.LancerDetectionChequesIrreguliers("");
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
         [Route("DetectionEffetsTFJ")]
         public async Task<IActionResult> DetectionEffetsTFJ()
         {
-            await _detectionQueries.LancerDetectionEffetsTFJ();
-            return Ok();
+            try
+            {
+                await _detectionQueries.LancerDetectionEffetsTFJ();
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
         [Route("DetectionEffets")]
         public async Task<IActionResult> DetectionEffets()
         {
-            await _detectionQueries.LancerDetectionEffets("");
-            return Ok();
+            try
+            {
+                await _detectionQueries.LancerDetectionEffets("");
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
     }

@@ -14,7 +14,7 @@ namespace OPTICIP.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-   // [Authorize]
+    // [Authorize]
     public class ParametresUsersApiController : ControllerBase
     {
 
@@ -32,8 +32,16 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<ParametresViewModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetListParametres()
         {
-            var Parametres = await _parametreQueries.GetAllParametresAsync();
-            return Ok(Parametres);
+            try
+            {
+                var Parametres = await _parametreQueries.GetAllParametresAsync();
+                return Ok(Parametres);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
@@ -41,8 +49,16 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(ParametresViewModel), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GeParametreItem(String Id)
         {
-            var Parametre = await _parametreQueries.GetParametresByIdAsync(int.Parse(Id));
-            return Ok(Parametre);
+            try
+            {
+                var Parametre = await _parametreQueries.GetParametresByIdAsync(int.Parse(Id));
+                return Ok(Parametre);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
@@ -50,8 +66,16 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<AgencesViewModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetListAgences()
         {
-            var Parametres = await _parametreQueries.GetAgencesAsync();
-            return Ok(Parametres);
+            try
+            {
+                var Parametres = await _parametreQueries.GetAgencesAsync();
+                return Ok(Parametres);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
 
@@ -59,16 +83,24 @@ namespace OPTICIP.API.Controllers
         [Route("CreateAgence")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> PostCreateAgence([FromBody]CreateAgenceCommand command, [FromHeader(Name = "x-requestid")] string requestId)
+        public async Task<IActionResult> PostCreateAgence([FromBody] CreateAgenceCommand command, [FromHeader(Name = "x-requestid")] string requestId)
         {
-            bool commandResult = false;
-            //if (Guid.TryParse(requestId, out Guid guid) && guid != Guid.Empty)
-            //{
-            //    commandResult = await _mediator.Send(command);
-            //}
+            try
+            {
+                bool commandResult = false;
+                //if (Guid.TryParse(requestId, out Guid guid) && guid != Guid.Empty)
+                //{
+                //    commandResult = await _mediator.Send(command);
+                //}
 
-            commandResult = await _mediator.Send(command);
-            return commandResult ? (IActionResult)Ok() : (IActionResult)BadRequest();
+                commandResult = await _mediator.Send(command);
+                return commandResult ? (IActionResult)Ok() : (IActionResult)BadRequest();
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpGet]
@@ -76,39 +108,63 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(AgencesViewModel), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetAgence(string Id)
         {
-            var agence = await _parametreQueries.GetAgenceAsync(Guid.Parse(Id));
+            try
+            {
+                var agence = await _parametreQueries.GetAgenceAsync(Guid.Parse(Id));
 
-            return Ok(agence);
+                return Ok(agence);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpPut]
         [Route("UpdateAgence")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> PutUpdateAgence([FromBody]UpdateAgenceCommand command, [FromHeader(Name = "x-requestid")] string requestId)
+        public async Task<IActionResult> PutUpdateAgence([FromBody] UpdateAgenceCommand command, [FromHeader(Name = "x-requestid")] string requestId)
         {
-            bool commandResult = false;
-            //if (Guid.TryParse(requestId, out Guid guid) && guid != Guid.Empty)
-            //{
-            //    commandResult = await _mediator.Send(command);
-            //}
-            commandResult = await _mediator.Send(command);
-            return commandResult ? (IActionResult)Ok() : (IActionResult)BadRequest();
+            try
+            {
+                bool commandResult = false;
+                //if (Guid.TryParse(requestId, out Guid guid) && guid != Guid.Empty)
+                //{
+                //    commandResult = await _mediator.Send(command);
+                //}
+                commandResult = await _mediator.Send(command);
+                return commandResult ? (IActionResult)Ok() : (IActionResult)BadRequest();
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpPut]
         [Route("DeleteAgence")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> PutDeleteAgence([FromBody]DeleteAgenceCommand command, [FromHeader(Name = "x-requestid")] string requestId)
+        public async Task<IActionResult> PutDeleteAgence([FromBody] DeleteAgenceCommand command, [FromHeader(Name = "x-requestid")] string requestId)
         {
-            bool commandResult = false;
-            //if (Guid.TryParse(requestId, out Guid guid) && guid != Guid.Empty)
-            //{
-            //    commandResult = await _mediator.Send(command);
-            //}
-            commandResult = await _mediator.Send(command);
-            return commandResult ? (IActionResult)Ok() : (IActionResult)BadRequest();
+            try
+            {
+                bool commandResult = false;
+                //if (Guid.TryParse(requestId, out Guid guid) && guid != Guid.Empty)
+                //{
+                //    commandResult = await _mediator.Send(command);
+                //}
+                commandResult = await _mediator.Send(command);
+                return commandResult ? (IActionResult)Ok() : (IActionResult)BadRequest();
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
         [HttpPut]
@@ -117,13 +173,21 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> PutUpdateParametre([FromBody] UpdateParametreCommand command, [FromHeader(Name = "x-requestid")] string requestId)
         {
-            bool commandResult = false;
-            //if (Guid.TryParse(requestId, out Guid guid) && guid != Guid.Empty)
-            //{
-            //    commandResult = await _mediator.Send(command);
-            //}
-            commandResult = await _mediator.Send(command);
-            return commandResult ? (IActionResult)Ok() : (IActionResult)BadRequest();
+            try
+            {
+                bool commandResult = false;
+                //if (Guid.TryParse(requestId, out Guid guid) && guid != Guid.Empty)
+                //{
+                //    commandResult = await _mediator.Send(command);
+                //}
+                commandResult = await _mediator.Send(command);
+                return commandResult ? (IActionResult)Ok() : (IActionResult)BadRequest();
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
         }
 
     }
