@@ -17,6 +17,7 @@ using log4net;
 using log4net.Config;
 using Logger;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace OPTICIP.API
 {
@@ -24,10 +25,23 @@ namespace OPTICIP.API
     {
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            IConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
+            configurationBuilder.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+            .AddJsonFile("OracleQuery.json", optional: false, reloadOnChange: true);
+
+            configurationBuilder.AddEnvironmentVariables();
+
+            //configurationBuilder.Build();
+            Configuration = configurationBuilder.Build();
+            
         }
 
-        public IConfiguration Configuration { get; }
+        public static IConfiguration GetConfiguration()
+        {
+            return Configuration;
+        }
+
+        public static IConfiguration Configuration { get; set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
@@ -35,11 +49,11 @@ namespace OPTICIP.API
             //services.AddControllers(options => options.Filters.Add(new HttpResponseExceptionFilter()));
 
             //services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             services.AddMvc(options => options.EnableEndpointRouting = false);
 
             String sTokenIssuer = Configuration["TokenIssuer"];
+
             services.AddDbContext<CIPContext>(options =>
             {
                 options.UseSqlServer(Configuration["ConnectionString"],
@@ -90,7 +104,7 @@ namespace OPTICIP.API
 
             container.RegisterModule(new MediatorModule());
             container.RegisterModule(new ApplicationModule(Configuration["ConnectionString"], Configuration["ConnectionStringCoreDB"], Configuration["ReportingDirectory"]
-                , Configuration["LDAPAdminLogin"], Configuration["LDAPAdminPassword"], Configuration["LDAPAdminPath"], Configuration["RootRetourFilesDirectory"]));
+                , Configuration["LDAPAdminLogin"], Configuration["LDAPAdminPassword"], Configuration["LDAPAdminPath"], Configuration["RootRetourFilesDirectory"], Configuration["AccesCoreBD"]));
 
             return new AutofacServiceProvider(container.Build());
         }
@@ -123,6 +137,7 @@ namespace OPTICIP.API
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "XCIP.API V1");
             });
+
 
             //==> YFS le 11/11/2021: Initialiser la chaine de connexion par defaut
             CIPContext.InitialiserChaineParDefaut(Configuration["ConnectionString"]);

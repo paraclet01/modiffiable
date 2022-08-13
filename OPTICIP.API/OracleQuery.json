@@ -1,0 +1,22 @@
+{
+  "ORA_PROPRIETAIRE": "CGBTST",
+
+  //==> VARIABLE INSERTION CIP1
+  "ORA_SEL_FOR_CIP1": "select 'CPT'||cp.COMPTE NUMSEQ, cp.COMPTE, cp.AGENCE CODGCH, cp.CLERIB, cp.DATOUV, cp.DATFRM, cp.DATFIC,s.CODBNQ, GREATEST(DATOUV, NVL(DATFRM,DATOUV), NVL(DATFIC,DATOUV)) DATMAJ from {0}.CPT cp, {0}.NCGGR n, {0}.state s where cp.NCG = n.NCG and n.NCGGR = 'FICOBA' and n.NCGCAT = 'CPT'",
+  "ORA_SEL_FOR_CIP1_WHERE_DATE_CLAUSE": " AND (cp.DATOUV >= :DateRef OR cp.DATFRM >= :DateRef OR cp.DATFIC >= :DateRef)",
+  "SQL_SEL_MAX_CIP1_DATE": "SELECT MAX(CASE WHEN DATOUV >= DATFRM AND DATOUV >= DATMAJ THEN DATOUV WHEN DATFRM >= DATOUV AND DATFRM >= DATMAJ THEN DATFRM WHEN DATMAJ >= DATOUV AND DATMAJ >= DATFRM THEN DATMAJ ELSE DATOUV END) AS MostRecentDate FROM CIP1",
+  "SQL_PS_INSERT_CIP1": "PS_INSERT_CIP1",
+  "SQL_PS_INSERT_COMPTE": "PS_INSERT_COMPTE",
+
+  //==> VARIABLE INSERTION CIP2
+  "ORA_SEL_FOR_CIP2": "select 'IDP' || id.IDP NUMSEQ, id.IDP, s.CODBNQ, id.NOM NOMNAIS, id.PRENOM, id.COMMNAIS, id.DATNAIS, id.NOMMARI, id.NOMMERE, decode (id.SEXE,'M', '1', 'F', '2') SEXE, id.NUMID, NVL(id.ADR1,' ') ADR1, NVL(id.ADR2,' ') ADR2, NVL(id.ADR3,' ') ADR3, NVL(id.ADR4,' ') ADR4, NVL(id.ADR5,' ') VILLE, NVL(id.ADR6,' ') ADR6, rpad(substr(NVL(id.ADR1,' ') || ' ' || NVL(id.ADR2,' ') || ' ' || NVL(id.ADR3,' ') || ' ' || NVL(id.ADR4,' ') || ' ' || NVL(id.ADR5,' '),1,50), 50, ' ') ADR, id.PAYRES PAYADR, substr(id.mail,1,30) Emailcontact, titu.DATMAJ, nvl(decode(decode ( titu.titman, 'T', 'O', 'N'),'N','0','O','1','1'),'1') RESP, decode ( titu.titman, 'M', '1', '0') MAND, cli.CLIENT, cpt.COMPTE, cpt.AGENCE CODGCH, cpt.CLERIB, pn.iso, decode ( f.x1, null, 0, decode ( substr ( upper ( nvl ( f.y1, 'O' ) ), 1, 1 ), 'N', 0, 1 ) ) RESIDUMOA from {0}.pays pa /* residence */, {0}.fx5y8 f, {0}.PAYS pn /* naissance */, {0}.CPT, {0}.CLI, {0}.TITU, {0}.IDP id, {0}.NCGGR n, {0}.state s where cpt.NCG = n.NCG and n.NCGGR = 'FICOBA' and n.NCGCAT = 'CPT' and titu.IDP = id.IDP and cli.CLIENT = titu.CLIENT and cpt.CLIENT = cli.CLIENT and cpt.DATFRM is null and pn.PAYS = id.NATION and f.tname (+) = 'CIP' and f.model (+) = 'RESIDUMOA' and pa.iso = id.payres and f.x1 (+) = pa.cee",
+
+  "ORA_SEL_FOR_CIP2_WHERE_DATE_CLAUSE": " AND titu.DATMAJ >= :DateRef",
+  "SQL_SEL_MAX_CIP2_DATE": "SELECT MAX(DATMAJ) FROM CIP2",
+  "SQL_PS_INSERT_CIP2": "PS_INSERT_CIP2",
+  "SQL_PS_INSERT_PERSPHYSIQUE": "PS_INSERT_PERSPHYSIQUE",
+  "TEST": ["Test multiligne:",
+    ", Ligne 1",
+    ", Ligne 2",
+    ", Ligne 3"]
+}

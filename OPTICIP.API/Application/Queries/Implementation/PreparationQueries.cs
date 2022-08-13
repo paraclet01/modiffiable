@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using OPTICIP.API.Application.Queries.Interfaces;
 using OPTICIP.API.Application.Queries.ViewModels;
+using OPTICIP.DataAccessLayer.Models;
 using OPTICIP.Entities.DataEntities;
 using OPTICIP.Entities.Models;
 using OPTICIP.IContractLayer.DataAccessRepository;
@@ -22,6 +23,7 @@ namespace OPTICIP.API.Application.Queries.Implementation
         private readonly string _connectionString;
         private readonly string _prefixCompte;
         static public readonly string _codeToutCompte = "&!";
+        private string _ProprietaireBdORA;
 
         public PreparationQueries(IDbConnection dbConnection, IRepositoryFactory repositoryFactory, IDeclarationQueries declarationQueries, string constr, IParametresQuerie parametresQueries)
         {
@@ -31,6 +33,8 @@ namespace OPTICIP.API.Application.Queries.Implementation
             _connectionString = !string.IsNullOrWhiteSpace(constr) ? constr : throw new ArgumentNullException(nameof(constr));
             _parametresQueries = parametresQueries ??  throw new ArgumentNullException(nameof(parametresQueries));
             _prefixCompte = getPrefixCompte();
+            
+            _ProprietaireBdORA = Startup.Configuration["ORA_PROPRIETAIRE"];
         }
 
         public string getPrefixCompte()
@@ -117,7 +121,123 @@ namespace OPTICIP.API.Application.Queries.Implementation
 
             return comptes;
         }
-   
+
+        public async Task<int[]> LancerPreparationComptes_V2(string userID)
+        {
+            DateTime dDateActon = DateTime.Now;
+            //int[] ret = await GetDataFromOracleAsync<OPTICIP.Entities.DataEntities.Cip1Temp>(1, dDateActon, userID, "CIP1", "ORA_SEL_FOR_CIP1", "ORA_SEL_FOR_CIP1_WHERE_DATE_CLAUSE", "SQL_SEL_MAX_CIP1_DATE", "SQL_PS_INSERT_CIP1");
+            //if ( ret.Length>=2 && ( ret[0] > 0 || ret[1] > 0))
+            //{
+            //    InsertXcipFromSqlPS("SQL_PS_INSERT_COMPTE", dDateActon, out ret[0], out ret[0]);
+            //}
+
+            int[] ret = await GetDataFromOracleAsync<OPTICIP.Entities.DataEntities.Cip2Temp>(1, dDateActon, userID, "CIP2", "ORA_SEL_FOR_CIP2", "ORA_SEL_FOR_CIP2_WHERE_DATE_CLAUSE", "SQL_SEL_MAX_CIP2_DATE", "SQL_PS_INSERT_CIP2");
+            //if (ret.Length >= 2 && (ret[0] > 0 || ret[1] > 0))
+            //{
+            //    InsertXcipFromSqlPS("SQL_PS_INSERT_COMPTE", dDateActon, out ret[0], out ret[0]);
+            //}
+            return ret;
+            //return await LancerPreparationComptes_V2_OLD(userID);
+        }
+
+        public async Task<int[]> GetDataFromOracleAsync<T>(int pTypeImportation, DateTime pDateAction, string userID, String pDestTable, String pQueryCode, String pQueryWhereCode, String pQueryWhereDateMaxCode , String pCodePSInsertionCip)
+        where T : CIPEntity
+        {
+            int pNombreIns = 0;
+            int pNombreUpd = 0;
+            IEnumerable<T> data = null;
+            try
+            {
+                RequetesDiverses reqDiv = new RequetesDiverses(_connectionString);
+                var ret = await reqDiv.TruncateTable($"{pDestTable}_TEMP");
+                await Task.Run(() =>
+                {
+                    String sQuery = Startup.Configuration[pQueryCode];
+
+                    String sQueryFinal = String.Format(sQuery, _ProprietaireBdORA);
+                    _dbConnection.Open();
+                    if (pQueryWhereCode != null)
+                    {
+                        DateTime? dateRef = null;
+
+                        dateRef = reqDiv.GetScalarDataByQuery<DateTime?>(Startup.Configuration[pQueryWhereDateMaxCode]);
+                        if (dateRef == null || dateRef == DateTime.MinValue)
+                            data = _dbConnection.Query<T>(sQueryFinal);
+                        else
+                        {
+                            sQueryFinal = @$"{sQueryFinal} {Startup.Configuration[pQueryWhereCode]}";
+                            data = _dbConnection.Query<T>(sQueryFinal, new { dateRef });
+                        }
+                    }
+                    else
+                        data = _dbConnection.Query<T>(sQueryFinal);
+
+                    if (data.Count() > 0)
+                    {
+                        CIPContext cxt = new CIPContext();
+                        cxt.Set<T>().AddRange(data);
+
+                        if (cxt.SaveChanges() > 0)
+                        {
+                            InsertXcipFromSqlPS(pCodePSInsertionCip, pDateAction, out pNombreIns, out pNombreUpd);
+
+                            SuiviImportation si = new SuiviImportation();
+                            si.NombreLignesIns = pNombreIns;
+                            si.NombreLignesMaj = pNombreUpd;
+                            si.TypeImportation = pTypeImportation;
+                            si.DateImportation = pDateAction;
+                            cxt.Add(si);
+                            cxt.SaveChanges();
+                        }
+                    }
+
+                });
+
+                return new int[] { pNombreIns, pNombreUpd };
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            finally
+            {
+                if (_dbConnection != null && _dbConnection.State == ConnectionState.Open)
+                    _dbConnection.Close();
+            }
+        }
+        private bool InsertXcipFromSqlPS(string pCodePSInsertionXCIP, DateTime pDateAction, out int iNombreInsert, out int iNombreUpdate)
+        {
+            using (SqlConnection cnn = new SqlConnection(_connectionString))
+            {
+                cnn.Open();
+
+                SqlCommand dbCommand = cnn.CreateCommand();
+                dbCommand.CommandType = CommandType.StoredProcedure;
+                dbCommand.CommandText = Startup.Configuration[pCodePSInsertionXCIP];
+
+                IDbDataParameter pNombreInsert = dbCommand.CreateParameter();
+                pNombreInsert.ParameterName = "NombreInsert";
+                pNombreInsert.DbType = DbType.Int32;
+                pNombreInsert.Direction = ParameterDirection.Output;
+
+                IDbDataParameter pNombreUpdate = dbCommand.CreateParameter();
+                pNombreUpdate.ParameterName = "NombreUpdate";
+                pNombreUpdate.DbType = DbType.Int32;
+                pNombreUpdate.Direction = ParameterDirection.Output;
+
+                dbCommand.Parameters.Add(pNombreInsert);
+                dbCommand.Parameters.Add(pNombreUpdate);
+                dbCommand.Parameters.AddWithValue("DateInsertion", pDateAction);
+
+                dbCommand.ExecuteNonQuery();
+                iNombreInsert = (int)pNombreInsert.Value;
+                iNombreUpdate = (int)pNombreUpdate.Value;
+                return true;
+            }
+        }
+
+
+
         public async Task<IEnumerable<TPersPhysique>> LancerPreparationPersonnesPhysiques(string userID)
         {
             IEnumerable<CIP2ViewModel> cip2ViewModels;

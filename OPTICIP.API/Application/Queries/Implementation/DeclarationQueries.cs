@@ -405,6 +405,8 @@ namespace OPTICIP.API.Application.Queries.Implementation
             }
         }
 
+
+
         public async Task<FileDeclarationInfoViewModel> PostHistorisationDeclarationInfoAsync(String FileName,String Nbre_Compte_CIP,  Guid DeclarePar, String Agences, String ZipFolderName="")
         {
             FileDeclarationInfoViewModel file = new FileDeclarationInfoViewModel();

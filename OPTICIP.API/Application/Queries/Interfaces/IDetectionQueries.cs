@@ -8,6 +8,7 @@ namespace OPTICIP.API.Application.Queries.Interfaces
 {
     public interface IDetectionQueries
     {
+        Task<IEnumerable<CIP1ViewModel>> LancerDetectionComptes_New();
         Task LancerDetectionComptes(string userID);
         Task LancerDetectionPersonnesPhysiques(string userID);
         Task LancerDetectionPersonnesMorales(string userID);

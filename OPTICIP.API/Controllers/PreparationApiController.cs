@@ -44,6 +44,23 @@ namespace OPTICIP.API.Controllers
             }
         }
 
+
+        [HttpGet]
+        [Route("PreparationComptesV2")]
+        [ProducesResponseType(typeof(int[]), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> PreparationComptesV2(string userID)
+        {
+            try
+            {
+                var result = await _preparationQueries.LancerPreparationComptes_V2(userID);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
+        }
         [HttpGet]
         [Route("PreparationPersonnesPhysiques")]
         [ProducesResponseType(typeof(IEnumerable<TPersPhysique>), (int)HttpStatusCode.OK)]

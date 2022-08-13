@@ -11,6 +11,7 @@ namespace OPTICIP.API.Application.Queries.Interfaces
     public interface IPreparationQueries
     {
         Task<IEnumerable<TCompte>> LancerPreparationComptes(string userID);
+        Task<int[]> LancerPreparationComptes_V2(string userID);
         Task<IEnumerable<TPersPhysique>> LancerPreparationPersonnesPhysiques(string userID);
         Task<IEnumerable<TPersMorale>> LancerPreparationPersonnesMorales(string userID);
         Task<IEnumerable<TCarte>> LancerPreparationCartes(string userID);

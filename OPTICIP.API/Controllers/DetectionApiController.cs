@@ -38,6 +38,22 @@ namespace OPTICIP.API.Controllers
         }
 
         [HttpGet]
+        [Route("DetectionComptes_New")]
+        [ProducesResponseType(typeof(IEnumerable<CIP1ViewModel>), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> DetectionPersonnesComptes_New()
+        {
+            try
+            {
+                var result = await _detectionQueries.LancerDetectionComptes_New();
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
+        }
+        [HttpGet]
         [Route("DetectionPersonnesPhysiques")]
         public async Task<IActionResult> DetectionPersonnesPhysiques()
         {

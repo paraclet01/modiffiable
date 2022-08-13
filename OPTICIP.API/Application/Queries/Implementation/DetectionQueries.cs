@@ -34,6 +34,7 @@ namespace OPTICIP.API.Application.Queries.Implementation
                 IDbDataParameter param1 = dbCommand.CreateParameter();
                 param1.ParameterName = "P_Errmsg";
                 param1.DbType = DbType.String;
+                param1.Size = 4000;
                 param1.Direction = ParameterDirection.Output;
 
                 IDbDataParameter param2 = dbCommand.CreateParameter();
@@ -63,6 +64,18 @@ namespace OPTICIP.API.Application.Queries.Implementation
             });
         }
 
+        public async Task<IEnumerable<CIP1ViewModel>> LancerDetectionComptes_New()
+        {
+            String sQuery = Startup.Configuration["SEL_FOR_CIP1"];
+            String sProprietaire= Startup.Configuration["PROPRIETAIRE"];
+             
+            String sQueryFinal = String.Format(sQuery, sProprietaire);
+            _dbConnection.Open();
+            IEnumerable<CIP1ViewModel> result = await _dbConnection.QueryAsync<CIP1ViewModel>(sQueryFinal);
+            _dbConnection.Close();
+            return result;
+        }
+
         public async Task LancerDetectionPersonnesPhysiques(string userID)
         {
             await Task.Run(() => {
@@ -74,6 +87,7 @@ namespace OPTICIP.API.Application.Queries.Implementation
                 IDbDataParameter param1 = dbCommand.CreateParameter();
                 param1.ParameterName = "P_Errmsg";
                 param1.DbType = DbType.String;
+                param1.Size = 4000;
                 param1.Direction = ParameterDirection.Output;
 
                 IDbDataParameter param2 = dbCommand.CreateParameter();
@@ -113,6 +127,7 @@ namespace OPTICIP.API.Application.Queries.Implementation
                 IDbDataParameter param1 = dbCommand.CreateParameter();
                 param1.ParameterName = "P_Errmsg";
                 param1.DbType = DbType.String;
+                param1.Size = 4000;
                 param1.Direction = ParameterDirection.Output;
 
                 IDbDataParameter param2 = dbCommand.CreateParameter();
@@ -159,6 +174,7 @@ namespace OPTICIP.API.Application.Queries.Implementation
                 IDbDataParameter param1 = dbCommand.CreateParameter();
                 param1.ParameterName = "P_Errmsg";
                 param1.DbType = DbType.String;
+                param1.Size = 4000;
                 param1.Direction = ParameterDirection.Output;
 
                 IDbDataParameter param2 = dbCommand.CreateParameter();
@@ -201,6 +217,7 @@ namespace OPTICIP.API.Application.Queries.Implementation
                 IDbDataParameter param1 = dbCommand.CreateParameter();
                 param1.ParameterName = "P_Errmsg";
                 param1.DbType = DbType.String;
+                param1.Size = 4000;
                 param1.Direction = ParameterDirection.Output;
 
                 IDbDataParameter param2 = dbCommand.CreateParameter();
@@ -241,6 +258,7 @@ namespace OPTICIP.API.Application.Queries.Implementation
                 IDbDataParameter param1 = dbCommand.CreateParameter();
                 param1.ParameterName = "P_Errmsg";
                 param1.DbType = DbType.String;
+                param1.Size = 4000;
                 param1.Direction = ParameterDirection.Output;
 
                 IDbDataParameter param2 = dbCommand.CreateParameter();

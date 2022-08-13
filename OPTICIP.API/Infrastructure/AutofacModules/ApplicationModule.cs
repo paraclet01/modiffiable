@@ -13,17 +13,18 @@ namespace OPTICIP.API.Infrastructure.AutofacModules
 {
     public class ApplicationModule : Autofac.Module
     {
-        public string PrefixCompte; 
-        public string QueriesConnectionString { get; }
-        public string QueriesConnectionStringCoreDB { get; }
-        public string ReportingDirectory { get; }
-        public string RootRetourFilesDirectory{ get; }      
-        private string LDAPAdminLogin { get; }
-        private string LDAPAdminPassword { get; }
-        private string LDAPAdminPath { get; }
+        public string PrefixCompte;
+        public string QueriesConnectionString { get; set; }
+        public string QueriesConnectionStringCoreDB { get; set; }
+        public string ReportingDirectory { get; set; }
+        public string RootRetourFilesDirectory { get; set; }
+        private string LDAPAdminLogin { get; set; }
+        private string LDAPAdminPassword { get; set; }
+        private string LDAPAdminPath { get; set; }
+        private string AccesCoreBD { get; set; }
 
 
-        public ApplicationModule(string qconstr, string qconstrCoreDb, string reportingDirectory, string ldapAdminLogin, string ldapAdminPassword, string ldapAdminPath, string rootRetourFilesDirectory)
+        public ApplicationModule(string qconstr, string qconstrCoreDb, string reportingDirectory, string ldapAdminLogin, string ldapAdminPassword, string ldapAdminPath, string rootRetourFilesDirectory, string accesCoreBD)
         {
             QueriesConnectionString = qconstr;
             QueriesConnectionStringCoreDB = qconstrCoreDb;
@@ -33,6 +34,8 @@ namespace OPTICIP.API.Infrastructure.AutofacModules
             LDAPAdminPath = ldapAdminPath;
             LDAPAdminPassword = ldapAdminPassword;
             LDAPAdminLogin = ldapAdminLogin;
+
+            AccesCoreBD = accesCoreBD;
         }
 
         protected override void Load(ContainerBuilder builder)
@@ -45,38 +48,81 @@ namespace OPTICIP.API.Infrastructure.AutofacModules
               .As<ISyntheseQueries>()
               .InstancePerLifetimeScope();
 
+            if (AccesCoreBD == "0")
+            {
+                builder.Register(c => new DeclarationQueries(QueriesConnectionString,
+                  new SqlConnection(QueriesConnectionString),
+                  new SqlConnection(QueriesConnectionString),
+                  new RepositoryFactory(new CIPContext())))
+                     .As<IDeclarationQueries>()
+                     .InstancePerLifetimeScope();
 
-            builder.Register(c => new DeclarationQueries(QueriesConnectionString,
-              new OracleConnection(QueriesConnectionStringCoreDB),
-              new SqlConnection(QueriesConnectionString),
-              new RepositoryFactory(new CIPContext())))
-                 .As<IDeclarationQueries>()
-                 .InstancePerLifetimeScope();
+                builder.Register(c => new StatistiquesQueries(QueriesConnectionString,
+                    new SqlConnection(QueriesConnectionString),
+                    new SqlConnection(QueriesConnectionString)))
+                       .As<IStatistiquesQueries>()
+                       .InstancePerLifetimeScope();
 
+                builder.Register(c => new DetectionQueries(
+                    new SqlConnection(QueriesConnectionString), new RepositoryFactory(new CIPContext())))
+                      .As<IDetectionQueries>()
+                      .InstancePerLifetimeScope();
 
-            builder.Register(c => new StatistiquesQueries(QueriesConnectionString, 
-                new OracleConnection(QueriesConnectionStringCoreDB), 
-                new SqlConnection(QueriesConnectionString)))
-                   .As<IStatistiquesQueries>()
-                   .InstancePerLifetimeScope();
+                builder.Register(c => new PreparationQueries(new SqlConnection(QueriesConnectionString), new RepositoryFactory(new CIPContext()),
+                                      new DeclarationQueries(QueriesConnectionString,
+                    new SqlConnection(QueriesConnectionString),
+                    new SqlConnection(QueriesConnectionString),
+                    new RepositoryFactory(new CIPContext())), QueriesConnectionString, new ParametresQuerie(QueriesConnectionString)))
+                     .As<IPreparationQueries>()
+                     .InstancePerLifetimeScope();
 
-            builder.Register(c => new DetectionQueries(
-                new OracleConnection(QueriesConnectionStringCoreDB), new RepositoryFactory(new CIPContext())))
-                  .As<IDetectionQueries>()
+                builder.Register(c => new ReportingQueries(new SqlConnection(QueriesConnectionString),
+                    new RepositoryFactory(new CIPContext()), QueriesConnectionString, ReportingDirectory))
+                    .As<IReportingQueries>()
+                    .InstancePerLifetimeScope();
+
+                builder.Register(c => new SqlConnection(QueriesConnectionString))
+                  .As<IDbConnection>()
                   .InstancePerLifetimeScope();
+            }
+            else
+            {
+                builder.Register(c => new DeclarationQueries(QueriesConnectionString,
+                  new OracleConnection(QueriesConnectionStringCoreDB),
+                  new SqlConnection(QueriesConnectionString),
+                  new RepositoryFactory(new CIPContext())))
+                     .As<IDeclarationQueries>()
+                     .InstancePerLifetimeScope();
 
-            builder.Register(c => new PreparationQueries(new OracleConnection(QueriesConnectionStringCoreDB), new RepositoryFactory(new CIPContext()),
-                                  new DeclarationQueries(QueriesConnectionString,
-                new OracleConnection(QueriesConnectionStringCoreDB),
-                new SqlConnection(QueriesConnectionString),
-                new RepositoryFactory(new CIPContext())), QueriesConnectionString,new ParametresQuerie(QueriesConnectionString)))
-                 .As<IPreparationQueries>()
-                 .InstancePerLifetimeScope();
 
-            builder.Register(c => new ReportingQueries(new OracleConnection(QueriesConnectionStringCoreDB),
-                new RepositoryFactory(new CIPContext()), QueriesConnectionString, ReportingDirectory))
-                .As<IReportingQueries>()
-                .InstancePerLifetimeScope();
+                builder.Register(c => new StatistiquesQueries(QueriesConnectionString,
+                    new OracleConnection(QueriesConnectionStringCoreDB),
+                    new SqlConnection(QueriesConnectionString)))
+                       .As<IStatistiquesQueries>()
+                       .InstancePerLifetimeScope();
+
+                builder.Register(c => new DetectionQueries(
+                    new OracleConnection(QueriesConnectionStringCoreDB), new RepositoryFactory(new CIPContext())))
+                      .As<IDetectionQueries>()
+                      .InstancePerLifetimeScope();
+
+                builder.Register(c => new PreparationQueries(new OracleConnection(QueriesConnectionStringCoreDB), new RepositoryFactory(new CIPContext()),
+                                      new DeclarationQueries(QueriesConnectionString,
+                    new OracleConnection(QueriesConnectionStringCoreDB),
+                    new SqlConnection(QueriesConnectionString),
+                    new RepositoryFactory(new CIPContext())), QueriesConnectionString, new ParametresQuerie(QueriesConnectionString)))
+                     .As<IPreparationQueries>()
+                     .InstancePerLifetimeScope();
+
+                builder.Register(c => new ReportingQueries(new OracleConnection(QueriesConnectionStringCoreDB),
+                    new RepositoryFactory(new CIPContext()), QueriesConnectionString, ReportingDirectory))
+                    .As<IReportingQueries>()
+                    .InstancePerLifetimeScope();
+
+                builder.Register(c => new OracleConnection(QueriesConnectionStringCoreDB))
+                  .As<IDbConnection>()
+                  .InstancePerLifetimeScope();
+            }
 
             builder.Register(c => new ParametresQuerie(QueriesConnectionString))
                   .As<IParametresQuerie>()
@@ -125,10 +171,6 @@ namespace OPTICIP.API.Infrastructure.AutofacModules
             builder.RegisterType<FileReader>()
                 .As<IFileReader>()
                 .InstancePerLifetimeScope();
-
-            builder.Register(c => new OracleConnection(QueriesConnectionStringCoreDB))
-              .As<IDbConnection>()
-              .InstancePerLifetimeScope();
 
             builder.Register(c => new SqlConnection(QueriesConnectionString))
              .As<SqlConnection>()
