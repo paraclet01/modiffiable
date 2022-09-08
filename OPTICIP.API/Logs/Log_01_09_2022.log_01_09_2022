@@ -1,0 +1,54 @@
+01/09/2022 09:46:17 v1.0.0.0 INFO  Demarrage du service WEB OPTICIP.API
+01/09/2022 09:50:24 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = admin
+01/09/2022 09:50:42 v1.0.0.0 ERROR A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: Named Pipes Provider, error: 40 - Could not open a connection to SQL Server)
+System.Data.SqlClient.SqlException (0x80131904): A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: Named Pipes Provider, error: 40 - Could not open a connection to SQL Server)
+ ---> System.ComponentModel.Win32Exception (2): Le fichier spécifié est introuvable.
+   at System.Data.SqlClient.SqlInternalConnectionTds..ctor(DbConnectionPoolIdentity identity, SqlConnectionString connectionOptions, SqlCredential credential, Object providerInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString userConnectionOptions, SessionData reconnectSessionData, Boolean applyTransientFaultHandling, String accessToken)
+   at System.Data.SqlClient.SqlConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionFactory.CreatePooledConnection(DbConnectionPool pool, DbConnection owningObject, DbConnectionOptions options, DbConnectionPoolKey poolKey, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionPool.CreateObject(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at System.Data.ProviderBase.DbConnectionPool.UserCreateRequest(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, UInt32 waitForMultipleObjectsTimeout, Boolean allowCreate, Boolean onlyOneCheckConnection, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal oldConnection, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.SqlClient.SqlConnection.TryOpen(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.Open()
+   at OPTICIP.API.Application.Queries.Implementation.UsersQuerie.GetUser(String Login, String MotPasse) in D:\HOLY TECH\Paraclet\XCIP\Sources\XCIP_SOURCES\opticip.api\OPTICIP.API\Application\Queries\Implementation\UsersQuerie.cs:line 250
+ClientConnectionId:00000000-0000-0000-0000-000000000000
+Error Number:2,State:0,Class:20
+01/09/2022 09:50:43 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = admin
+01/09/2022 09:50:43 v1.0.0.0 ERROR A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: Named Pipes Provider, error: 40 - Could not open a connection to SQL Server)
+System.Data.SqlClient.SqlException (0x80131904): A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: Named Pipes Provider, error: 40 - Could not open a connection to SQL Server)
+ ---> System.ComponentModel.Win32Exception (2): Le fichier spécifié est introuvable.
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, UInt32 waitForMultipleObjectsTimeout, Boolean allowCreate, Boolean onlyOneCheckConnection, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal oldConnection, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.SqlClient.SqlConnection.TryOpen(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.Open()
+   at OPTICIP.API.Application.Queries.Implementation.UsersQuerie.GetUser(String Login, String MotPasse) in D:\HOLY TECH\Paraclet\XCIP\Sources\XCIP_SOURCES\opticip.api\OPTICIP.API\Application\Queries\Implementation\UsersQuerie.cs:line 250
+ClientConnectionId:00000000-0000-0000-0000-000000000000
+Error Number:2,State:0,Class:20
+01/09/2022 09:52:57 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = admin
+01/09/2022 10:06:24 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = admin
+01/09/2022 11:39:46 v1.0.0.0 INFO  Demarrage du service WEB OPTICIP.API
+01/09/2022 11:45:11 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = admin
+01/09/2022 16:20:19 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = admin
+01/09/2022 16:22:15 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = admin
+01/09/2022 16:29:37 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = admin
+01/09/2022 16:39:32 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = admin
+01/09/2022 16:41:25 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = admin
+01/09/2022 16:42:34 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = admin
+01/09/2022 23:16:43 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = admin
+01/09/2022 23:18:56 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = admin
+01/09/2022 23:24:00 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = admin
+01/09/2022 23:34:45 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = admin
+01/09/2022 23:36:21 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = admin
+01/09/2022 23:37:36 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = admin
+01/09/2022 23:41:21 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = admin
+01/09/2022 23:46:00 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = admin
+01/09/2022 23:47:12 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = admin
+01/09/2022 23:55:11 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = admin

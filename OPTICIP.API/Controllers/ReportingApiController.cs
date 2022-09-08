@@ -26,7 +26,8 @@ namespace OPTICIP.API.Controllers
         {
             try
             {
-                await _reportingQueries.GenererLettreAvertissement();
+                //await _reportingQueries.GenererLettreAvertissement();
+                await _reportingQueries.GenererLettreAvertissementFromXcip();
                 return Ok();
             }
             catch (Exception e)
@@ -37,12 +38,42 @@ namespace OPTICIP.API.Controllers
         }
 
         [HttpGet]
+        [Route("GenererLettresIncident")]
+        public async Task<IActionResult> GenererLettresIncident(int TypeIncident, string Compte, string NumCheque)
+        {
+            try
+            {
+                //await _reportingQueries.GenererLettresIncident(idIncident);
+                if (TypeIncident == 0) //==> Avertissement
+                    await _reportingQueries.GenererLettreAvertissementFromXcip(Compte, NumCheque);
+                else if (TypeIncident == 1) //==> Infraction
+                {
+                    await _reportingQueries.GenererLettresEnInfractionFromXcip(Compte, NumCheque);
+                    await _reportingQueries.GenererLettreInfMandatairesInfFromXcip(Compte, NumCheque);
+                }
+                else if (TypeIncident == 2) //==> Injonction
+                {
+                    await _reportingQueries.GenererLettreInjonctionFromXcip(Compte, NumCheque);
+                    await _reportingQueries.GenererLettreInfMandatairesInjFromXcip(Compte, NumCheque);
+                }
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
+        }
+
+
+        [HttpGet]
         [Route("GenererLotLettreAvertissement")]
         public async Task<IActionResult> GenererLotLettreAvertissement()
         {
             try
             {
-                await _reportingQueries.GenererLotLettreAvertissement();
+                //await _reportingQueries.GenererLotLettreAvertissement();
+                await _reportingQueries.GenererLotLettreAvertissementFromXcip();
                 return Ok();
             }
             catch (Exception e)
@@ -75,7 +106,8 @@ namespace OPTICIP.API.Controllers
         {
             try
             {
-                await _reportingQueries.GenererLettreInjonction();
+                //await _reportingQueries.GenererLettreInjonction();
+                await _reportingQueries.GenererLettreInjonctionFromXcip();
                 return Ok();
             }
             catch (Exception e)
@@ -91,7 +123,8 @@ namespace OPTICIP.API.Controllers
         {
             try
             {
-                await _reportingQueries.GenererLotLettreInjonction();
+                //await _reportingQueries.GenererLotLettreInjonction();
+                await _reportingQueries.GenererLotLettreInjonctionFromXcip();
                 return Ok();
             }
             catch (Exception e)
@@ -124,7 +157,8 @@ namespace OPTICIP.API.Controllers
         {
             try
             {
-                await _reportingQueries.GenererLettreInfMandatairesInj();
+                //await _reportingQueries.GenererLettreInfMandatairesInj();
+                await _reportingQueries.GenererLettreInfMandatairesInjFromXcip();
                 return Ok();
             }
             catch (Exception e)
@@ -140,7 +174,8 @@ namespace OPTICIP.API.Controllers
         {
             try
             {
-                await _reportingQueries.GenererLettreInfMandatairesInf();
+                //await _reportingQueries.GenererLettreInfMandatairesInf();
+                await _reportingQueries.GenererLettreInfMandatairesInfFromXcip();
                 return Ok();
             }
             catch (Exception e)
@@ -157,8 +192,10 @@ namespace OPTICIP.API.Controllers
         {
             try
             {
-                await _reportingQueries.GenererLettreInfMandatairesInj();
-                await _reportingQueries.GenererLettreInfMandatairesInf();
+                //await _reportingQueries.GenererLettreInfMandatairesInj();
+                //await _reportingQueries.GenererLettreInfMandatairesInf();
+                await _reportingQueries.GenererLettreInfMandatairesInjFromXcip();
+                await _reportingQueries.GenererLettreInfMandatairesInfFromXcip();
                 return Ok();
             }
             catch (Exception e)
@@ -174,7 +211,8 @@ namespace OPTICIP.API.Controllers
         {
             try
             {
-                await _reportingQueries.GenererLotLettreInfMandatairesInj();
+                //await _reportingQueries.GenererLotLettreInfMandatairesInj();
+                await _reportingQueries.GenererLotLettreInfMandatairesInjFromXcip();
                 return Ok();
             }
             catch (Exception e)
@@ -190,7 +228,8 @@ namespace OPTICIP.API.Controllers
         {
             try
             {
-                await _reportingQueries.GenererLotLettreInfMandatairesInf();
+                //await _reportingQueries.GenererLotLettreInfMandatairesInf();
+                await _reportingQueries.GenererLotLettreInfMandatairesInfFromXcip();
                 return Ok();
             }
             catch (Exception e)
@@ -208,8 +247,10 @@ namespace OPTICIP.API.Controllers
         {
             try
             {
-                await _reportingQueries.GenererLotLettreInfMandatairesInf();
-                await _reportingQueries.GenererLotLettreInfMandatairesInj();
+                //await _reportingQueries.GenererLotLettreInfMandatairesInf();
+                //await _reportingQueries.GenererLotLettreInfMandatairesInj();
+                await _reportingQueries.GenererLotLettreInfMandatairesInfFromXcip();
+                await _reportingQueries.GenererLotLettreInfMandatairesInjFromXcip();
                 return Ok();
             }
             catch (Exception e)
@@ -359,7 +400,7 @@ namespace OPTICIP.API.Controllers
         {
             try
             {
-                await _reportingQueries.GenererLettresEnInfraction();
+                await _reportingQueries.GenererLettresEnInfractionFromXcip();
                 return Ok();
             }
             catch (Exception e)
@@ -375,7 +416,7 @@ namespace OPTICIP.API.Controllers
         {
             try
             {
-                await _reportingQueries.GenererLotLettresEnInfraction();
+                await _reportingQueries.GenererLotLettresEnInfractionFromXcip();
                 return Ok();
             }
             catch (Exception e)
@@ -482,5 +523,23 @@ namespace OPTICIP.API.Controllers
                 return (IActionResult)BadRequest(e.Message);
             }
         }
+
+        [HttpGet]
+        [Route("RecupererDonneesIncidents")]
+        public async Task<IActionResult> RecupererDonneesIncidents()
+        {
+            try
+            {
+                await _reportingQueries.RecupererDonneesIncidentsFromSIB();
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
+        }
+
+
     }
 }

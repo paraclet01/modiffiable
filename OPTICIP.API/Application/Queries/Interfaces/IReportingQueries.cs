@@ -1,4 +1,5 @@
 ﻿using OPTICIP.API.Application.Queries.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -36,11 +37,25 @@ namespace OPTICIP.API.Application.Queries.Interfaces
         Task<IEnumerable<LettreViewModel>> GetLettres(string TypeLettre);
         Task<IEnumerable<LettreLotViewModel>> GetLettresLot(string TypeLettre);
 
+        bool VerifierLettreExiste(string typeLettre, string compte, string cheque);
+
         Task<IEnumerable<AttPaiementChequesViewModel>> GetAttPaiementCheques();
         Task GenererAttPaiementCheques();
         Task GenererLotAttPaiementCheques();
 
+        Task RecupererDonneesIncidentsFromSIB();
 
+        Task GenererLettreAvertissementFromXcip(String pCompte = null, String pNumChq = null);
+        Task GenererLotLettreAvertissementFromXcip();
 
+        Task GenererLettreInjonctionFromXcip(String pCompte = null, String pNumChq = null);
+        Task GenererLotLettreInjonctionFromXcip();
+
+        Task GenererLettreInfMandatairesInjFromXcip(String pCompte = null, String pNumChq = null);
+        Task GenererLettreInfMandatairesInfFromXcip(String pCompte = null, String pNumChq = null);
+        Task GenererLotLettreInfMandatairesInfFromXcip();
+        Task GenererLotLettreInfMandatairesInjFromXcip();
+        Task GenererLettresEnInfractionFromXcip(String pCompte = null, String pNumChq = null);
+        Task GenererLotLettresEnInfractionFromXcip();
     }
 }

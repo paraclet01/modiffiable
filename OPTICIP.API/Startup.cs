@@ -65,6 +65,16 @@ namespace OPTICIP.API
                 options.ConfigureWarnings(warnings => warnings.Throw(RelationalEventId.QueryClientEvaluationWarning));
             });
 
+            services.AddDbContext<CIPReportContext>(options =>
+            {
+                options.UseSqlServer(Configuration["ConnectionString"],
+                                     sqlServerOptionsAction: sqlOptions =>
+                                     {
+                                         sqlOptions.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
+                                         sqlOptions.EnableRetryOnFailure(maxRetryCount: 10, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
+                                     });
+                options.ConfigureWarnings(warnings => warnings.Throw(RelationalEventId.QueryClientEvaluationWarning));
+            });
 
 
             //Ajout de la section de validation des token d'authentification
@@ -141,6 +151,7 @@ namespace OPTICIP.API
 
             //==> YFS le 11/11/2021: Initialiser la chaine de connexion par defaut
             CIPContext.InitialiserChaineParDefaut(Configuration["ConnectionString"]);
+            CIPReportContext.InitialiserChaineParDefaut(Configuration["ConnectionString"]);
             //Fin
 
             //==> YFS le 10/11/2021: Initialisation pour les logs

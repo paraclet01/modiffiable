@@ -1,0 +1,10 @@
+18/08/2022 20:10:09 v1.0.0.0 INFO  Demarrage du service WEB OPTICIP.API
+18/08/2022 20:11:11 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = admin
+18/08/2022 20:11:16 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = admin
+18/08/2022 20:15:33 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = admin
+18/08/2022 20:16:28 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = ADMIN
+18/08/2022 20:20:41 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = ADMIN
+18/08/2022 20:26:33 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = admin
+18/08/2022 20:27:25 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = admin
+18/08/2022 20:28:22 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = ADMIN
+18/08/2022 20:31:32 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = admin

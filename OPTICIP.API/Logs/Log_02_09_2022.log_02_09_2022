@@ -1,0 +1,26 @@
+02/09/2022 11:11:41 v1.0.0.0 INFO  Demarrage du service WEB OPTICIP.API
+02/09/2022 12:40:12 v1.0.0.0 INFO  Demarrage du service WEB OPTICIP.API
+02/09/2022 12:46:15 v1.0.0.0 INFO  Demarrage du service WEB OPTICIP.API
+02/09/2022 12:48:33 v1.0.0.0 ERROR La procédure ou fonction 'PS_UPDATE_BENEFICIAIRE_INCIDENTCHQ' attend le paramètre '@BenefPrenoms', qui n'a pas été fourni.
+System.Data.SqlClient.SqlException (0x80131904): La procédure ou fonction 'PS_UPDATE_BENEFICIAIRE_INCIDENTCHQ' attend le paramètre '@BenefPrenoms', qui n'a pas été fourni.
+   at OPTICIP.API.Application.Queries.Implementation.DetectionQueries.UpdatIncidentChqBenef(Guid pIdCheque, String benefNom, String benefPrenom) in D:\HOLY TECH\Paraclet\XCIP\Sources\XCIP_SOURCES\opticip.api\OPTICIP.API\Application\Queries\Implementation\DetectionQueries.cs:line 842
+   at OPTICIP.API.Controllers.DetectionApiController.UpdatIncidentChqBenef(UpdateIncidentChqBenefCommand command, String requestId) in D:\HOLY TECH\Paraclet\XCIP\Sources\XCIP_SOURCES\opticip.api\OPTICIP.API\Controllers\DetectionApiController.cs:line 229
+ClientConnectionId:906af881-2d89-407c-bebd-07e8d8c7888e
+Error Number:201,State:4,Class:16
+02/09/2022 12:51:57 v1.0.0.0 INFO  Demarrage du service WEB OPTICIP.API
+02/09/2022 12:56:15 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = admin
+02/09/2022 12:59:06 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = admin
+02/09/2022 13:02:43 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = admin
+02/09/2022 13:06:29 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = admin
+02/09/2022 13:13:41 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = admin
+02/09/2022 13:16:24 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = admin
+02/09/2022 13:17:00 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = admin
+02/09/2022 13:18:17 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = ADSEKA
+02/09/2022 17:35:41 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = admin
+02/09/2022 17:41:38 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = admin
+02/09/2022 17:45:16 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = admin
+02/09/2022 17:51:06 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = admin
+02/09/2022 17:55:52 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = admin
+02/09/2022 17:58:15 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = admin
+02/09/2022 18:06:12 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = admin
+02/09/2022 18:11:23 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = admin

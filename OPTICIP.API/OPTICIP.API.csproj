@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <Compile Remove="Application\Queries\Implementation\DeclarationsQuerie.cs" />
+    <Compile Remove="Application\Queries\Implementation\ReportingQueries - Copier.cs" />
     <Compile Remove="Application\Queries\Interfaces\IDeclarationsQuerie.cs" />
     <Compile Remove="Application\Queries\ViewModels\ChequeIrregulierViewModel.cs" />
     <Compile Remove="Application\Queries\ViewModels\IncidentChequeViewModel.cs" />
@@ -30,6 +31,7 @@
   <ItemGroup>
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="Dapper" Version="2.0.35" />
+    <PackageReference Include="FastReport.OpenSource.Data.MsSql" Version="2020.3.1" />
     <PackageReference Include="FastReport.OpenSource.Data.OracleODPCore" Version="2020.3.14" />
     <PackageReference Include="FastReport.OpenSource.Export.PdfSimple" Version="2020.3.14" />
     <PackageReference Include="FastReport.OpenSource.Web" Version="2020.3.14" />
@@ -37,10 +39,13 @@
     <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="2.3.0" />
     <PackageReference Include="MediatR" Version="8.0.1" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="8.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.7" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.2.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.4.10" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.4" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
@@ -60,6 +65,7 @@
 
   <ItemGroup>
     <Folder Include="Application\Commands\ParametrageCommands\" />
+    <Folder Include="Application\Queries\Context\" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>

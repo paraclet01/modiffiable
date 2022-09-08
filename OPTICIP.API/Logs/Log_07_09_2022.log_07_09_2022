@@ -1,0 +1,81 @@
+07/09/2022 10:51:02 v1.0.0.0 INFO  Demarrage du service WEB OPTICIP.API
+07/09/2022 11:18:11 v1.0.0.0 INFO  Demarrage du service WEB OPTICIP.API
+07/09/2022 11:22:57 v1.0.0.0 ERROR Nom de colonne non valide : 'compte'.
+Nom de colonne non valide : 'numcheq'.
+System.Data.SqlClient.SqlException (0x80131904): Nom de colonne non valide : 'compte'.
+Nom de colonne non valide : 'numcheq'.
+   at OPTICIP.API.Application.Queries.Implementation.ReportingQueries.<GenererLettreAvertissementFromXcip>b__50_0() in D:\HOLY TECH\Paraclet\XCIP\Sources\XCIP_SOURCES\opticip.api\OPTICIP.API\Application\Queries\Implementation\ReportingQueriesXcip.cs:line 455
+   at System.Threading.Tasks.Task.InnerInvoke()
+   at System.Threading.Tasks.Task.<>c.<.cctor>b__274_0(Object obj)
+   at System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location where exception was thrown ---
+   at OPTICIP.API.Application.Queries.Implementation.ReportingQueries.GenererLettreAvertissementFromXcip() in D:\HOLY TECH\Paraclet\XCIP\Sources\XCIP_SOURCES\opticip.api\OPTICIP.API\Application\Queries\Implementation\ReportingQueriesXcip.cs:line 409
+   at OPTICIP.API.Controllers.ReportingApiController.GenererLettreAvertissement() in D:\HOLY TECH\Paraclet\XCIP\Sources\XCIP_SOURCES\opticip.api\OPTICIP.API\Controllers\ReportingApiController.cs:line 30
+ClientConnectionId:65e21e23-7772-4337-a7e9-01523d92a9ae
+Error Number:207,State:1,Class:16
+07/09/2022 11:36:40 v1.0.0.0 ERROR La colonne "V_ListeLettres.Date_Generation" n'est pas valide dans la clause ORDER BY parce qu'elle n'est pas contenue dans une fonction d'agrégation ou dans la clause GROUP BY.
+System.Data.SqlClient.SqlException (0x80131904): La colonne "V_ListeLettres.Date_Generation" n'est pas valide dans la clause ORDER BY parce qu'elle n'est pas contenue dans une fonction d'agrégation ou dans la clause GROUP BY.
+   at OPTICIP.API.Application.Queries.Implementation.ReportingQueries.<GenererLettreAvertissementFromXcip>b__50_0()
+   at System.Threading.Tasks.Task.InnerInvoke()
+   at System.Threading.Tasks.Task.<>c.<.cctor>b__274_0(Object obj)
+   at System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location where exception was thrown ---
+   at OPTICIP.API.Application.Queries.Implementation.ReportingQueries.GenererLettreAvertissementFromXcip()
+   at OPTICIP.API.Controllers.ReportingApiController.GenererLettreAvertissement()
+ClientConnectionId:65e21e23-7772-4337-a7e9-01523d92a9ae
+Error Number:8127,State:1,Class:16
+07/09/2022 12:02:17 v1.0.0.0 ERROR Could not find a part of the path 'D:\HOLY TECH\Paraclet\XCIP\XCIP_DEPLOY\xcip\Views\DossierFichiers\Avertissement\Avertissement_20220907_104246_2836385.pdf'.
+System.IO.DirectoryNotFoundException: Could not find a part of the path 'D:\HOLY TECH\Paraclet\XCIP\XCIP_DEPLOY\xcip\Views\DossierFichiers\Avertissement\Avertissement_20220907_104246_2836385.pdf'.
+   at OPTICIP.API.Application.Queries.Implementation.ReportingQueries.<GenererLettreAvertissementFromXcip>b__50_0()
+   at System.Threading.Tasks.Task.InnerInvoke()
+   at System.Threading.Tasks.Task.<>c.<.cctor>b__274_0(Object obj)
+   at System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location where exception was thrown ---
+   at OPTICIP.API.Application.Queries.Implementation.ReportingQueries.GenererLettreAvertissementFromXcip()
+   at OPTICIP.API.Controllers.ReportingApiController.GenererLettreAvertissement()
+07/09/2022 12:39:08 v1.0.0.0 ERROR Nom de colonne non valide : 'compte'.
+Nom de colonne non valide : 'numcheq'.
+System.Data.SqlClient.SqlException (0x80131904): Nom de colonne non valide : 'compte'.
+Nom de colonne non valide : 'numcheq'.
+   at OPTICIP.API.Application.Queries.Implementation.ReportingQueries.<GenererLettreInfMandatairesInjFromXcip>b__56_0()
+   at System.Threading.Tasks.Task.InnerInvoke()
+   at System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location where exception was thrown ---
+   at OPTICIP.API.Application.Queries.Implementation.ReportingQueries.GenererLettreInfMandatairesInjFromXcip()
+   at OPTICIP.API.Controllers.ReportingApiController.GenererLettreInfMandatairesInj()
+ClientConnectionId:e19ff814-6a0a-48fc-9cee-3fc553b1d66a
+Error Number:207,State:1,Class:16
+07/09/2022 14:55:48 v1.0.0.0 INFO  Demarrage du service WEB OPTICIP.API
+07/09/2022 14:56:32 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = ADSEKA
+07/09/2022 14:56:54 v1.0.0.0 ERROR The server could not be contacted.
+System.DirectoryServices.AccountManagement.PrincipalServerDownException: The server could not be contacted.
+ ---> System.DirectoryServices.Protocols.LdapException: The LDAP server is unavailable.
+   at System.DirectoryServices.Protocols.LdapConnection.Connect()
+   at System.DirectoryServices.Protocols.LdapConnection.SendRequestHelper(DirectoryRequest request, Int32& messageID)
+   at System.DirectoryServices.Protocols.LdapConnection.SendRequest(DirectoryRequest request, TimeSpan requestTimeout)
+   at System.DirectoryServices.Protocols.LdapConnection.SendRequest(DirectoryRequest request)
+   at System.DirectoryServices.AccountManagement.PrincipalContext.ReadServerConfig(String serverName, ServerProperties& properties)
+   --- End of inner exception stack trace ---
+   at System.DirectoryServices.AccountManagement.PrincipalContext.ReadServerConfig(String serverName, ServerProperties& properties)
+   at System.DirectoryServices.AccountManagement.PrincipalContext.DoServerVerifyAndPropRetrieval()
+   at System.DirectoryServices.AccountManagement.PrincipalContext..ctor(ContextType contextType, String name, String container, ContextOptions options, String userName, String password)
+   at System.DirectoryServices.AccountManagement.PrincipalContext..ctor(ContextType contextType, String name)
+   at OPTICIP.API.Application.Queries.Implementation.UsersQuerie.GetUser(String Login, String MotPasse) in D:\HOLY TECH\Paraclet\XCIP\Sources\XCIP_SOURCES\opticip.api\OPTICIP.API\Application\Queries\Implementation\UsersQuerie.cs:line 199
+07/09/2022 14:57:26 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = ADMIN
+07/09/2022 15:58:38 v1.0.0.0 INFO  Demarrage du service WEB OPTICIP.API
+07/09/2022 17:46:07 v1.0.0.0 INFO  Demarrage du service WEB OPTICIP.API
+07/09/2022 17:51:30 v1.0.0.0 INFO  Demarrage du service WEB OPTICIP.API
+07/09/2022 17:55:32 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = ADMIN
+07/09/2022 18:33:58 v1.0.0.0 INFO  Demarrage du service WEB OPTICIP.API
+07/09/2022 18:34:46 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = ADMIN

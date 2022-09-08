@@ -7,6 +7,7 @@ namespace OPTICIP.API.Application.Queries.ViewModels
 {
     public class ChqRejViewModel
     {
+        public Guid id { get; set; }
         public string nooper { get; set; }
         public string expl { get; set; }
         public string explmaj { get; set; }
@@ -31,6 +32,8 @@ namespace OPTICIP.API.Application.Queries.ViewModels
         public string mreg { get; set; }
         public string etatreg { get; set; }
         public string benef { get; set; }
+        public string benefnom { get; set; }
+        public string benefprenom { get; set; }
         public string motif { get; set; }
         public string typinf { get; set; }
         public string numseq { get; set; }

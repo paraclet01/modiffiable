@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using OPTICIP.API.Application.Commands.PreparationCommands;
 using OPTICIP.API.Application.Queries.Interfaces;
 using OPTICIP.API.Application.Queries.ViewModels;
+using OPTICIP.API.Application.Queries.Implementation;
 using OPTICIP.Entities.DataEntities;
 using OPTICIP.Entities.Models;
 using System;
@@ -20,10 +21,13 @@ namespace OPTICIP.API.Controllers
 
         private readonly IPreparationQueries _preparationQueries;
         private readonly IDetectionQueries _detectionQueries;
-        public PreparationApiController(IPreparationQueries preparationQueries, IDetectionQueries detectionQueries)
+        private readonly IReportingQueries _reportingQueries;
+        //public PreparationApiController(IPreparationQueries preparationQueries, IDetectionQueries detectionQueries)
+        public PreparationApiController(IPreparationQueries preparationQueries, IDetectionQueries detectionQueries, IReportingQueries reportingQueries)
         {
             _preparationQueries = preparationQueries ?? throw new ArgumentNullException(nameof(preparationQueries));
             _detectionQueries = detectionQueries ?? throw new ArgumentNullException(nameof(detectionQueries));
+            _reportingQueries = reportingQueries ?? throw new ArgumentNullException(nameof(reportingQueries));
         }
 
         [HttpGet]
@@ -123,6 +127,8 @@ namespace OPTICIP.API.Controllers
             try
             {
                 await _detectionQueries.LancerDetectionCheques(userID);
+                //==> Recupération des données des incidents chèques pour impression locale XCIP
+                await _reportingQueries.RecupererDonneesIncidentsFromSIB();
                 var result = await _preparationQueries.LancerPreparationCheques(userID);
                 return Ok(result);
             }
@@ -231,6 +237,8 @@ namespace OPTICIP.API.Controllers
             try
             {
                 await _detectionQueries.LancerDetectionCheques("");
+                //==> Recupération des données des incidents chèques pour impression locale XCIP
+                await _reportingQueries.RecupererDonneesIncidentsFromSIB();
                 var result = await _preparationQueries.LancerPreparationInitialeCheques();
                 return Ok(result);
             }

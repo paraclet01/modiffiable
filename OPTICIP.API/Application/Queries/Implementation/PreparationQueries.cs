@@ -1,6 +1,8 @@
 ﻿using Dapper;
 using OPTICIP.API.Application.Queries.Interfaces;
 using OPTICIP.API.Application.Queries.ViewModels;
+using OPTICIP.BusinessLogicLayer.Utilitaire;
+using OPTICIP.DataAccessLayer.EntityConfigurations;
 using OPTICIP.DataAccessLayer.Models;
 using OPTICIP.Entities.DataEntities;
 using OPTICIP.Entities.Models;

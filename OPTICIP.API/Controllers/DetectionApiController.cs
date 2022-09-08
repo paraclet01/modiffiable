@@ -2,10 +2,12 @@
 using Microsoft.AspNetCore.Mvc;
 using OPTICIP.API.Application.Queries.Interfaces;
 using OPTICIP.API.Application.Queries.ViewModels;
+using OPTICIP.DataAccessLayer.EntityConfigurations;
 using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
+using OPTICIP.API.Application.Commands.DetectionCommands;
 
 namespace OPTICIP.API.Controllers
 {
@@ -120,11 +122,12 @@ namespace OPTICIP.API.Controllers
         [HttpGet]
         [Route("ListChequesDetectesTFJ")]
         [ProducesResponseType(typeof(IEnumerable<ChqRejViewModel>), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> ListChequesDetectesTFJ()
+        public async Task<IActionResult> ListChequesDetectesTFJ(int Option)
         {
             try
             {
-                var result = await _detectionQueries.ListChequesDetectesTFJ();
+                //var result = await _detectionQueries.ListChequesDetectesTFJ_Old();
+                var result = await _detectionQueries.ListChequesDetectesTFJ(Option);
                 return Ok(result);
             }
             catch (Exception e)
@@ -136,7 +139,7 @@ namespace OPTICIP.API.Controllers
 
         [HttpGet]
         [Route("ListEffetsDetectesTFJ")]
-        [ProducesResponseType(typeof(IEnumerable<ChqRejViewModel>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(IEnumerable<EffRejViewModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> ListEffetsDetectesTFJ()
         {
             try
@@ -214,6 +217,25 @@ namespace OPTICIP.API.Controllers
                 return (IActionResult)BadRequest(e.Message);
             }
         }
+
+        [HttpPut]
+        [Route("UpdatIncidentChqBenef")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> UpdatIncidentChqBenef([FromBody] UpdateIncidentChqBenefCommand command, [FromHeader(Name = "x-requestid")] string requestId)
+        {
+            try
+            {
+                var result = await _detectionQueries.UpdatIncidentChqBenef(command.idCheque, command.benefNom, command.benefPrenom);
+                return result >= 1 ? (IActionResult)Ok() : (IActionResult)BadRequest();
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
+        }
+
 
     }
 }

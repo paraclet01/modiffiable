@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace OPTICIP.BusinessLogicLayer.Utilitaire
 {
-     public static class Utilitaires
+    public static class Utilitaires
     {
 
-        
+
         public static string Crypter(this string MotPasse)
         {
             //Byte[] oCle, oVecteurInitialisation;
@@ -39,6 +40,12 @@ namespace OPTICIP.BusinessLogicLayer.Utilitaire
 
 
             return Encoding.Default.GetString(Convert.FromBase64String(MotPasse));
+        }
+
+
+        public static T CastObject<T, U>(U obj)
+        {
+            return JsonConvert.DeserializeObject<T>(JsonConvert.SerializeObject(obj));
         }
     }
 }

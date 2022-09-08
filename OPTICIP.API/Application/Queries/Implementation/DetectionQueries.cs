@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using OPTICIP.API.Application.Queries.Interfaces;
 using OPTICIP.API.Application.Queries.ViewModels;
+using OPTICIP.DataAccessLayer.EntityConfigurations;
 using OPTICIP.Entities.DataEntities;
 using OPTICIP.IContractLayer.DataAccessRepository;
 using System;
@@ -13,11 +14,13 @@ namespace OPTICIP.API.Application.Queries.Implementation
     public class DetectionQueries : IDetectionQueries
     {
         private readonly IDbConnection _dbConnection;
+        private readonly IDbConnection _dbConnectionXcip;
         private readonly IRepositoryFactory _repositoryFactory;
 
-        public DetectionQueries(IDbConnection dbConnection , IRepositoryFactory repositoryFactory)
+        public DetectionQueries(IDbConnection dbConnection, IDbConnection dbConnectionXcip, IRepositoryFactory repositoryFactory)
         {
             _dbConnection = dbConnection ?? throw new ArgumentNullException(nameof(dbConnection));
+            _dbConnectionXcip = dbConnectionXcip ?? throw new ArgumentNullException(nameof(dbConnectionXcip));
             _repositoryFactory = repositoryFactory ?? throw new ArgumentNullException(nameof(repositoryFactory));
         }
 
@@ -727,7 +730,7 @@ namespace OPTICIP.API.Application.Queries.Implementation
 
         }
 
-        public async Task<IEnumerable<ChqRejViewModel>> ListChequesDetectesTFJ()
+        public async Task<IEnumerable<ChqRejViewModel>> ListChequesDetectesTFJ_Old()
         {
             try
             {
@@ -735,6 +738,29 @@ namespace OPTICIP.API.Application.Queries.Implementation
                 _dbConnection.Open();
                 IEnumerable<ChqRejViewModel> result = await _dbConnection.QueryAsync<ChqRejViewModel>(@"select * from v_cip_dchqrej order by datinc desc");
                 _dbConnection.Close();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<IEnumerable<ChqRejViewModel>> ListChequesDetectesTFJ(int pOption)
+        {
+            try
+            {
+
+                _dbConnectionXcip.Open();
+                IEnumerable<ChqRejViewModel> result = null;
+                if (pOption == 1) //==> Recupération des incidents chèque sans lettre sans bénéficiaire
+                    result = await _dbConnectionXcip.QueryAsync<ChqRejViewModel>(@"select * from V_ListeIncidentsSansLettre where (benefNom is null or trim(benefNom)='' ) order by datinc desc");
+                else if (pOption == 2) //==> Recupération des incidents chèque sans lettre avec bénéficiaire
+                    result = await _dbConnectionXcip.QueryAsync<ChqRejViewModel>(@"select * from V_ListeIncidentsSansLettre where benefNom is not null and trim(benefNom) !='' order by datinc desc");
+                else    //==> Recupération de tous les incidents chèque sans lettre
+                    result = await _dbConnectionXcip.QueryAsync<ChqRejViewModel>(@"select * from V_ListeIncidentsSansLettre order by datinc desc");
+                
+                _dbConnectionXcip.Close();
                 return result;
             }
             catch (Exception ex)
@@ -758,5 +784,74 @@ namespace OPTICIP.API.Application.Queries.Implementation
                 throw ex;
             }
         }
+
+
+        public async Task<int> UpdatIncidentChqBenef(Guid pIdCheque, string benefNom, string benefPrenom)
+        {
+            int result = 0;
+
+            try
+            {
+                await Task.Run(() => {
+                    try
+                    {
+                        if (_dbConnectionXcip.State == ConnectionState.Closed)
+                            _dbConnectionXcip.Open();
+
+                        IDbCommand dbCommand = _dbConnectionXcip.CreateCommand();
+                        dbCommand.CommandType = CommandType.StoredProcedure;
+                        dbCommand.CommandText = "PS_UPDATE_BENEFICIAIRE_INCIDENTCHQ";
+
+                        IDbDataParameter param1 = dbCommand.CreateParameter();
+                        param1.ParameterName = "@IncidentID";
+                        param1.DbType = DbType.Guid;
+                        param1.Direction = ParameterDirection.Input;
+                        param1.Value = pIdCheque;
+                        dbCommand.Parameters.Add(param1);
+
+                        IDbDataParameter param2 = dbCommand.CreateParameter();
+                        param2.ParameterName = "@BenefNom";
+                        param2.DbType = DbType.String;
+                        param2.Direction = ParameterDirection.Input;
+                        param2.Value = benefNom;
+                        dbCommand.Parameters.Add(param2);
+
+                        IDbDataParameter param3 = dbCommand.CreateParameter();
+                        param3.ParameterName = "@BenefPrenoms";
+                        param3.DbType = DbType.String;
+                        param3.Direction = ParameterDirection.Input;
+                        param3.Value = benefPrenom;
+                        dbCommand.Parameters.Add(param3);
+
+                        result = dbCommand.ExecuteNonQuery();
+
+                        // Logging
+                        Guid guid = Guid.NewGuid();
+                        string messageLog = "IdIncidentCheque: " + pIdCheque + ", Nom bénéficiaire: " + benefNom + ", Prénoms bénéficiaire: " + benefPrenom;
+                        TLog log = new TLog(guid, "Mise à jour de chèque", messageLog, guid, DateTime.Now);
+                        _repositoryFactory.LogRepository.Add(log);
+                        _repositoryFactory.LogRepository.UnitOfWork.SaveEntitiesAsync();
+                    }
+                    catch (Exception ex)
+                    {
+                        throw ex;
+                    }
+                    finally
+                    {
+                        if (_dbConnectionXcip != null && _dbConnectionXcip.State == ConnectionState.Open)
+                            _dbConnectionXcip.Close();
+                    }
+
+                });
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+
+            return result;
+        }
+
     }
 }

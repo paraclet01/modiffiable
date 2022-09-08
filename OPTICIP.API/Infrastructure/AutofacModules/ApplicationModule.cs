@@ -64,7 +64,7 @@ namespace OPTICIP.API.Infrastructure.AutofacModules
                        .InstancePerLifetimeScope();
 
                 builder.Register(c => new DetectionQueries(
-                    new SqlConnection(QueriesConnectionString), new RepositoryFactory(new CIPContext())))
+                    new SqlConnection(QueriesConnectionString), new SqlConnection(QueriesConnectionString), new RepositoryFactory(new CIPContext())))
                       .As<IDetectionQueries>()
                       .InstancePerLifetimeScope();
 
@@ -102,7 +102,7 @@ namespace OPTICIP.API.Infrastructure.AutofacModules
                        .InstancePerLifetimeScope();
 
                 builder.Register(c => new DetectionQueries(
-                    new OracleConnection(QueriesConnectionStringCoreDB), new RepositoryFactory(new CIPContext())))
+                    new OracleConnection(QueriesConnectionStringCoreDB), new SqlConnection(QueriesConnectionString), new RepositoryFactory(new CIPContext())))
                       .As<IDetectionQueries>()
                       .InstancePerLifetimeScope();
 

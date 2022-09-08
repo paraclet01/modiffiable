@@ -1,4 +1,5 @@
 ﻿using OPTICIP.API.Application.Queries.ViewModels;
+using OPTICIP.DataAccessLayer.EntityConfigurations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,7 @@ namespace OPTICIP.API.Application.Queries.Interfaces
         Task LancerTraitementCheques();
         Task LancerDetectionChequesIrreguliers(string userID);
         Task LancerDetectionEffetsTFJ();
-        Task<IEnumerable<ChqRejViewModel>> ListChequesDetectesTFJ();
+        Task<IEnumerable<ChqRejViewModel>> ListChequesDetectesTFJ_Old();
         Task<IEnumerable<EffRejViewModel>> ListEffetsDetectesTFJ();
         Task LancerDetectionEffets(string userID);
         Task<IEnumerable<IncidChqEbViewModel>> GetIncidChqEbAsync();
@@ -27,5 +28,8 @@ namespace OPTICIP.API.Application.Queries.Interfaces
         Task<IEnumerable<IncidChqViewModel>> GetIncidChqAsync(string compte, string cheque);
         Task<int> UpdateIncidChqEbAsync(string compte, string cheque, DateTime dateOperation, string benef, DateTime datemi);
         Task<int> UpdateIncidChqAsync(string compte, string cheque, DateTime datreg, DateTime djustif, string mreg, string numpen, decimal mtpen);
+
+        Task<IEnumerable<ChqRejViewModel>> ListChequesDetectesTFJ(int iOption);
+        Task<int> UpdatIncidentChqBenef(Guid pIdCheque, string benefNom, string benefPrenom);
     }
 }
