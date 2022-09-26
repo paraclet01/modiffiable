@@ -39,24 +39,76 @@ namespace OPTICIP.API.Controllers
 
         [HttpGet]
         [Route("GenererLettresIncident")]
+        [ProducesResponseType(typeof(List<string>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GenererLettresIncident(int TypeIncident, string Compte, string NumCheque)
         {
             try
             {
+                List<string> result = new List<string>();
                 //await _reportingQueries.GenererLettresIncident(idIncident);
-                if (TypeIncident == 0) //==> Avertissement
-                    await _reportingQueries.GenererLettreAvertissementFromXcip(Compte, NumCheque);
-                else if (TypeIncident == 1) //==> Infraction
+                if (TypeIncident == 0 || TypeIncident == 7) //==> Avertissement
                 {
-                    await _reportingQueries.GenererLettresEnInfractionFromXcip(Compte, NumCheque);
-                    await _reportingQueries.GenererLettreInfMandatairesInfFromXcip(Compte, NumCheque);
+                    var ret = await _reportingQueries.GenererLettreAvertissementFromXcip(Compte, NumCheque);
+                    result.AddRange(ret);
                 }
-                else if (TypeIncident == 2) //==> Injonction
+                else if (TypeIncident == 1) //==> Injonction
                 {
-                    await _reportingQueries.GenererLettreInjonctionFromXcip(Compte, NumCheque);
-                    await _reportingQueries.GenererLettreInfMandatairesInjFromXcip(Compte, NumCheque);
+                    var ret = await _reportingQueries.GenererLettreInjonctionFromXcip(Compte, NumCheque);
+                    result.AddRange(ret);
+                    ret = await _reportingQueries.GenererLettreInfMandatairesInjFromXcip(Compte, NumCheque);
+                    result.AddRange(ret);
                 }
-                return Ok();
+                else if (TypeIncident >= 2) //==> Infraction
+                {
+                    var ret = await _reportingQueries.GenererLettresEnInfractionFromXcip(Compte, NumCheque);
+                    result.AddRange(ret);
+                    ret = await _reportingQueries.GenererLettreInfMandatairesInfFromXcip(Compte, NumCheque);
+                    result.AddRange(ret);
+                }
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("GenererLettresIncidentLot")]
+        [ProducesResponseType(typeof(List<string>), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GenererLettresIncidentLot()
+        {
+            try
+            {
+                List<string> result = new List<string>();
+                await _reportingQueries.GenererLettreAvertissementFromXcip();
+                await _reportingQueries.GenererLettreInjonctionFromXcip();
+                await _reportingQueries.GenererLettresEnInfractionFromXcip();
+                await _reportingQueries.GenererLettreInfMandatairesInjFromXcip();
+                await _reportingQueries.GenererLettreInfMandatairesInfFromXcip();
+                await _reportingQueries.GenererCertNonPaiements();
+                await _reportingQueries.GenererAttPaiementCheques();
+                await _reportingQueries.GenererAttNonPaiementEffet();
+
+                var ret = await _reportingQueries.GenererLotLettreAvertissementFromXcip();
+                result.AddRange(ret);
+                ret = await _reportingQueries.GenererLotLettreInjonctionFromXcip();
+                result.AddRange(ret);
+                ret = await _reportingQueries.GenererLotLettresEnInfractionFromXcip();
+                result.AddRange(ret);
+                ret = await _reportingQueries.GenererLotLettreInfMandatairesInjFromXcip();
+                result.AddRange(ret);
+                ret = await _reportingQueries.GenererLotLettreInfMandatairesInfFromXcip();
+                result.AddRange(ret);
+                ret = await _reportingQueries.GenererLotCertNonPaiements();
+                result.AddRange(ret);
+                ret = await _reportingQueries.GenererLotAttPaiementCheques();
+                result.AddRange(ret);
+                ret = await _reportingQueries.GenererLotAttNonPaiementEffet();
+                result.AddRange(ret);
+
+                return Ok(result);
             }
             catch (Exception e)
             {

@@ -284,8 +284,13 @@ namespace OPTICIP.DataAccessLayer.Models
                     .HasMaxLength(255)
                     .IsUnicode(false);
 
-                entity.Property(e => e.soldeIncident)
+                entity.Property(e => e.solde_incident)
                     .HasColumnName("solde_incident")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.libinf)
+                    .HasColumnName("libinf")
                     .HasMaxLength(100)
                     .IsUnicode(false);
 
@@ -359,7 +364,7 @@ namespace OPTICIP.DataAccessLayer.Models
                     .HasMaxLength(255)
                     .IsUnicode(false);
 
-                entity.Property(e => e.NomClient)
+                entity.Property(e => e.Nom_Client)
                     .HasColumnName("Nom_Client")
                     .HasMaxLength(255)
                     .IsUnicode(false);

@@ -24,6 +24,7 @@ namespace OPTICIP.API.Application.Queries.Implementation
         private readonly IDbConnection _dbConnection;
         private readonly IRepositoryFactory _repositoryFactory;
         private string _connectionString = string.Empty;
+        private string _oracleConnectionString = string.Empty;
         string _reportingDirectory = string.Empty;
 
         public ReportingQueries(IDbConnection dbConnection, IRepositoryFactory repositoryFactory, string constr, string reportingDirectory)
@@ -32,6 +33,7 @@ namespace OPTICIP.API.Application.Queries.Implementation
             _repositoryFactory = repositoryFactory ?? throw new ArgumentNullException(nameof(repositoryFactory));
             _connectionString = !string.IsNullOrWhiteSpace(constr) ? constr : throw new ArgumentNullException(nameof(constr));
             _reportingDirectory = reportingDirectory;
+            _oracleConnectionString = _dbConnection.ConnectionString;
         }
 
         public async Task<IEnumerable<AvertViewModel>> GetChequesEnAvertissement()
@@ -145,7 +147,7 @@ namespace OPTICIP.API.Application.Queries.Implementation
                     FastReport.Utils.RegisteredObjects.AddConnection(typeof(OracleDataConnection));
                     Report report = new Report();         
                     report.Load(_reportingDirectory + typeLettre + ".frx"); // Chargement du template de la lettre d'avertissement
-                    report.Dictionary.Connections[0].ConnectionString = _dbConnection.ConnectionString;
+                    report.Dictionary.Connections[0].ConnectionString = _oracleConnectionString;
                     IEnumerable<AvertViewModel> chequesAvertissement = GetChequesEnAvertissement().Result; // Lettres à générées
                     //IEnumerable<LettreViewModel> lettres = GetLettres(typeLettre).Result;
 
@@ -210,7 +212,7 @@ namespace OPTICIP.API.Application.Queries.Implementation
                     {
                         // Chargement du template de la lettre d'avertissement
                         report.Load(_reportingDirectory + typeLettre + "Lot.frx");
-                        report.Dictionary.Connections[0].ConnectionString = _dbConnection.ConnectionString;
+                        report.Dictionary.Connections[0].ConnectionString = _oracleConnectionString;
                         report.Prepare();
 
                         using (MemoryStream memoryStream = new MemoryStream())
@@ -258,7 +260,7 @@ namespace OPTICIP.API.Application.Queries.Implementation
                     FastReport.Utils.RegisteredObjects.AddConnection(typeof(OracleDataConnection));
                     Report report = new Report();
                     report.Load(_reportingDirectory + typeLettre + ".frx"); // Chargement du template de la lettre d'injonction
-                    report.Dictionary.Connections[0].ConnectionString = _dbConnection.ConnectionString;
+                    report.Dictionary.Connections[0].ConnectionString = _oracleConnectionString;
 
                     IEnumerable<InjViewModel> chequesInj = GetChequesEnInjonction().Result;
                     //IEnumerable<LettreViewModel> lettres = GetLettres(typeLettre).Result;
@@ -324,7 +326,7 @@ namespace OPTICIP.API.Application.Queries.Implementation
                     {
                         // Chargement du template de la lettre d'avertissement
                         report.Load(_reportingDirectory + typeLettre + "Lot.frx");
-                        report.Dictionary.Connections[0].ConnectionString = _dbConnection.ConnectionString;
+                        report.Dictionary.Connections[0].ConnectionString = _oracleConnectionString;
                         report.Prepare();
 
                         using (MemoryStream memoryStream = new MemoryStream())
@@ -372,7 +374,7 @@ namespace OPTICIP.API.Application.Queries.Implementation
                     FastReport.Utils.RegisteredObjects.AddConnection(typeof(OracleDataConnection));
                     Report report = new Report();
                     report.Load(_reportingDirectory + typeLettre + ".frx"); // Chargement du template de la lettre d'injonction
-                    report.Dictionary.Connections[0].ConnectionString = _dbConnection.ConnectionString;
+                    report.Dictionary.Connections[0].ConnectionString = _oracleConnectionString;
 
                     IEnumerable<InfraViewModel> chequesInf = GetChequesEnInfraction().Result;
                     //IEnumerable<LettreViewModel> lettres = GetLettres(typeLettre).Result;
@@ -438,7 +440,7 @@ namespace OPTICIP.API.Application.Queries.Implementation
                     {
                         // Chargement du template de la lettre d'avertissement
                         report.Load(_reportingDirectory + typeLettre + "Lot.frx");
-                        report.Dictionary.Connections[0].ConnectionString = _dbConnection.ConnectionString;
+                        report.Dictionary.Connections[0].ConnectionString = _oracleConnectionString;
                         report.Prepare();
 
                         using (MemoryStream memoryStream = new MemoryStream())
@@ -486,7 +488,7 @@ namespace OPTICIP.API.Application.Queries.Implementation
                     FastReport.Utils.RegisteredObjects.AddConnection(typeof(OracleDataConnection));
                     Report report = new Report();
                     report.Load(_reportingDirectory + typeLettre + ".frx");
-                    report.Dictionary.Connections[0].ConnectionString = _dbConnection.ConnectionString;
+                    report.Dictionary.Connections[0].ConnectionString = _oracleConnectionString;
 
                     IEnumerable<InfMandViewModel> mandsChequesInf = GetMandatairesDesChequesEnInjonction().Result;
                     //IEnumerable<LettreViewModel> lettres = GetLettres(typeLettre).Result;
@@ -548,7 +550,7 @@ namespace OPTICIP.API.Application.Queries.Implementation
                     FastReport.Utils.RegisteredObjects.AddConnection(typeof(OracleDataConnection));
                     Report report = new Report();
                     report.Load(_reportingDirectory + typeLettre + ".frx");
-                    report.Dictionary.Connections[0].ConnectionString = _dbConnection.ConnectionString;
+                    report.Dictionary.Connections[0].ConnectionString = _oracleConnectionString;
 
                     IEnumerable<InfMandViewModel> mandsChequesInf = GetMandatairesDesChequesEnInfraction().Result;
                     //IEnumerable<LettreViewModel> lettres = GetLettres(typeLettre).Result;
@@ -622,7 +624,7 @@ namespace OPTICIP.API.Application.Queries.Implementation
                 {
                     // Chargement du template de la lettre d'avertissement
                     report.Load(_reportingDirectory + typeLettre + "Lot.frx");
-                    report.Dictionary.Connections[0].ConnectionString = _dbConnection.ConnectionString;
+                    report.Dictionary.Connections[0].ConnectionString = _oracleConnectionString;
                     report.Prepare();
 
                     using (MemoryStream memoryStream = new MemoryStream())
@@ -681,7 +683,7 @@ namespace OPTICIP.API.Application.Queries.Implementation
                 {
                     // Chargement du template de la lettre d'avertissement
                     report.Load(_reportingDirectory + typeLettre + "Lot.frx");
-                    report.Dictionary.Connections[0].ConnectionString = _dbConnection.ConnectionString;
+                    report.Dictionary.Connections[0].ConnectionString = _oracleConnectionString;
                     report.Prepare();
 
                     using (MemoryStream memoryStream = new MemoryStream())
@@ -727,7 +729,7 @@ namespace OPTICIP.API.Application.Queries.Implementation
                     FastReport.Utils.RegisteredObjects.AddConnection(typeof(OracleDataConnection));
                     Report report = new Report();
                     report.Load(_reportingDirectory + typeLettre + ".frx");
-                    report.Dictionary.Connections[0].ConnectionString = _dbConnection.ConnectionString;
+                    report.Dictionary.Connections[0].ConnectionString = _oracleConnectionString;
 
                     IEnumerable<CertNonPaiementViewModel> enrAGeneres = GetDonneesCertNonPaiement().Result;
 //                    IEnumerable<LettreViewModel> lettres = GetLettres(typeLettre).Result;
@@ -768,8 +770,9 @@ namespace OPTICIP.API.Application.Queries.Implementation
             });
         }
 
-        public async Task GenererLotCertNonPaiements()
+        public async Task<List<String>> GenererLotCertNonPaiements()
         {
+            List<string> result = new List<string>();
             await Task.Run(() =>
             {
                 try
@@ -790,7 +793,7 @@ namespace OPTICIP.API.Application.Queries.Implementation
                     {
                         // Chargement du template de la lettre d'avertissement
                         report.Load(_reportingDirectory + typeLettre + "Lot.frx");
-                        report.Dictionary.Connections[0].ConnectionString = _dbConnection.ConnectionString;
+                        report.Dictionary.Connections[0].ConnectionString = _oracleConnectionString;
                         report.Prepare();
 
                         using (MemoryStream memoryStream = new MemoryStream())
@@ -800,6 +803,7 @@ namespace OPTICIP.API.Application.Queries.Implementation
 
                             fileName = typeLettre + "_" + DateTime.Now.ToString("yyyyMMdd") + ".pdf";
                             filePath = lettreDirectory + fileName;
+                            result.Add($@"{typeLettre}\{fileName}");
 
                             using (FileStream fileStream = new FileStream(filePath, FileMode.OpenOrCreate))
                             {
@@ -819,6 +823,7 @@ namespace OPTICIP.API.Application.Queries.Implementation
                     throw ex;
                 }
             });
+            return result;
         }
 
         public async Task GenererAttNonPaiementEffet()
@@ -838,7 +843,7 @@ namespace OPTICIP.API.Application.Queries.Implementation
                     FastReport.Utils.RegisteredObjects.AddConnection(typeof(OracleDataConnection));
                     Report report = new Report();
                     report.Load(_reportingDirectory + typeLettre + ".frx"); // Chargement du template de la lettre d'injonction
-                    report.Dictionary.Connections[0].ConnectionString = _dbConnection.ConnectionString;
+                    report.Dictionary.Connections[0].ConnectionString = _oracleConnectionString;
 
                     IEnumerable<AttNonPaiementEffetViewModel> attNonPaiementEffets = GetAttNonPaiementEffet().Result;
                     //IEnumerable<LettreViewModel> lettres = GetLettres(typeLettre).Result;
@@ -884,8 +889,9 @@ namespace OPTICIP.API.Application.Queries.Implementation
             });
         }
 
-        public async Task GenererLotAttNonPaiementEffet()
+        public async Task<List<String>> GenererLotAttNonPaiementEffet()
         {
+            List<string> result = new List<string>();
             await Task.Run(() =>
             {
                 try
@@ -907,7 +913,7 @@ namespace OPTICIP.API.Application.Queries.Implementation
                     {
                         // Chargement du template de la lettre d'avertissement
                         report.Load(_reportingDirectory + typeLettre + "Lot.frx");
-                        report.Dictionary.Connections[0].ConnectionString = _dbConnection.ConnectionString;
+                        report.Dictionary.Connections[0].ConnectionString = _oracleConnectionString;
                         report.Prepare();
 
                         using (MemoryStream memoryStream = new MemoryStream())
@@ -917,6 +923,7 @@ namespace OPTICIP.API.Application.Queries.Implementation
 
                             fileName = typeLettre + "_" + DateTime.Now.ToString("yyyyMMdd") + ".pdf";
                             filePath = lettreDirectory + fileName;
+                            result.Add($@"{typeLettre}\{fileName}");
 
                             using (FileStream fileStream = new FileStream(filePath, FileMode.OpenOrCreate))
                             {
@@ -936,10 +943,12 @@ namespace OPTICIP.API.Application.Queries.Implementation
                     throw ex;
                 }
             });
+            return result;
         }
 
-        public async Task GenererLotAttPaiementCheques()
+        public async Task<List<String>> GenererLotAttPaiementCheques()
         {
+            List<string> result = new List<string>();
             await Task.Run(() =>
             {
                 try
@@ -961,7 +970,7 @@ namespace OPTICIP.API.Application.Queries.Implementation
                     {
                         // Chargement du template de la lettre d'avertissement
                         report.Load(_reportingDirectory + typeLettre + "Lot.frx");
-                        report.Dictionary.Connections[0].ConnectionString = _dbConnection.ConnectionString;
+                        report.Dictionary.Connections[0].ConnectionString = _oracleConnectionString;
                         report.Prepare();
 
                         using (MemoryStream memoryStream = new MemoryStream())
@@ -971,6 +980,7 @@ namespace OPTICIP.API.Application.Queries.Implementation
 
                             fileName = typeLettre + "_" + DateTime.Now.ToString("yyyyMMdd") + ".pdf";
                             filePath = lettreDirectory + fileName;
+                            result.Add($@"{typeLettre}\{fileName}");
 
                             using (FileStream fileStream = new FileStream(filePath, FileMode.OpenOrCreate))
                             {
@@ -990,6 +1000,7 @@ namespace OPTICIP.API.Application.Queries.Implementation
                     throw ex;
                 }
             });
+            return result;
         }
 
         public async Task GenererAttPaiementCheques()
@@ -1009,7 +1020,7 @@ namespace OPTICIP.API.Application.Queries.Implementation
                     FastReport.Utils.RegisteredObjects.AddConnection(typeof(OracleDataConnection));
                     Report report = new Report();
                     report.Load(_reportingDirectory + typeLettre + ".frx"); // Chargement du template de la lettre d'injonction
-                    report.Dictionary.Connections[0].ConnectionString = _dbConnection.ConnectionString;
+                    report.Dictionary.Connections[0].ConnectionString = _oracleConnectionString;
 
                     IEnumerable<AttPaiementChequesViewModel> attPaiementCheques = GetAttPaiementCheques().Result;
                     //IEnumerable<LettreViewModel> lettres = GetLettres(typeLettre).Result;

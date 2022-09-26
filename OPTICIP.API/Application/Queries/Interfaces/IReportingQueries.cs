@@ -24,11 +24,11 @@ namespace OPTICIP.API.Application.Queries.Interfaces
 
         Task<IEnumerable<CertNonPaiementViewModel>> GetDonneesCertNonPaiement();
         Task GenererCertNonPaiements();
-        Task GenererLotCertNonPaiements();
+        Task<List<String>> GenererLotCertNonPaiements();
 
         Task<IEnumerable<AttNonPaiementEffetViewModel>> GetAttNonPaiementEffet();
         Task GenererAttNonPaiementEffet();
-        Task GenererLotAttNonPaiementEffet();
+        Task<List<String>> GenererLotAttNonPaiementEffet();
 
         Task<IEnumerable<InfraViewModel>> GetChequesEnInfraction();
         Task GenererLettresEnInfraction();
@@ -41,21 +41,21 @@ namespace OPTICIP.API.Application.Queries.Interfaces
 
         Task<IEnumerable<AttPaiementChequesViewModel>> GetAttPaiementCheques();
         Task GenererAttPaiementCheques();
-        Task GenererLotAttPaiementCheques();
+        Task<List<String>> GenererLotAttPaiementCheques();
 
         Task RecupererDonneesIncidentsFromSIB();
 
-        Task GenererLettreAvertissementFromXcip(String pCompte = null, String pNumChq = null);
-        Task GenererLotLettreAvertissementFromXcip();
+        Task<List<String>> GenererLettreAvertissementFromXcip(String pCompte = null, String pNumChq = null);
+        Task<List<String>> GenererLotLettreAvertissementFromXcip();
 
-        Task GenererLettreInjonctionFromXcip(String pCompte = null, String pNumChq = null);
-        Task GenererLotLettreInjonctionFromXcip();
+        Task<List<String>> GenererLettreInjonctionFromXcip(String pCompte = null, String pNumChq = null);
+        Task<List<String>> GenererLotLettreInjonctionFromXcip();
 
-        Task GenererLettreInfMandatairesInjFromXcip(String pCompte = null, String pNumChq = null);
-        Task GenererLettreInfMandatairesInfFromXcip(String pCompte = null, String pNumChq = null);
-        Task GenererLotLettreInfMandatairesInfFromXcip();
-        Task GenererLotLettreInfMandatairesInjFromXcip();
-        Task GenererLettresEnInfractionFromXcip(String pCompte = null, String pNumChq = null);
-        Task GenererLotLettresEnInfractionFromXcip();
+        Task<List<String>> GenererLettreInfMandatairesInjFromXcip(String pCompte = null, String pNumChq = null);
+        Task<List<String>> GenererLettreInfMandatairesInfFromXcip(String pCompte = null, String pNumChq = null);
+        Task<List<String>> GenererLotLettreInfMandatairesInfFromXcip();
+        Task<List<String>> GenererLotLettreInfMandatairesInjFromXcip();
+        Task<List<String>> GenererLettresEnInfractionFromXcip(String pCompte = null, String pNumChq = null);
+        Task<List<String>> GenererLotLettresEnInfractionFromXcip();
     }
 }

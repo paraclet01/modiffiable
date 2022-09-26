@@ -88,9 +88,9 @@ namespace OPTICIP.API.Application.Queries.Implementation
                 {
                     conn.Open();
                     if (pCompte == null || pNumChq == null)
-                        return await conn.QueryAsync<InfMandViewModel>(@"select * from v_cip_ltinfomand where type_incident = '2'");
+                        return await conn.QueryAsync<InfMandViewModel>(@"select * from v_cip_ltinfomand where type_incident = '1'");
                     else
-                        return await conn.QueryAsync<InfMandViewModel>(@$"select * from v_cip_ltinfomand where type_incident = '2' AND compte = '{pCompte}' AND numcheq = '{pNumChq}'");
+                        return await conn.QueryAsync<InfMandViewModel>(@$"select * from v_cip_ltinfomand where type_incident = '1' AND compte = '{pCompte}' AND numcheq = '{pNumChq}'");
                 }
             }
             catch (Exception ex)
@@ -107,9 +107,9 @@ namespace OPTICIP.API.Application.Queries.Implementation
                 {
                     conn.Open();
                     if (pCompte == null || pNumChq == null)
-                        return await conn.QueryAsync<InfMandViewModel>(@"select * from v_cip_ltinfomand where type_incident = '1'");
+                        return await conn.QueryAsync<InfMandViewModel>(@"select * from v_cip_ltinfomand where type_incident = '2'");
                     else
-                        return await conn.QueryAsync<InfMandViewModel>(@$"select * from v_cip_ltinfomand where type_incident = '1' AND compte = '{pCompte}' AND numcheq = '{pNumChq}'");
+                        return await conn.QueryAsync<InfMandViewModel>(@$"select * from v_cip_ltinfomand where type_incident = '2' AND compte = '{pCompte}' AND numcheq = '{pNumChq}'");
                 }
             }
             catch (Exception ex)
@@ -128,14 +128,14 @@ namespace OPTICIP.API.Application.Queries.Implementation
                     DateTime dateInsert = DateTime.Now;
                     //IEnumerable<AvertViewModel> chequesAvert = GetChequesEnAvertissement().Result;
                     List<DonneesIncidentChq> chequesAvertXcip  = GetIncidentChequesFromSIB<IEnumerable<AvertViewModel>>(GetChequesEnAvertissement(), 0 /*Avertissement*/, dateInsert);
-                    //IEnumerable<InfraViewModel> chequesInfra = GetChequesEnInfraction().Result;
-                    List<DonneesIncidentChq> chequesInfraXcip = GetIncidentChequesFromSIB<IEnumerable<InfraViewModel>>(GetChequesEnInfraction(), 1 /*Infraction*/, dateInsert);
                     //IEnumerable<InjViewModel> chequesInjonc = GetChequesEnInjonction().Result;
-                    List<DonneesIncidentChq> chequesInjXcip = GetIncidentChequesFromSIB<IEnumerable<InjViewModel>>(GetChequesEnInjonction(), 2 /*Injonction*/, dateInsert);
-                    //IEnumerable<InfMandViewModel> mandInfra = GetMandatairesDesChequesEnInfraction().Result;
-                    List<DonneesMandataireIncident> mandInfraXcip = GetMandataireIncidentChequesFromSIB<IEnumerable<InfMandViewModel>>(GetMandatairesDesChequesEnInfraction(), 1 /*Infraction*/, dateInsert);
+                    List<DonneesIncidentChq> chequesInjXcip = GetIncidentChequesFromSIB<IEnumerable<InjViewModel>>(GetChequesEnInjonction(), 1 /*Injonction*/, dateInsert);
+                    //IEnumerable<InfraViewModel> chequesInfra = GetChequesEnInfraction().Result;
+                    List<DonneesIncidentChq> chequesInfraXcip = GetIncidentChequesFromSIB<IEnumerable<InfraViewModel>>(GetChequesEnInfraction(), 2 /*Infraction*/, dateInsert);
                     //IEnumerable<InfMandViewModel> mandInj = GetMandatairesDesChequesEnInjonction().Result;
-                    List<DonneesMandataireIncident> mandInjXcip = GetMandataireIncidentChequesFromSIB<IEnumerable<InfMandViewModel>>(GetMandatairesDesChequesEnInjonction(), 2 /*Injonction*/, dateInsert);
+                    List<DonneesMandataireIncident> mandInjXcip = GetMandataireIncidentChequesFromSIB<IEnumerable<InfMandViewModel>>(GetMandatairesDesChequesEnInjonction(), 1 /*Injonction*/, dateInsert);
+                    //IEnumerable<InfMandViewModel> mandInfra = GetMandatairesDesChequesEnInfraction().Result;
+                    List<DonneesMandataireIncident> mandInfraXcip = GetMandataireIncidentChequesFromSIB<IEnumerable<InfMandViewModel>>(GetMandatairesDesChequesEnInfraction(), 2 /*Infraction*/, dateInsert);
 
                     ////IEnumerable<AttNonPaiementEffetViewModel> attNonPaieEffet = GetAttNonPaiementEffet().Result;
                     //List<AttNonPaiementEffet> attNonPaieEffetXcip = GetAttNonPaiementEffetFromSIB(dateInsert);
@@ -350,8 +350,9 @@ namespace OPTICIP.API.Application.Queries.Implementation
         }
 
         //-----
-        public async Task GenererLettreAvertissementFromXcip(String pCompte = null, String pNumChq = null)
+        public async Task<List<string>> GenererLettreAvertissementFromXcip(String pCompte = null, String pNumChq = null)
         {
+            List<string> result = new List<string>();
             await Task.Run(() =>
             {
                 try
@@ -385,7 +386,7 @@ namespace OPTICIP.API.Application.Queries.Implementation
 
                                 fileName = typeLettre + "_" + DateTime.Now.ToString("yyyyMMdd") + "_" + chequeAve.compte.Substring(1, 6) + "_" + chequeAve.numcheq + ".pdf";
                                 filePath = lettreDirectory + fileName;
-
+                                result.Add($@"{typeLettre}\{fileName}");
                                 using (FileStream fileStream = new FileStream(filePath, FileMode.OpenOrCreate))
                                 {
                                     memoryStream.WriteTo(fileStream);
@@ -405,10 +406,12 @@ namespace OPTICIP.API.Application.Queries.Implementation
                 }
 
             });
+            return result;
         }
 
-        public async Task GenererLotLettreAvertissementFromXcip()
+        public async Task<List<string>> GenererLotLettreAvertissementFromXcip()
         {
+            List<string> result = new List<string>();
             await Task.Run(() =>
             {
                 try
@@ -440,6 +443,7 @@ namespace OPTICIP.API.Application.Queries.Implementation
 
                             fileName = typeLettre + "_" + DateTime.Now.ToString("yyyyMMdd") + ".pdf";
                             filePath = lettreDirectory + fileName;
+                            result.Add($@"{typeLettre}\{fileName}");
 
                             using (FileStream fileStream = new FileStream(filePath, FileMode.OpenOrCreate))
                             {
@@ -459,10 +463,12 @@ namespace OPTICIP.API.Application.Queries.Implementation
                     throw ex;
                 }
             });
+            return result;
         }
 
-        public async Task GenererLettreInjonctionFromXcip(String pCompte = null, String pNumChq = null)
+        public async Task<List<string>> GenererLettreInjonctionFromXcip(String pCompte = null, String pNumChq = null)
         {
+            List<string> result = new List<string>();
             await Task.Run(() =>
             {
                 try
@@ -499,6 +505,7 @@ namespace OPTICIP.API.Application.Queries.Implementation
 
                                 fileName = typeLettre + "_" + DateTime.Now.ToString("yyyyMMdd") + "_" + chequeInj.compte.Substring(1, 6) + "_" + chequeInj.numcheq + ".pdf";
                                 filePath = lettreDirectory + fileName;
+                                result.Add($@"{typeLettre}\{fileName}");
 
                                 using (FileStream fileStream = new FileStream(filePath, FileMode.OpenOrCreate))
                                 {
@@ -519,10 +526,12 @@ namespace OPTICIP.API.Application.Queries.Implementation
                 }
 
             });
+            return result;
         }
 
-        public async Task GenererLotLettreInjonctionFromXcip()
+        public async Task<List<string>> GenererLotLettreInjonctionFromXcip()
         {
+            List<string> result = new List<string>();
             await Task.Run(() =>
             {
                 try
@@ -554,6 +563,7 @@ namespace OPTICIP.API.Application.Queries.Implementation
 
                             fileName = typeLettre + "_" + DateTime.Now.ToString("yyyyMMdd") + ".pdf";
                             filePath = lettreDirectory + fileName;
+                            result.Add($@"{typeLettre}\{fileName}");
 
                             using (FileStream fileStream = new FileStream(filePath, FileMode.OpenOrCreate))
                             {
@@ -573,10 +583,12 @@ namespace OPTICIP.API.Application.Queries.Implementation
                     throw ex;
                 }
             });
+            return result;
         }
 
-        public async Task GenererLettresEnInfractionFromXcip(String pCompte = null, String pNumChq = null)
+        public async Task<List<string>> GenererLettresEnInfractionFromXcip(String pCompte = null, String pNumChq = null)
         {
+            List<string> result = new List<string>();
             await Task.Run(() =>
             {
                 try
@@ -613,6 +625,7 @@ namespace OPTICIP.API.Application.Queries.Implementation
 
                                 fileName = typeLettre + "_" + DateTime.Now.ToString("yyyyMMdd") + "_" + chequeInf.compte.Substring(1, 6) + "_" + chequeInf.numcheq + ".pdf";
                                 filePath = lettreDirectory + fileName;
+                                result.Add($@"{typeLettre}\{fileName}");
 
                                 using (FileStream fileStream = new FileStream(filePath, FileMode.OpenOrCreate))
                                 {
@@ -633,10 +646,12 @@ namespace OPTICIP.API.Application.Queries.Implementation
                 }
 
             });
+            return result;
         }
 
-        public async Task GenererLotLettresEnInfractionFromXcip()
+        public async Task<List<string>> GenererLotLettresEnInfractionFromXcip()
         {
+            List<string> result = new List<string>();
             await Task.Run(() =>
             {
                 try
@@ -668,6 +683,7 @@ namespace OPTICIP.API.Application.Queries.Implementation
 
                             fileName = typeLettre + "_" + DateTime.Now.ToString("yyyyMMdd") + ".pdf";
                             filePath = lettreDirectory + fileName;
+                            result.Add($@"{typeLettre}\{fileName}");
 
                             using (FileStream fileStream = new FileStream(filePath, FileMode.OpenOrCreate))
                             {
@@ -687,10 +703,12 @@ namespace OPTICIP.API.Application.Queries.Implementation
                     throw ex;
                 }
             });
+            return result;
         }
 
-        public async Task GenererLettreInfMandatairesInjFromXcip(String pCompte = null, String pNumChq = null)
+        public async Task<List<string>> GenererLettreInfMandatairesInjFromXcip(String pCompte = null, String pNumChq = null)
         {
+            List<string> result = new List<string>();
             await Task.Run(() =>
             {
                 try
@@ -729,6 +747,7 @@ namespace OPTICIP.API.Application.Queries.Implementation
                                 fileName = typeLettre + "_" + DateTime.Now.ToString("yyyyMMdd") + "_" + mandChequesInj.compte.Substring(1, 6) + "_"
                                             + mandChequesInj.idp + "_" + mandChequesInj.numcheq + ".pdf";
                                 filePath = lettreDirectory + fileName;
+                                result.Add($@"{typeLettre}\{fileName}");
 
                                 using (FileStream fileStream = new FileStream(filePath, FileMode.OpenOrCreate))
                                 {
@@ -749,10 +768,12 @@ namespace OPTICIP.API.Application.Queries.Implementation
                 }
 
             });
+            return result;
         }
 
-        public async Task GenererLettreInfMandatairesInfFromXcip(String pCompte = null, String pNumChq = null)
+        public async Task<List<string>> GenererLettreInfMandatairesInfFromXcip(String pCompte = null, String pNumChq = null)
         {
+            List<string> result = new List<string>();
             await Task.Run(() =>
             {
                 try
@@ -791,6 +812,7 @@ namespace OPTICIP.API.Application.Queries.Implementation
                                 fileName = typeLettre + "_" + DateTime.Now.ToString("yyyyMMdd") + "_" + mandChequesInf.compte.Substring(1, 6) + "_"
                                             + mandChequesInf.idp + "_" + mandChequesInf.numcheq + ".pdf";
                                 filePath = lettreDirectory + fileName;
+                                result.Add($@"{typeLettre}\{fileName}");
 
                                 using (FileStream fileStream = new FileStream(filePath, FileMode.OpenOrCreate))
                                 {
@@ -811,18 +833,22 @@ namespace OPTICIP.API.Application.Queries.Implementation
                 }
 
             });
+            return result;
         }
 
-        public async Task GenererLotLettreInfMandatairesInfFromXcip()
+        public async Task<List<string>> GenererLotLettreInfMandatairesInfFromXcip()
         {
+            List<string> result = new List<string>();
             await Task.Run(() =>
             {
-                LotLettreInfMandatairesInfFromXcip();
+                result = LotLettreInfMandatairesInfFromXcip();
             });
+            return result;
         }
 
-        private void LotLettreInfMandatairesInfFromXcip()
+        private List<string> LotLettreInfMandatairesInfFromXcip()
         {
+            List<string> result = new List<string>();
             try
             {
                 string typeLettre = "InfMandataireInf";
@@ -852,6 +878,7 @@ namespace OPTICIP.API.Application.Queries.Implementation
 
                         fileName = typeLettre + "_" + DateTime.Now.ToString("yyyyMMdd") + ".pdf";
                         filePath = lettreDirectory + fileName;
+                        result.Add($@"{typeLettre}\{fileName}");
 
                         using (FileStream fileStream = new FileStream(filePath, FileMode.OpenOrCreate))
                         {
@@ -870,18 +897,23 @@ namespace OPTICIP.API.Application.Queries.Implementation
             {
                 throw ex;
             }
+            return result;
         }
 
-        public async Task GenererLotLettreInfMandatairesInjFromXcip()
+        public async Task<List<string>> GenererLotLettreInfMandatairesInjFromXcip()
         {
+            List<string> result = new List<string>();
+
             await Task.Run(() =>
             {
-                LotLettreInfMandatairesInjFromXcip();
+                result = LotLettreInfMandatairesInjFromXcip();
             });
+            return result;
         }
 
-        private void LotLettreInfMandatairesInjFromXcip()
+        private List<string> LotLettreInfMandatairesInjFromXcip()
         {
+            List<string> result = new List<string>();
             try
             {
                 string typeLettre = "InfMandataireInj";
@@ -911,6 +943,7 @@ namespace OPTICIP.API.Application.Queries.Implementation
 
                         fileName = typeLettre + "_" + DateTime.Now.ToString("yyyyMMdd") + ".pdf";
                         filePath = lettreDirectory + fileName;
+                        result.Add($@"{typeLettre}\{fileName}");
 
                         using (FileStream fileStream = new FileStream(filePath, FileMode.OpenOrCreate))
                         {
@@ -929,6 +962,7 @@ namespace OPTICIP.API.Application.Queries.Implementation
             {
                 throw ex;
             }
+            return result;
         }
         //==
     }

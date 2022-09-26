@@ -22,7 +22,8 @@ namespace OPTICIP.DataAccessLayer.EntityConfigurations
         public string datpre { get; set; }
         public string motif { get; set; }
         public string nooper { get; set; }
-        public string soldeIncident { get; set; }
+        public string solde_incident { get; set; }
+        public string libinf { get; set; }
         public DateTime? dateInsertion { get; set; }
     }
 }

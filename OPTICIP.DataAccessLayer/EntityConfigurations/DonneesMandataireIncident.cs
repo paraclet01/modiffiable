@@ -8,7 +8,8 @@ namespace OPTICIP.DataAccessLayer.EntityConfigurations
         public Guid Id { get; set; }
         public string Nompre { get; set; }
         public string Civilite { get; set; }
-        public string NomClient { get; set; }
+        //public string NomClient { get; set; }
+        public string Nom_Client { get; set; }
         public string Nom { get; set; }
         public string Prenom { get; set; }
         public string Adrpostal { get; set; }
