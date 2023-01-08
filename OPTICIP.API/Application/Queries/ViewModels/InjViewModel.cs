@@ -22,5 +22,9 @@ namespace OPTICIP.API.Application.Queries.ViewModels
         public string datpre;
         public string motif;
         public string nooper;
+        public decimal solde_incident;
     }
+
+
+
 }

@@ -44,7 +44,7 @@ namespace OPTICIP.API.Application.Queries.ViewModels
         public string nomnais { get; set; }
         public string prenom { get; set; }
         public string commnais { get; set; }
-        public DateTime datnais { get; set; }
+        public DateTime? datnais { get; set; }
         public string nommari { get; set; }
         public string nommere { get; set; }
         public string iso { get; set; }
@@ -55,14 +55,14 @@ namespace OPTICIP.API.Application.Queries.ViewModels
         public string ville { get; set; }
         public string payadr { get; set; }
         public string explmaj { get; set; }
-        public DateTime datmaj { get; set; }
+        public DateTime? datmaj { get; set; }
         public string type { get; set; }
         public string state { get; set; }
         public string valide { get; set; }
         public string residumoa { get; set; }
         public Int32 numlig { get; set; }
         public string mand { get; set; }
-        public DateTime datenv { get; set; }
+        public DateTime? datenv { get; set; }
         //==> CIP V2
         public string EmailTitu { get; set; }
         public string NomContact { get; set; }

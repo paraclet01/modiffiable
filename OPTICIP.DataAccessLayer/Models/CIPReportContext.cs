@@ -238,16 +238,27 @@ namespace OPTICIP.DataAccessLayer.Models
                     .HasMaxLength(100)
                     .IsUnicode(false);
 
-                entity.Property(e => e.dateInsertion).HasColumnType("datetime");
+                //entity.Property(e => e.dateInsertion).HasColumnType("datetime");
 
                 entity.Property(e => e.datemi)
                     .HasColumnName("datemi")
                     .HasMaxLength(30)
                     .IsUnicode(false);
 
-                entity.Property(e => e.datinc)
-                    .HasColumnName("datinc")
-                    .HasColumnType("datetime");
+
+                //entity.Property(e => e.dateInsertion)
+                //    .HasColumnName("dateInsertion")
+                //    .HasMaxLength(30)
+                //    .IsUnicode(false);
+
+                //entity.Property(e => e.datinc2)
+                //    .HasColumnName("datinc")
+                //    .HasMaxLength(30)
+                //    .IsUnicode(false);
+
+                //entity.Property(e => e.datinc)
+                //    .HasColumnName("datinc")
+                //    .HasColumnType("datetime");
 
                 entity.Property(e => e.datpre)
                     .HasColumnName("datpre")
@@ -328,16 +339,26 @@ namespace OPTICIP.DataAccessLayer.Models
                     .HasMaxLength(255)
                     .IsUnicode(false);
 
-                entity.Property(e => e.DateInsertion).HasColumnType("datetime");
+                //entity.Property(e => e.DateInsertion).HasColumnType("datetime");
 
                 entity.Property(e => e.Datemi)
                     .HasColumnName("datemi")
                     .HasMaxLength(255)
                     .IsUnicode(false);
 
-                entity.Property(e => e.Datinc)
-                    .HasColumnName("datinc")
-                    .HasColumnType("datetime");
+                //entity.Property(e => e.DateInsertion)
+                //.HasColumnName("DateInsertion")
+                //.HasMaxLength(255)
+                //.IsUnicode(false);
+
+                //entity.Property(e => e.Datinc2)
+                //.HasColumnName("Datinc")
+                //.HasMaxLength(255)
+                //.IsUnicode(false);
+
+                //entity.Property(e => e.Datinc)
+                //    .HasColumnName("datinc")
+                //    .HasColumnType("datetime");
 
                 entity.Property(e => e.Datpre)
                     .HasColumnName("datpre")

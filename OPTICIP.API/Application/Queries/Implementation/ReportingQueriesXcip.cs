@@ -126,6 +126,7 @@ namespace OPTICIP.API.Application.Queries.Implementation
                 {
                     CIPReportContext dbCtx = new CIPReportContext();
                     DateTime dateInsert = DateTime.Now;
+
                     //IEnumerable<AvertViewModel> chequesAvert = GetChequesEnAvertissement().Result;
                     List<DonneesIncidentChq> chequesAvertXcip  = GetIncidentChequesFromSIB<IEnumerable<AvertViewModel>>(GetChequesEnAvertissement(), 0 /*Avertissement*/, dateInsert);
                     //IEnumerable<InjViewModel> chequesInjonc = GetChequesEnInjonction().Result;
@@ -145,8 +146,11 @@ namespace OPTICIP.API.Application.Queries.Implementation
                     //List<CertificatNonPaiement> CertificatNonPaieXcip = GetCertificatNonPaiementFromSIB(dateInsert);
 
                     dbCtx.AddRange(chequesAvertXcip);
+
                     dbCtx.AddRange(chequesInfraXcip);
+
                     dbCtx.AddRange(chequesInjXcip);
+
                     dbCtx.AddRange(mandInfraXcip);
                     dbCtx.AddRange(mandInjXcip);
 
@@ -155,7 +159,6 @@ namespace OPTICIP.API.Application.Queries.Implementation
                     //dbCtx.AddRange(CertificatNonPaieXcip);
 
                     dbCtx.SaveChanges();
-
                 }
                 catch (Exception ex)
                 {
@@ -180,6 +183,7 @@ namespace OPTICIP.API.Application.Queries.Implementation
                 {
                     data.id = Guid.NewGuid();
                     data.typeIncident = pTypeIncident;
+                    //data.datinc2 = data.datinc.ToString("dd/MM/yyyy");
                     data.dateInsertion = pDateInsert;
                 }
             }
@@ -201,6 +205,8 @@ namespace OPTICIP.API.Application.Queries.Implementation
                 {
                     data.Id = Guid.NewGuid();
                     data.TypeIncident = pTypeIncident.ToString();
+                    //data.Datinc2 = data.Datinc?.ToString("dd/MM/yyyy") ?? "";
+
                     data.DateInsertion = pDateInsert;
                 }
             }

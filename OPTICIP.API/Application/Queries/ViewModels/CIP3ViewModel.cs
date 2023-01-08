@@ -18,7 +18,7 @@ namespace OPTICIP.API.Application.Queries.ViewModels
         public string adr { get; set; }
         public string ville { get; set; }
         public string explmaj { get; set; }
-        public DateTime datmaj { get; set; }
+        public DateTime? datmaj { get; set; }
         public string type { get; set; }
         public string state { get; set; }
         public string valide { get; set; }
@@ -30,7 +30,7 @@ namespace OPTICIP.API.Application.Queries.ViewModels
         public string codape { get; set; }
         public Int32 numlig { get; set; }
         public string mand { get; set; }
-        public DateTime datenv { get; set; }
+        public DateTime? datenv { get; set; }
         //==> CIP V2
         public string Email { get; set; }
     }

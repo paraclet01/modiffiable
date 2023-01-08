@@ -13,7 +13,7 @@ namespace OPTICIP.API.Application.Queries.ViewModels
         public string Nom_Naissance { get;  set; }
         public string Prenoms { get;  set; }
         public string Lieu_Naissance { get;  set; }
-        public DateTime Date_Naissance { get;  set; }
+        public DateTime? Date_Naissance { get;  set; }
         public string Nom_Mari { get;  set; }
         public string Nom_Naissance_Mere { get;  set; }
         public string Nationalite { get;  set; }

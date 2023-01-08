@@ -4,6 +4,7 @@ using OPTICIP.Entities.Models;
 using OPTICIP.IContractLayer.DataAccessRepository;
 using OPTICIP.SeedWork;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace OPTICIP.DataAccessLayer.DataAccessRepository
@@ -27,6 +28,11 @@ namespace OPTICIP.DataAccessLayer.DataAccessRepository
         public TCompte Add(TCompte Compte)
         {
             return this._context.Add(Compte).Entity;
+        }
+
+        public void Add(List<TCompte> Comptes)
+        {
+            this._context.AddRange(Comptes);
         }
 
         public TCompte Update(TCompte Compte)

@@ -28,14 +28,14 @@ namespace OPTICIP.API.Application.Queries.ViewModels
         public string codbnq { get; set; }
         public string codgch { get; set; }
         public string clerib { get; set; }
-        public DateTime datouv { get; set; }
-        public DateTime datfrm { get; set; }
+        public DateTime? datouv { get; set; }
+        public DateTime? datfrm { get; set; }
         public string explmaj { get; set; }
-        public DateTime datmaj { get; set; }
+        public DateTime? datmaj { get; set; }
         public string type { get; set; }
         public string state { get; set; }
         public string valide { get; set; }
         public Int32 numlig { get; set; }
-        public DateTime datenv { get; set; }
+        public DateTime? datenv { get; set; }
     }
 }

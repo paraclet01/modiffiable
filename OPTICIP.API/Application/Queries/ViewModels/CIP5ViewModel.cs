@@ -13,22 +13,22 @@ namespace OPTICIP.API.Application.Queries.ViewModels
         public string codgch { get; set; }
         public string clerib { get; set; }
         public string typinc { get; set; }
-        public DateTime datchq { get; set; }
-        public DateTime darreg { get; set; }
-        public DateTime datpre { get; set; }
-        public DateTime datinc { get; set; }
+        public DateTime? datchq { get; set; }
+        public DateTime? darreg { get; set; }
+        public DateTime? datpre { get; set; }
+        public DateTime? datinc { get; set; }
         public Int64 mntfrf { get; set; }
         public Int64 mntrej { get; set; }
         public string chqref { get; set; }
-        public DateTime datreg { get; set; }
+        public DateTime? datreg { get; set; }
         public string numpen { get; set; }
         public string explmaj { get; set; }
-        public DateTime datmaj { get; set; }
+        public DateTime? datmaj { get; set; }
         public string type { get; set; }
         public string state { get; set; }
         public string valide { get; set; }
         public string numlig { get; set; }
-        public DateTime datenv { get; set; }
+        public DateTime? datenv { get; set; }
 
         //==> CIP V2
         public Int64? MontPen { get; set; }

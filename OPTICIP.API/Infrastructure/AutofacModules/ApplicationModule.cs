@@ -22,9 +22,10 @@ namespace OPTICIP.API.Infrastructure.AutofacModules
         private string LDAPAdminPassword { get; set; }
         private string LDAPAdminPath { get; set; }
         private string AccesCoreBD { get; set; }
+        private int iDelaiLettreDefaut { get; set; }
 
 
-        public ApplicationModule(string qconstr, string qconstrCoreDb, string reportingDirectory, string ldapAdminLogin, string ldapAdminPassword, string ldapAdminPath, string rootRetourFilesDirectory, string accesCoreBD)
+        public ApplicationModule(string qconstr, string qconstrCoreDb, string reportingDirectory, string ldapAdminLogin, string ldapAdminPassword, string ldapAdminPath, string rootRetourFilesDirectory, string accesCoreBD, string delaiLettre)
         {
             QueriesConnectionString = qconstr;
             QueriesConnectionStringCoreDB = qconstrCoreDb;
@@ -36,6 +37,7 @@ namespace OPTICIP.API.Infrastructure.AutofacModules
             LDAPAdminLogin = ldapAdminLogin;
 
             AccesCoreBD = accesCoreBD;
+            iDelaiLettreDefaut = string.IsNullOrEmpty(delaiLettre)?0:int.Parse(delaiLettre);
         }
 
         protected override void Load(ContainerBuilder builder)
@@ -77,7 +79,7 @@ namespace OPTICIP.API.Infrastructure.AutofacModules
                      .InstancePerLifetimeScope();
 
                 builder.Register(c => new ReportingQueries(new SqlConnection(QueriesConnectionString),
-                    new RepositoryFactory(new CIPContext()), QueriesConnectionString, ReportingDirectory))
+                    new RepositoryFactory(new CIPContext()), QueriesConnectionString, ReportingDirectory, iDelaiLettreDefaut))
                     .As<IReportingQueries>()
                     .InstancePerLifetimeScope();
 
@@ -115,7 +117,7 @@ namespace OPTICIP.API.Infrastructure.AutofacModules
                      .InstancePerLifetimeScope();
 
                 builder.Register(c => new ReportingQueries(new OracleConnection(QueriesConnectionStringCoreDB),
-                    new RepositoryFactory(new CIPContext()), QueriesConnectionString, ReportingDirectory))
+                    new RepositoryFactory(new CIPContext()), QueriesConnectionString, ReportingDirectory, iDelaiLettreDefaut))
                     .As<IReportingQueries>()
                     .InstancePerLifetimeScope();
 

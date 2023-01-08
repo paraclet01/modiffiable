@@ -373,6 +373,36 @@ namespace OPTICIP.API.Application.Queries.Implementation
             }
         }
 
+        public int GetNbreCompteFromSIB()
+        {
+            try
+            {
+                _coreDBConnection.Open();
+
+                IDbCommand dbCommand = _coreDBConnection.CreateCommand();
+                dbCommand.CommandType = CommandType.StoredProcedure;
+                dbCommand.CommandText = "PK_CIP.F_Open_Account_Nb";
+
+                IDbDataParameter param = dbCommand.CreateParameter();
+                param.ParameterName = "return_value";
+                param.Direction = ParameterDirection.ReturnValue;
+                param.DbType = DbType.Int32;
+                dbCommand.Parameters.Add(param);
+                dbCommand.ExecuteNonQuery();
+
+                _coreDBConnection.Close();
+
+                if (param.Value != null)
+                    return (int)param.Value;
+                else
+                    return 0;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public IEnumerable<DeclarationsViewModel> GetDeclarationsSync(String Agences, String NbreCompte, bool decInitiale=false)
         {
             using (var connection = new SqlConnection(_connectionString))

@@ -15,13 +15,13 @@ namespace OPTICIP.API.Application.Queries.ViewModels
         public string motif { get; set; }
         public string chqref1 { get; set; }
         public string chqref2 { get; set; }
-        public DateTime datoppo { get; set; }
+        public DateTime? datoppo { get; set; }
         public string explmaj { get; set; }
-        public DateTime datmaj { get; set; }
+        public DateTime? datmaj { get; set; }
         public string type { get; set; }
         public string state { get; set; }
         public string valide { get; set; }
         public string numlig { get; set; }
-        public DateTime datenv { get; set; }
+        public DateTime? datenv { get; set; }
     }
 }

@@ -114,7 +114,7 @@ namespace OPTICIP.API
 
             container.RegisterModule(new MediatorModule());
             container.RegisterModule(new ApplicationModule(Configuration["ConnectionString"], Configuration["ConnectionStringCoreDB"], Configuration["ReportingDirectory"]
-                , Configuration["LDAPAdminLogin"], Configuration["LDAPAdminPassword"], Configuration["LDAPAdminPath"], Configuration["RootRetourFilesDirectory"], Configuration["AccesCoreBD"]));
+                , Configuration["LDAPAdminLogin"], Configuration["LDAPAdminPassword"], Configuration["LDAPAdminPath"], Configuration["RootRetourFilesDirectory"], Configuration["AccesCoreBD"], Configuration["DelaiLettreDefaut"]));
 
             return new AutofacServiceProvider(container.Build());
         }

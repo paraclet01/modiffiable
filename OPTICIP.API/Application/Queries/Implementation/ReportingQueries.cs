@@ -26,23 +26,68 @@ namespace OPTICIP.API.Application.Queries.Implementation
         private string _connectionString = string.Empty;
         private string _oracleConnectionString = string.Empty;
         string _reportingDirectory = string.Empty;
+        int _DelaiLettre = 0;
 
-        public ReportingQueries(IDbConnection dbConnection, IRepositoryFactory repositoryFactory, string constr, string reportingDirectory)
+        public ReportingQueries(IDbConnection dbConnection, IRepositoryFactory repositoryFactory, string constr, string reportingDirectory, int iDelaiLettre)
         {
             _dbConnection = dbConnection ?? throw new ArgumentNullException(nameof(dbConnection));
             _repositoryFactory = repositoryFactory ?? throw new ArgumentNullException(nameof(repositoryFactory));
             _connectionString = !string.IsNullOrWhiteSpace(constr) ? constr : throw new ArgumentNullException(nameof(constr));
             _reportingDirectory = reportingDirectory;
             _oracleConnectionString = _dbConnection.ConnectionString;
+            _DelaiLettre = iDelaiLettre;
+        }
+
+        public DateTime GetMaxDateIncident(string typeLettre)
+        {
+            DateTime? maxDateInc = null;
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    maxDateInc = connection.ExecuteScalar<DateTime?>(@$"select Max(DatInc) from DonneesIncidentChq Where TypeIncident={typeLettre}");
+                    if (maxDateInc == null)
+                        return DateTime.Today.AddDays(-_DelaiLettre);
+                    else
+                        return maxDateInc.Value.Date;
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+        }
+
+        public DateTime GetMaxDateIncidentMandataire(string typeLettre)
+        {
+            DateTime? maxDateInc = null;
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    maxDateInc = connection.ExecuteScalar<DateTime?>(@$"select Max(DatInc) from DonneesMandataireIncident Where Type_Incident={typeLettre}");
+                    if (maxDateInc == null)
+                        return DateTime.Today.AddDays(-_DelaiLettre);
+                    else
+                        return maxDateInc.Value.Date;
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
         }
 
         public async Task<IEnumerable<AvertViewModel>> GetChequesEnAvertissement()
         {
             try
             {
+                DateTime dMaxDate = GetMaxDateIncident("0");
                 if (_dbConnection.State != ConnectionState.Open)
                     _dbConnection.Open();
-                return await _dbConnection.QueryAsync<AvertViewModel>(@"select * from v_cip_ltavert");
+                return await _dbConnection.QueryAsync<AvertViewModel>(@"select * from v_cip_ltavert where datinc >= :MaxDate", new { MaxDate = dMaxDate });
             }
             catch (Exception ex)
             {
@@ -59,9 +104,10 @@ namespace OPTICIP.API.Application.Queries.Implementation
         {
             try
             {
+                DateTime dMaxDate = GetMaxDateIncident("1");
                 if (_dbConnection.State != ConnectionState.Open)
                     _dbConnection.Open();
-                return await _dbConnection.QueryAsync<InjViewModel>(@"select * from v_cip_ltinj");
+                return await _dbConnection.QueryAsync<InjViewModel>(@"select * from v_cip_ltinj where datinc >= :MaxDate", new { MaxDate = dMaxDate });
             }
             catch (Exception ex)
             {
@@ -74,13 +120,35 @@ namespace OPTICIP.API.Application.Queries.Implementation
             }
         }
 
+        public async Task<IEnumerable<InfraViewModel>> GetChequesEnInfraction()
+        {
+            try
+            {
+                DateTime dMaxDate = GetMaxDateIncident("2");
+                if (_dbConnection.State != ConnectionState.Open)
+                    _dbConnection.Open();
+                return await _dbConnection.QueryAsync<InfraViewModel>(@"select * from v_cip_ltinfra where datinc >= :MaxDate", new { MaxDate = dMaxDate });
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                if (_dbConnection != null && _dbConnection.State == ConnectionState.Open)
+                    _dbConnection.Close();
+            }
+
+        }
+
         public async Task<IEnumerable<InfMandViewModel>> GetMandatairesDesChequesEnInjonction()
         {
             try
             {
+                DateTime dMaxDate = GetMaxDateIncidentMandataire("1");
                 if (_dbConnection.State != ConnectionState.Open)
                     _dbConnection.Open();
-                return await _dbConnection.QueryAsync<InfMandViewModel>(@"select * from v_cip_ltinfomand where type_incident = 'INJ'");
+                return await _dbConnection.QueryAsync<InfMandViewModel>(@"select * from v_cip_ltinfomand where type_incident = 'INJ' and datinc >= :MaxDate", new { MaxDate = dMaxDate });
             }
             catch (Exception ex)
             {
@@ -97,9 +165,10 @@ namespace OPTICIP.API.Application.Queries.Implementation
         {
             try
             {
+                DateTime dMaxDate = GetMaxDateIncidentMandataire("1");
                 if (_dbConnection.State != ConnectionState.Open)
                     _dbConnection.Open();
-                return await _dbConnection.QueryAsync<InfMandViewModel>(@"select * from v_cip_ltinfomand where type_incident = 'INF'");
+                return await _dbConnection.QueryAsync<InfMandViewModel>(@"select * from v_cip_ltinfomand where type_incident = 'INF' and datinc >= :MaxDate", new { MaxDate = dMaxDate });
             }
             catch (Exception ex)
             {
@@ -1066,7 +1135,6 @@ namespace OPTICIP.API.Application.Queries.Implementation
             });
         }
 
-
         public async Task <IEnumerable<LettreViewModel>> GetLettres(string typeLettre)
         {
             using (var connection = new SqlConnection(_connectionString))
@@ -1117,26 +1185,6 @@ namespace OPTICIP.API.Application.Queries.Implementation
             }
         }
         
-        public async Task<IEnumerable<InfraViewModel>> GetChequesEnInfraction()
-        {
-            try
-            {
-                if (_dbConnection.State != ConnectionState.Open)
-                    _dbConnection.Open();
-                return await _dbConnection.QueryAsync<InfraViewModel>(@"select * from v_cip_ltinfra");
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                if (_dbConnection != null && _dbConnection.State == ConnectionState.Open)
-                    _dbConnection.Close();
-            }
-
-        }
-
         public async Task<IEnumerable<AttNonPaiementEffetViewModel>> GetAttNonPaiementEffet()
         {
             try

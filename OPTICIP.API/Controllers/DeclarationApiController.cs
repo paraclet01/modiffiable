@@ -467,9 +467,9 @@ namespace OPTICIP.API.Controllers
         }
 
         [HttpGet]
-        [Route("ListDonneesADeclarer")]
+        [Route("ListDonneesADeclarer_Old")]
         [ProducesResponseType(typeof(IEnumerable<DeclarationsViewModel>), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> GetListDonneesADeclarer(string agence, String nbrecompte, string userID, bool declarationInitiale = false)
+        public async Task<IActionResult> GetListDonneesADeclarer_Old(string agence, String nbrecompte, string userID, bool declarationInitiale = false)
         {
             try
             {
@@ -552,6 +552,105 @@ namespace OPTICIP.API.Controllers
                 return (IActionResult)BadRequest(e.Message);
             }
         }
+
+        [HttpGet]
+        [Route("GetNombreDeCompteADeclarer")]
+        [ProducesResponseType(typeof(IEnumerable<DeclarationsViewModel>), (int)HttpStatusCode.OK)]
+        public int GetNombreDeCompteADeclarer()
+        {
+            return _declarationQueries.GetNbreCompteFromSIB();
+        }
+
+        [HttpGet]
+        [Route("ListDonneesADeclarer")]
+        [ProducesResponseType(typeof(IEnumerable<DeclarationsViewModel>), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetListDonneesADeclarer(string agence, string userID, bool declarationInitiale = false)
+        {
+            try
+            {
+                int nbreCompteFinal;
+                agence = String.IsNullOrEmpty(agence) ? "" : agence;
+
+                nbreCompteFinal = _declarationQueries.GetNbreCompteFromSIB();
+
+                if (agence != "ManyFiles")
+                {
+                    // nombre de comptes à déclarer calculé à partir des enregistrements préparés dans la base
+                    //nbreCompteFinal = _declarationQueries.GetNbreCompteETC(agence, declarationInitiale == false ? 0 : 1);
+
+                    //// ajout au nombre de compte déjà déclaré
+                    //nbreCompteFinal += Convert.ToInt32(nbrecompte);
+
+                    // préparation des données à déclarer
+                    var result = await _preparationQueries.LancerPreparationDonnees(agence, declarationInitiale);
+
+                    // déclaration
+                    var ListDonneesADeclarer = await _declarationQueries.GetDeclarationsAsync(agence, nbreCompteFinal.ToString(), declarationInitiale);
+
+                    return Ok(ListDonneesADeclarer);
+                }
+                else
+                {
+                    string FolderName = string.Format("{0}_{1}{2}{3}{4}{5}{6}{7}", "XCIP_Declaration", DateTime.UtcNow.Day, DateTime.UtcNow.Month, DateTime.UtcNow.Year, DateTime.UtcNow.Hour, DateTime.UtcNow.Minute, DateTime.UtcNow.Second, DateTime.UtcNow.Millisecond);
+                    var Parametres = _parametresQueries.GetParametreByCodeAsync("ZipPath");
+                    string fullPath = Path.Combine(@Parametres.Libelle, FolderName);
+
+                    // création du répertoire de sortie
+                    if (!Directory.Exists(fullPath))
+                        Directory.CreateDirectory(fullPath);
+
+                    // liste des agences
+                    var lstAgence = await _parametresQueries.GetAgencesAsync();
+                    string FolderNameZip = String.Format("{0}.zip", FolderName);
+
+                    //// nombre de comptes à déclarer calculé à partir des enregistrements préparés dans la base
+                    //nbreCompteFinal = _declarationQueries.GetNbreCompteETC("", declarationInitiale == false ? 0 : 1);
+
+                    //// ajout au nombre de compte déjà déclaré
+                    //nbreCompteFinal += Convert.ToInt32(nbrecompte);
+
+                    foreach (var itemagence in lstAgence)
+                    {
+                        // préparation des données
+                        var result = await _preparationQueries.LancerPreparationDonnees(itemagence.CodeAgencce, declarationInitiale);
+                        // récupération des informations sur le fichier à générer
+                        var FileDeclarationInfo = await _declarationQueries.GetFileDeclarationInfoAsync();
+                        // récupération des données à déclarer
+                        var ListDonneesADeclarer = await _declarationQueries.GetDeclarationsAsync(itemagence.CodeAgencce, nbreCompteFinal.ToString(), declarationInitiale);
+
+                        string fullfilePath = Path.Combine(fullPath, FileDeclarationInfo.NomFicher);
+
+                        using (StreamWriter file = new StreamWriter(fullfilePath, true))
+                        {
+                            foreach (var line in ListDonneesADeclarer)
+                            {
+                                file.WriteLine(line.Data);
+                            }
+
+                            Guid userGuid;
+                            if (String.IsNullOrEmpty(userID))
+                                userGuid = Guid.NewGuid();
+                            else
+                                userGuid = Guid.Parse(userID);
+
+                            //await _declarationQueries.PostHistorisationDeclarationInfoAsync(FileDeclarationInfo.NomFicher, nbrecompte, userGuid, itemagence.CodeAgencce, FolderNameZip);
+                            await _declarationQueries.PostHistorisationDeclarationInfoAsync(FileDeclarationInfo.NomFicher, nbreCompteFinal.ToString(), userGuid, itemagence.CodeAgencce, FolderNameZip);
+                        }
+                    }
+
+                    ZipFile.CreateFromDirectory(fullPath, String.Format("{0}.zip", fullPath));
+                    Directory.Delete(fullPath, true);
+
+                    return Ok(new List<DeclarationsViewModel> { new DeclarationsViewModel { NomFichier = FolderNameZip } });
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
+        }
+
 
         [HttpPost]
         [Route("HistoriqueListDonneesDeclarees")]

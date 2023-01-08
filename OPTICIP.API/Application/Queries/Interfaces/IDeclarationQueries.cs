@@ -42,6 +42,6 @@ namespace OPTICIP.API.Application.Queries.Interfaces
 
         //int GetNbreCompteETC(String Agence);
         int GetNbreCompteETC(String Agence, int bInitialisation);
-
+        int GetNbreCompteFromSIB();
     }
 }

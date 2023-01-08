@@ -13,7 +13,8 @@ namespace OPTICIP.DataAccessLayer.EntityConfigurations
         public string adrgeo { get; set; }
         public string ville { get; set; }
         public string pays { get; set; }
-        public DateTime? datinc { get; set; }
+        public DateTime datinc { get; set; }
+        //public string datinc2 { get; set; }
         public string numcheq { get; set; }
         public string montchq { get; set; }
         public string datemi { get; set; }
@@ -24,6 +25,6 @@ namespace OPTICIP.DataAccessLayer.EntityConfigurations
         public string nooper { get; set; }
         public string solde_incident { get; set; }
         public string libinf { get; set; }
-        public DateTime? dateInsertion { get; set; }
+        public DateTime dateInsertion { get; set; }
     }
 }
