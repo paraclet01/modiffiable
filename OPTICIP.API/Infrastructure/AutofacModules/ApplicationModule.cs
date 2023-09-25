@@ -23,9 +23,10 @@ namespace OPTICIP.API.Infrastructure.AutofacModules
         private string LDAPAdminPath { get; set; }
         private string AccesCoreBD { get; set; }
         private int iDelaiLettreDefaut { get; set; }
+        private int iTailleBlockDeclaration { get; set; }
 
 
-        public ApplicationModule(string qconstr, string qconstrCoreDb, string reportingDirectory, string ldapAdminLogin, string ldapAdminPassword, string ldapAdminPath, string rootRetourFilesDirectory, string accesCoreBD, string delaiLettre)
+        public ApplicationModule(string qconstr, string qconstrCoreDb, string reportingDirectory, string ldapAdminLogin, string ldapAdminPassword, string ldapAdminPath, string rootRetourFilesDirectory, string accesCoreBD, string delaiLettre, string tailleBlock)
         {
             QueriesConnectionString = qconstr;
             QueriesConnectionStringCoreDB = qconstrCoreDb;
@@ -37,7 +38,8 @@ namespace OPTICIP.API.Infrastructure.AutofacModules
             LDAPAdminLogin = ldapAdminLogin;
 
             AccesCoreBD = accesCoreBD;
-            iDelaiLettreDefaut = string.IsNullOrEmpty(delaiLettre)?0:int.Parse(delaiLettre);
+            iDelaiLettreDefaut = string.IsNullOrEmpty(delaiLettre) ? 0 : int.Parse(delaiLettre);
+            iTailleBlockDeclaration = string.IsNullOrEmpty(tailleBlock) ? 0 : int.Parse(tailleBlock);            
         }
 
         protected override void Load(ContainerBuilder builder)
@@ -55,7 +57,7 @@ namespace OPTICIP.API.Infrastructure.AutofacModules
                 builder.Register(c => new DeclarationQueries(QueriesConnectionString,
                   new SqlConnection(QueriesConnectionString),
                   new SqlConnection(QueriesConnectionString),
-                  new RepositoryFactory(new CIPContext())))
+                  new RepositoryFactory(new CIPContext()), iTailleBlockDeclaration))
                      .As<IDeclarationQueries>()
                      .InstancePerLifetimeScope();
 
@@ -74,7 +76,7 @@ namespace OPTICIP.API.Infrastructure.AutofacModules
                                       new DeclarationQueries(QueriesConnectionString,
                     new SqlConnection(QueriesConnectionString),
                     new SqlConnection(QueriesConnectionString),
-                    new RepositoryFactory(new CIPContext())), QueriesConnectionString, new ParametresQuerie(QueriesConnectionString)))
+                    new RepositoryFactory(new CIPContext()), iTailleBlockDeclaration), QueriesConnectionString, new ParametresQuerie(QueriesConnectionString)))
                      .As<IPreparationQueries>()
                      .InstancePerLifetimeScope();
 
@@ -92,7 +94,7 @@ namespace OPTICIP.API.Infrastructure.AutofacModules
                 builder.Register(c => new DeclarationQueries(QueriesConnectionString,
                   new OracleConnection(QueriesConnectionStringCoreDB),
                   new SqlConnection(QueriesConnectionString),
-                  new RepositoryFactory(new CIPContext())))
+                  new RepositoryFactory(new CIPContext()), iTailleBlockDeclaration))
                      .As<IDeclarationQueries>()
                      .InstancePerLifetimeScope();
 
@@ -112,7 +114,7 @@ namespace OPTICIP.API.Infrastructure.AutofacModules
                                       new DeclarationQueries(QueriesConnectionString,
                     new OracleConnection(QueriesConnectionStringCoreDB),
                     new SqlConnection(QueriesConnectionString),
-                    new RepositoryFactory(new CIPContext())), QueriesConnectionString, new ParametresQuerie(QueriesConnectionString)))
+                    new RepositoryFactory(new CIPContext()), iTailleBlockDeclaration), QueriesConnectionString, new ParametresQuerie(QueriesConnectionString)))
                      .As<IPreparationQueries>()
                      .InstancePerLifetimeScope();
 

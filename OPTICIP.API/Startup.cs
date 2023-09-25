@@ -18,9 +18,28 @@ using log4net.Config;
 using Logger;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Diagnostics;
+using System.Text;
+using Newtonsoft.Json;
+//using System.Net.Mail;
+//using System.Text.RegularExpressions;
 
 namespace OPTICIP.API
 {
+    public class ErrorDto
+    {
+        public int Code { get; set; }
+        public string Message { get; set; }
+
+        // other fields
+
+        public override string ToString()
+        {
+            return JsonConvert.SerializeObject(this);
+        }
+    }
+
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -33,7 +52,7 @@ namespace OPTICIP.API
 
             //configurationBuilder.Build();
             Configuration = configurationBuilder.Build();
-            
+
         }
 
         public static IConfiguration GetConfiguration()
@@ -48,6 +67,17 @@ namespace OPTICIP.API
         {
             //services.AddControllers(options => options.Filters.Add(new HttpResponseExceptionFilter()));
 
+            services.AddControllers()
+            .ConfigureApiBehaviorOptions(options =>
+            {
+                options.SuppressConsumesConstraintForFormFileParameters = true;
+                options.SuppressInferBindingSourcesForParameters = true;
+                options.SuppressModelStateInvalidFilter = true;
+                options.SuppressMapClientErrors = true;
+                //options.ClientErrorMapping[StatusCodes.Status404NotFound].Link =
+                //    "https://httpstatuses.com/404";
+                //options.DisableImplicitFromServicesParameters = true;
+            });
             //services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             services.AddMvc(options => options.EnableEndpointRouting = false);
@@ -114,10 +144,67 @@ namespace OPTICIP.API
 
             container.RegisterModule(new MediatorModule());
             container.RegisterModule(new ApplicationModule(Configuration["ConnectionString"], Configuration["ConnectionStringCoreDB"], Configuration["ReportingDirectory"]
-                , Configuration["LDAPAdminLogin"], Configuration["LDAPAdminPassword"], Configuration["LDAPAdminPath"], Configuration["RootRetourFilesDirectory"], Configuration["AccesCoreBD"], Configuration["DelaiLettreDefaut"]));
+                , Configuration["LDAPAdminLogin"], Configuration["LDAPAdminPassword"], Configuration["LDAPAdminPath"], Configuration["RootRetourFilesDirectory"], Configuration["AccesCoreBD"], Configuration["DelaiLettreDefaut"], Configuration["TailleBlockDeclaration"]));
+
+
+            //string mailSource = "cpt@gmail.com";
+            //var ret = IsValidEmailAddress(ref mailSource);
+            ////ret = char.IsLetter('@');
 
             return new AutofacServiceProvider(container.Build());
         }
+
+        //public static bool IsValidEmailAddress(ref string valeurChamp)
+        //{
+
+        //    try
+        //    {
+        //         //emailPattern =  @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
+        //        string pattern = @"^[a-zA-Z0-9._%+-]+(?<![_.-])+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
+
+        //        if (String.IsNullOrEmpty(valeurChamp))
+        //            return false;
+
+        //        if (valeurChamp.Trim() == "0" || valeurChamp.Trim() == @"N\A" || valeurChamp.Trim() == @"N/A")
+        //        {
+        //            valeurChamp = "";
+        //            return false;
+        //        }
+
+        //        string[] listMail = valeurChamp.Split(new char[] { ',', ';', '/' });
+        //        valeurChamp = listMail[0].Trim();
+        //        return !Regex.IsMatch(valeurChamp, pattern);
+        //    }
+        //    catch (FormatException)
+        //    {
+        //        return true;
+        //    }
+
+        //}
+
+        //bool champEmailInvalide(ref string valeurChamp)
+        //{
+        //    try
+        //    {
+        //        if (String.IsNullOrEmpty(valeurChamp))
+        //            return false;
+
+        //        if (valeurChamp.Trim() == "0" || valeurChamp.Trim() == @"N\A" || valeurChamp.Trim() == @"N/A")
+        //        {
+        //            valeurChamp = "";
+        //            return false;
+        //        }
+
+        //        string[] listMail = valeurChamp.Split(new char[] { ',', ';', '/' });
+        //        valeurChamp = listMail[0].Trim();
+        //        var mailAddress = new MailAddress(valeurChamp);
+        //        return false;
+        //    }
+        //    catch (FormatException)
+        //    {
+        //        return true;
+        //    }
+        //}
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         //public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -138,6 +225,37 @@ namespace OPTICIP.API
             app.UseAuthentication();
             app.UseCors(builder => builder.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod());
 
+
+            //app.UseExceptionHandler(c => c.Run(async context =>
+            //{
+            //    var exception = context.Features
+            //        .Get<IExceptionHandlerPathFeature>()
+            //        .Error;
+            //    var response = new { error = exception.Message };
+            //    await context.Response.WriteAsJsonAsync(response);
+            //}));
+
+            //app.UseExceptionHandler(errorApp =>
+            //{
+            //    errorApp.Run(async context =>
+            //    {
+            //        context.Response.StatusCode = 500; // or another Status accordingly to Exception Type
+            //        context.Response.ContentType = "application/json";
+
+            //        var error = context.Features.Get<IExceptionHandlerFeature>();
+            //        if (error != null)
+            //        {
+            //            var ex = error.Error;
+
+            //            await context.Response.WriteAsync(new ErrorDto()
+            //            {
+            //                Code = 508,
+            //                Message = ex.Message // or your custom message
+            //                // other custom data
+            //            }.ToString(), Encoding.UTF8);
+            //        }
+            //    });
+            //});
             //app.UseCors(builder => builder.WithOrigins("http://localhost:53955").AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod());
 
             app.UseMvc();

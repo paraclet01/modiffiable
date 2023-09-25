@@ -42,6 +42,11 @@ namespace OPTICIP.API.Application.Queries.Interfaces
 
         //int GetNbreCompteETC(String Agence);
         int GetNbreCompteETC(String Agence, int bInitialisation);
-        int GetNbreCompteFromSIB();
+        Task<int> GetNbreCompteFromSIB();
+        Task<IEnumerable<DeclarationsViewModel>> GetDeclarationsInitialesAsync(String NbreCompte, bool decInitiale, int iNumeroFichier);
+        Task<int> GetNombreDeLignesADeclarerAsync();
+        Task<FileDeclarationInfoViewModel> PostHistorisationDeclarationInitialeInfoAsync(String FileName, String Nbre_Compte_CIP, Guid DeclarePar, String ZipFolderName, int numFichier);
+
+        Task<string> InitialisationDeclaration();
     }
 }

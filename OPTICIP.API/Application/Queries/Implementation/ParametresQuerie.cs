@@ -57,7 +57,7 @@ namespace OPTICIP.API.Application.Queries.Implementation
 
                 //==> Exclure les agences supprimées : Statut = 1
                 //return await connection.QueryAsync<AgencesViewModel>(@"select * from V_ListeAgences ");
-                return await connection.QueryAsync<AgencesViewModel>(@"select * from V_ListeAgences WHERE Statut = 0 OR Statut IS NULL");
+                return await connection.QueryAsync<AgencesViewModel>(@"select * from V_ListeAgences WHERE Statut = 0 OR Statut IS NULL ORDER BY CodeAgencce");
             }
         }
 

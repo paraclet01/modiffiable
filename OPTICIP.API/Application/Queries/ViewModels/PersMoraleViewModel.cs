@@ -24,7 +24,8 @@ namespace OPTICIP.API.Application.Queries.ViewModels
         public string Num_Ligne_Erreur { get;  set; }
         public string Etat { get;  set; }
         public Guid IdItem_Retire { get; set; }
-        public DateTime Date_Declaration { get; set; }
+        public DateTime? Date_Detection { get; set; }
+        public DateTime? Date_Declaration { get; set; }        
 
         //==> CIP V2
         public string Email { get; set; }

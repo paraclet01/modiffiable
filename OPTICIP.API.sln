@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
-VisualStudioVersion = 16.0.31424.327
+VisualStudioVersion = 16.0.33801.447
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OPTICIP.API", "OPTICIP.API\OPTICIP.API.csproj", "{25CE7C38-4BF9-4484-AAF2-C146B7A158DD}"
 EndProject
@@ -54,7 +54,6 @@ Global
 		{1E3BB000-4831-484F-B912-EAC20DD5B1B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1E3BB000-4831-484F-B912-EAC20DD5B1B4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5ACAA749-063F-4ABC-8124-AE0863AD13D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5ACAA749-063F-4ABC-8124-AE0863AD13D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5ACAA749-063F-4ABC-8124-AE0863AD13D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B864FC10-7DAA-4278-9644-0DA097F1C9D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B864FC10-7DAA-4278-9644-0DA097F1C9D9}.Debug|Any CPU.Build.0 = Debug|Any CPU

@@ -136,7 +136,7 @@ namespace OPTICIP.DataAccessLayer.EntityConfigurations
 //==> CIP V2
         PersPhysiqueEntityTypeConfiguration.Property(e => e.EmailTitu)
                 .HasColumnName("EmailTitu")
-                .HasMaxLength(30)
+                .HasMaxLength(255)
                 .IsUnicode(false);
         PersPhysiqueEntityTypeConfiguration.Property(e => e.NomContact)
                 .HasColumnName("NomContact")
@@ -144,7 +144,7 @@ namespace OPTICIP.DataAccessLayer.EntityConfigurations
                 .IsUnicode(false);
         PersPhysiqueEntityTypeConfiguration.Property(e => e.PnomContact)
                 .HasColumnName("PnomContact")
-                .HasMaxLength(30)
+                .HasMaxLength(255)
                 .IsUnicode(false);
         PersPhysiqueEntityTypeConfiguration.Property(e => e.AdrContact)
                 .HasColumnName("AdrContact")
@@ -152,7 +152,7 @@ namespace OPTICIP.DataAccessLayer.EntityConfigurations
                 .IsUnicode(false);
         PersPhysiqueEntityTypeConfiguration.Property(e => e.EmailContact)
                 .HasColumnName("EmailContact")
-                .HasMaxLength(30)
+                .HasMaxLength(255)
                 .IsUnicode(false);
     }
 }

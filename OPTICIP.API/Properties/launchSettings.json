@@ -2,9 +2,13 @@
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
+    "iis": {
+      "applicationUrl": "http://localhost/OPTICIP.API",
+      "sslPort": 0
+    },
     "iisExpress": {
       "applicationUrl": "http://localhost:53955",
-      "sslPort": 44342
+      "sslPort": 44311
     }
   },
   "$schema": "http://json.schemastore.org/launchsettings.json",

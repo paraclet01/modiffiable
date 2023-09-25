@@ -10,14 +10,15 @@ namespace OPTICIP.API.Application.Queries.Interfaces
 {
     public interface IPreparationQueries
     {
-        Task<IEnumerable<TCompte>> LancerPreparationComptes(string userID);
+        Task<int> LancerPreparationComptes(string userID);
         Task<int[]> LancerPreparationComptes_V2(string userID);
-        Task<IEnumerable<TPersPhysique>> LancerPreparationPersonnesPhysiques(string userID);
-        Task<IEnumerable<TPersMorale>> LancerPreparationPersonnesMorales(string userID);
-        Task<IEnumerable<TCarte>> LancerPreparationCartes(string userID);
-        Task<IEnumerable<TIncidentCheque>> LancerPreparationCheques(string userID);
-        Task<IEnumerable<TChequeIrregulier>> LancerPreparationChequesIrreguliers(string userID);
-        Task<IEnumerable<TIncidentEffet>> LancerPreparationEffets(string userID);
+        Task<int> LancerPreparationPersonnesPhysiques(string userID);
+        Task<int> LancerPreparationPersonnesMorales(string userID);
+        Task<int> LancerPreparationCartes(string userID);
+        Task<int> LancerPreparationCheques(string userID);
+        Task<int> LancerPreparationChequesIrreguliers(string userID);
+//        Task<IEnumerable<TIncidentEffet>> LancerPreparationEffets(string userID);
+        Task<int> LancerPreparationEffets(string userID);
         Task<IEnumerable<CIP1ViewModel>> LancerPreparationInitialeComptes();
         Task<IEnumerable<CIP2ViewModel>> LancerPreparationInitialePersonnesPhysiques();
         Task<IEnumerable<CIP3ViewModel>> LancerPreparationInitialePersonnesMorales();
@@ -35,5 +36,11 @@ namespace OPTICIP.API.Application.Queries.Interfaces
         Task<IEnumerable<CIP5ViewModel>> GetCIP5Async(string state);
         Task<IEnumerable<CIP6ViewModel>> GetCIP6Async(string state);
         Task<IEnumerable<CIP7ViewModel>> GetCIP7Async(string state);
+
+        Task<int> CreerLigneDecComptePourModification();
+        void InitCompteur();
+        Task<int> ControlerCompteADeclarer();
+        Task<int> ControlerPersonnePhysiqueADeclarer();
+        Task<int> ControlerPersonneMoraleADeclarer();
     }
 }

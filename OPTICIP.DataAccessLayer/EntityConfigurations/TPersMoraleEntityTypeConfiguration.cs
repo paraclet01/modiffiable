@@ -112,7 +112,7 @@ namespace OPTICIP.DataAccessLayer.EntityConfigurations
             //==> CIP V2
             PersMoraleEntityTypeConfiguration.Property(e => e.Email)
                     .HasColumnName("Email")
-                    .HasMaxLength(30)
+                    .HasMaxLength(255)
                     .IsUnicode(false);
         }
     }

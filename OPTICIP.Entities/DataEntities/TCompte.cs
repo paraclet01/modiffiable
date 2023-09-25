@@ -29,7 +29,8 @@ namespace OPTICIP.Entities.Models
             this.Num_Enr = P_NumEnr ?? throw new Exception(nameof(P_NumEnr));
             this.Rib = P_Rib ?? throw new Exception(nameof(P_Rib));
             Agence = P_Agence;
-            this.Cle_RIB = P_CleRib ?? throw new Exception(nameof(P_CleRib));
+            //this.Cle_RIB = P_CleRib ?? throw new Exception(nameof(P_CleRib));
+            this.Cle_RIB = P_CleRib;
             this.Date_Ouverture = P_DateOuverture;
             this.Date_Fermerture = P_DateFermeture;
             this.Date_Detection = P_DateDetection;

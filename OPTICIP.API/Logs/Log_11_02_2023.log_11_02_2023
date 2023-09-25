@@ -1,0 +1,21 @@
+11/02/2023 11:07:33 v1.0.0.0 INFO  Demarrage du service WEB OPTICIP.API
+11/02/2023 11:23:23 v1.0.0.0 INFO  Demarrage du service WEB OPTICIP.API
+11/02/2023 11:23:50 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = ADMIN
+11/02/2023 11:24:53 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = ADMIN
+11/02/2023 11:40:58 v1.0.0.0 INFO  Demarrage du service WEB OPTICIP.API
+11/02/2023 11:41:19 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = ADMIN
+11/02/2023 11:51:28 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = ADMIN
+11/02/2023 11:54:38 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = ADMIN
+11/02/2023 11:54:54 v1.0.0.0 ERROR Format du fichier retour incorrect !
+System.Exception: Format du fichier retour incorrect !
+   at OPTICIP.API.Application.Queries.Implementation.RetourQueries.IntegrerFichierRetour(String nomFichierRetour, String idFichierAller) in D:\HOLY TECH\Paraclet\XCIP\Sources\XCIP_SOURCES\opticip.api\OPTICIP.API\Application\Queries\Implementation\RetourQueries.cs:line 101
+   at OPTICIP.API.Controllers.DeclarationApiController.UploadFile(Guid Id) in D:\HOLY TECH\Paraclet\XCIP\Sources\XCIP_SOURCES\opticip.api\OPTICIP.API\Controllers\DeclarationApiController.cs:line 975
+11/02/2023 11:57:19 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = ADMIN
+11/02/2023 11:57:30 v1.0.0.0 ERROR Format du fichier retour incorrect !
+System.Exception: Format du fichier retour incorrect !
+   at OPTICIP.API.Application.Queries.Implementation.RetourQueries.IntegrerFichierRetour(String nomFichierRetour, String idFichierAller) in D:\HOLY TECH\Paraclet\XCIP\Sources\XCIP_SOURCES\opticip.api\OPTICIP.API\Application\Queries\Implementation\RetourQueries.cs:line 101
+   at OPTICIP.API.Controllers.DeclarationApiController.UploadFile(Guid Id) in D:\HOLY TECH\Paraclet\XCIP\Sources\XCIP_SOURCES\opticip.api\OPTICIP.API\Controllers\DeclarationApiController.cs:line 975
+11/02/2023 12:07:36 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = ADMIN
+11/02/2023 22:47:49 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = admin
+11/02/2023 22:59:11 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = admin
+11/02/2023 23:14:12 v1.0.0.0 INFO  Appel de la fonction GetUser: Login = ADMIN

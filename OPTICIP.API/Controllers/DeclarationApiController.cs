@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OPTICIP.API.Application.Commands.DeclarationCommands;
+using OPTICIP.API.Application.Queries.Implementation;
 using OPTICIP.API.Application.Queries.Interfaces;
 using OPTICIP.API.Application.Queries.ViewModels;
 using System;
@@ -21,16 +22,18 @@ namespace OPTICIP.API.Controllers
         private readonly IMediator _mediator;
         private readonly IDeclarationQueries _declarationQueries;
         private readonly IPreparationQueries _preparationQueries;
+        private readonly IPreparationQueries _controleLigneQueries;
         private readonly IParametresQuerie _parametresQueries;
         private readonly IRetourQueries _retourQueries;
         private readonly IFileReader _fileReader;
 
-        public DeclarationApiController(IMediator mediator, IDeclarationQueries declarationsQueries, IPreparationQueries preparationQueries,
+        public DeclarationApiController(IMediator mediator, IDeclarationQueries declarationsQueries, IPreparationQueries preparationQueries, IPreparationQueries controleLigneQueries,
             IParametresQuerie parametresQueries, IRetourQueries retourQueries, IFileReader fileReader)
         {
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             _declarationQueries = declarationsQueries ?? throw new ArgumentNullException(nameof(declarationsQueries));
             _preparationQueries = preparationQueries ?? throw new ArgumentNullException(nameof(preparationQueries));
+            _controleLigneQueries = controleLigneQueries ?? throw new ArgumentNullException(nameof(controleLigneQueries));
             _parametresQueries = parametresQueries ?? throw new ArgumentNullException(nameof(parametresQueries));
             _retourQueries = retourQueries ?? throw new ArgumentNullException(nameof(retourQueries));
             _fileReader = fileReader ?? throw new ArgumentNullException(nameof(fileReader));
@@ -467,14 +470,37 @@ namespace OPTICIP.API.Controllers
         }
 
         [HttpGet]
-        [Route("ListDonneesADeclarer_Old")]
-        [ProducesResponseType(typeof(IEnumerable<DeclarationsViewModel>), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> GetListDonneesADeclarer_Old(string agence, String nbrecompte, string userID, bool declarationInitiale = false)
+        [Route("GetNombreDeCompteADeclarer")]
+        [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetNombreDeCompteADeclarer()
         {
+            try
+            {
+
+                int inbre = await _declarationQueries.GetNbreCompteFromSIB();
+                return Ok(inbre);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("ListDonneesADeclarer")]
+        [ProducesResponseType(typeof(IEnumerable<DeclarationsViewModel>), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetListDonneesADeclarer(string agence, String nbrecompte, string userID, bool declarationInitiale = false)
+        {
+            //PreparationQueries.compteur = 1;
+            _preparationQueries.InitCompteur();
+
             try
             {
                 int nbreCompteFinal;
                 agence = String.IsNullOrEmpty(agence) ? "" : agence;
+
+                //var ret = await _preparationQueries.CreerLigneDecComptePourModification();
 
                 if (agence != "ManyFiles")
                 {
@@ -554,24 +580,98 @@ namespace OPTICIP.API.Controllers
         }
 
         [HttpGet]
-        [Route("GetNombreDeCompteADeclarer")]
+        [Route("ListDonneesInitialesADeclarer")]
         [ProducesResponseType(typeof(IEnumerable<DeclarationsViewModel>), (int)HttpStatusCode.OK)]
-        public int GetNombreDeCompteADeclarer()
+        public async Task<IActionResult> GetListDonneesInitialesADeclarer(bool toutRecuperer = false)
         {
-            return _declarationQueries.GetNbreCompteFromSIB();
-        }
-
-        [HttpGet]
-        [Route("ListDonneesADeclarer")]
-        [ProducesResponseType(typeof(IEnumerable<DeclarationsViewModel>), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> GetListDonneesADeclarer(string agence, string userID, bool declarationInitiale = false)
-        {
+            _preparationQueries.InitCompteur();
+            int iTotalLigne = 0;
             try
             {
-                int nbreCompteFinal;
+
+                string FolderName = string.Format("{0}_{1}{2}{3}{4}{5}{6}{7}", "XCIP_Declaration", DateTime.UtcNow.Day, DateTime.UtcNow.Month, DateTime.UtcNow.Year, DateTime.UtcNow.Hour, DateTime.UtcNow.Minute, DateTime.UtcNow.Second, DateTime.UtcNow.Millisecond);
+                var Parametres = _parametresQueries.GetParametreByCodeAsync("ZipPath");
+                string fullPath = Path.Combine(@Parametres.Libelle, FolderName);
+
+                // création du répertoire de sortie
+                if (!Directory.Exists(fullPath))
+                    Directory.CreateDirectory(fullPath);
+                string FolderNameZip = String.Format("{0}.zip", FolderName);
+
+                int nbreCompteFinal = await _declarationQueries.GetNbreCompteFromSIB();
+
+                // liste des agences
+                var lstAgence = await _parametresQueries.GetAgencesAsync();
+
+                //==> Préparer les données à déclarer
+                foreach (var itemagence in lstAgence)
+                {
+                    // préparation des données
+                    await _preparationQueries.LancerPreparationDonnees(itemagence.CodeAgencce, toutRecuperer);
+                }
+
+                // Vérifier qu'il y a des comptes à déclarer
+                var iNbreCompteADec = await _declarationQueries.GetNombreDeLignesADeclarerAsync();
+                iTotalLigne = iNbreCompteADec;
+                int numFichier = 1;
+                while (iNbreCompteADec > 0)
+                {
+                    // récupération des informations sur le fichier à générer
+                    var FileDeclarationInfo = await _declarationQueries.GetFileDeclarationInfoAsync();
+                    // récupération des données à déclarer
+                    var ListDonneesADeclarer = await _declarationQueries.GetDeclarationsInitialesAsync(nbreCompteFinal.ToString(), toutRecuperer, numFichier);
+
+                    string fullfilePath = Path.Combine(fullPath, FileDeclarationInfo.NomFicher);
+
+                    using (StreamWriter file = new StreamWriter(fullfilePath, true))
+                    {
+                        foreach (var line in ListDonneesADeclarer)
+                        {
+                            file.WriteLine(line.Data);
+                        }
+
+                        Guid userGuid = Guid.NewGuid();
+
+                        await _declarationQueries.PostHistorisationDeclarationInitialeInfoAsync(FileDeclarationInfo.NomFicher, nbreCompteFinal.ToString(), userGuid, FolderNameZip, numFichier); ; ;
+                    }
+                    iNbreCompteADec = await _declarationQueries.GetNombreDeLignesADeclarerAsync();
+                    numFichier++;
+                }
+
+                ZipFile.CreateFromDirectory(fullPath, String.Format("{0}.zip", fullPath));
+                Directory.Delete(fullPath, true);
+
+                return Ok(new List<DeclarationsViewModel> { new DeclarationsViewModel {Numero = iTotalLigne.ToString("N0"), Agence = "Toutes", NomFichier = FolderNameZip } });
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
+        }
+
+
+        [HttpGet]
+        [Route("ListDonneesADeclarerNew")]
+        [ProducesResponseType(typeof(IEnumerable<DeclarationsViewModel>), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetListDonneesADeclarerNew(string agence, string nbrecompte="0", string userID="", bool declarationInitiale = false)
+        {
+            _preparationQueries.InitCompteur();
+            try
+            {
                 agence = String.IsNullOrEmpty(agence) ? "" : agence;
 
-                nbreCompteFinal = _declarationQueries.GetNbreCompteFromSIB();
+                int nbreCompteFinal = await _declarationQueries.GetNbreCompteFromSIB();
+
+                var sRet = await _declarationQueries.InitialisationDeclaration();
+
+                //==>
+                int iNbre = await _controleLigneQueries.ControlerCompteADeclarer();
+                iNbre += await _controleLigneQueries.ControlerPersonnePhysiqueADeclarer();
+                iNbre += await _controleLigneQueries.ControlerPersonneMoraleADeclarer();
+                //
+
+                //                var ret = await _preparationQueries.CreerLigneDecComptePourModification();
 
                 if (agence != "ManyFiles")
                 {
@@ -966,7 +1066,7 @@ namespace OPTICIP.API.Controllers
                 IFormFile file = Request.Form.Files[0];
 
                 if (file == null)
-                    return (IActionResult)BadRequest();
+                    return (IActionResult)BadRequest("Aucun fichier joint !");
 
                 var completFileName = string.Format(@"{0}\{1}", _retourQueries.RootRetourFilesDirectory, file.FileName);
 
@@ -982,6 +1082,7 @@ namespace OPTICIP.API.Controllers
             {
                 Logger.ApplicationLogger.LogError(e);
                 return (IActionResult)BadRequest(e.Message);
+                //throw e;
             }
         }
 

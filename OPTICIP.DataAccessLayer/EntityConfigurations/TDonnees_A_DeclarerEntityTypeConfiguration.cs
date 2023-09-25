@@ -38,6 +38,15 @@ namespace OPTICIP.DataAccessLayer.EntityConfigurations
 
             Donnees_A_DeclarerEntityTypeConfiguration.Property(e => e.Ordre)
               .HasColumnName("Ordre");
+
+            Donnees_A_DeclarerEntityTypeConfiguration.Property(e => e.Rib)
+            .HasColumnName("Rib")
+            .HasMaxLength(100)
+            .IsUnicode(false);
+
+            Donnees_A_DeclarerEntityTypeConfiguration.Property(e => e.Type_Ligne)
+              .HasColumnName("Type_Ligne");
+
         }
     }
 }

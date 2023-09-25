@@ -35,6 +35,11 @@ namespace OPTICIP.DataAccessLayer.EntityConfigurations
             ErreurRetourTypeConfiguration.Property(e => e.Code_Erreur)
               .HasColumnName("Code_Erreur")
                .IsUnicode(false);
+
+            ErreurRetourTypeConfiguration.Property(e => e.Libelle_Erreur)
+              .HasColumnName("LibelleErreur")
+               .IsUnicode(false);
+
         }
     }
 }

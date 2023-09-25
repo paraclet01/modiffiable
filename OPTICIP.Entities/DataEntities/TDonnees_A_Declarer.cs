@@ -13,12 +13,17 @@ namespace OPTICIP.Entities.DataEntities
         public string Agence { get; set; }
         public Guid RecordID { get; set; }
         public string TableSource { get; set; }
+        public string Rib { get; set; }
+        public int Type_Ligne { get; set; }
+        public int Statut { get; set; }
+        public DateTime? DateTraitement { get; set; }
+
 
         public TDonnees_A_Declarer()
         {
         }
 
-        public TDonnees_A_Declarer(Guid P_Id, string P_Texte, Int32 P_Ordre, String P_Agence, Guid P_RecordID, string P_TableSource)
+        public TDonnees_A_Declarer(Guid P_Id, string P_Texte, Int32 P_Ordre, String P_Agence, Guid P_RecordID, string P_TableSource, string P_RIB, int P_TypeLigne)
         {
             Id = P_Id;
             Texte = P_Texte;
@@ -26,6 +31,8 @@ namespace OPTICIP.Entities.DataEntities
             Agence = P_Agence;
             RecordID = P_RecordID;
             TableSource = P_TableSource;
+            Rib = P_RIB;
+            Type_Ligne = P_TypeLigne;
         }
     }
 }

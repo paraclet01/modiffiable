@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace OPTICIP.API.Controllers
 {
@@ -31,8 +32,26 @@ namespace OPTICIP.API.Controllers
         }
 
         [HttpGet]
-        [Route("PreparationComptes")]
+        [Route("PreparationComptes_Old")]
         [ProducesResponseType(typeof(IEnumerable<TCompte>), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> PreparationComptes_Old(string userID)
+        {
+            try
+            {
+                await _detectionQueries.LancerDetectionComptes(userID);
+                var result = await _preparationQueries.LancerPreparationComptes(userID);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Logger.ApplicationLogger.LogError(e);
+                return (IActionResult)BadRequest(e.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("PreparationComptes")]
+        [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> PreparationComptes(string userID)
         {
             try
@@ -67,7 +86,8 @@ namespace OPTICIP.API.Controllers
         }
         [HttpGet]
         [Route("PreparationPersonnesPhysiques")]
-        [ProducesResponseType(typeof(IEnumerable<TPersPhysique>), (int)HttpStatusCode.OK)]
+//        [ProducesResponseType(typeof(IEnumerable<TPersPhysique>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> PreparationPersonnesPhysiques(string userID)
         {
             try
@@ -85,7 +105,8 @@ namespace OPTICIP.API.Controllers
 
         [HttpGet]
         [Route("PreparationPersonnesMorales")]
-        [ProducesResponseType(typeof(IEnumerable<TPersMorale>), (int)HttpStatusCode.OK)]
+        //[ProducesResponseType(typeof(IEnumerable<TPersMorale>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> PreparationPersonnesMorales(string userID)
         {
             try
@@ -103,7 +124,7 @@ namespace OPTICIP.API.Controllers
 
         [HttpGet]
         [Route("PreparationCartes")]
-        [ProducesResponseType(typeof(IEnumerable<TCarte>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> PreparationCartes(string userID)
         {
             try
@@ -121,7 +142,7 @@ namespace OPTICIP.API.Controllers
 
         [HttpGet]
         [Route("PreparationCheques")]
-        [ProducesResponseType(typeof(IEnumerable<TIncidentCheque>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> PreparationCheques(string userID)
         {
             try
@@ -141,7 +162,7 @@ namespace OPTICIP.API.Controllers
 
         [HttpGet]
         [Route("PreparationChequesIrreguliers")]
-        [ProducesResponseType(typeof(IEnumerable<TChequeIrregulier>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> PreparationChequesIrreguliers(string userID)
         {
             try
@@ -159,7 +180,7 @@ namespace OPTICIP.API.Controllers
 
         [HttpGet]
         [Route("PreparationEffets")]
-        [ProducesResponseType(typeof(IEnumerable<TIncidentEffet>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> PreparationEffets(string userID)
         {
             try
@@ -290,6 +311,7 @@ namespace OPTICIP.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<TDonnees_A_Declarer>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> PreparationDonnees(string agence)
         {
+            _preparationQueries.InitCompteur();
             try
             {
                 var result = await _preparationQueries.LancerPreparationDonnees(agence);

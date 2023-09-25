@@ -19,13 +19,22 @@ namespace OPTICIP.API.Application.Queries.Implementation
         private readonly IDbConnection _coreDBConnection;
         private readonly IDbConnection _appDBConnection;
         private readonly IRepositoryFactory _repositoryFactory;
+        private readonly int iTailleBlockDeclaration;
+        private ParametresQuerie _parametresQueries;
 
-        public DeclarationQueries(string constr, IDbConnection coreDBConnection, SqlConnection appDBConnection, IRepositoryFactory repositoryFactory)
+        public DeclarationQueries(string constr, IDbConnection coreDBConnection, SqlConnection appDBConnection, IRepositoryFactory repositoryFactory, int tailleBlockDeclaration)
         {
             _connectionString = !string.IsNullOrWhiteSpace(constr) ? constr : throw new ArgumentNullException(nameof(constr));
             _coreDBConnection = coreDBConnection ?? throw new ArgumentNullException(nameof(coreDBConnection));
             _appDBConnection = appDBConnection ?? throw new ArgumentNullException(nameof(appDBConnection));
             _repositoryFactory = repositoryFactory ?? throw new ArgumentNullException(nameof(repositoryFactory));
+            _parametresQueries = new ParametresQuerie(constr);
+            iTailleBlockDeclaration = tailleBlockDeclaration;
+            var param = _parametresQueries.GetParametreByCodeAsync("TailleBlockDeclaration");
+            if (param != null) 
+            { 
+                int.TryParse(param.Libelle, out iTailleBlockDeclaration); 
+            }
         }
 
         public async Task<IEnumerable<CompteViewModel>> GetComptesAsync(string agence, string etat="")
@@ -41,7 +50,7 @@ namespace OPTICIP.API.Application.Queries.Implementation
                         if (!string.IsNullOrEmpty(etat))
                         {
                             if (etat == PreparationQueries._codeToutCompte)
-                                return await connection.QueryAsync<CompteViewModel>(@"select * from V_ListeComptes order by Date_Ouverture desc");
+                                return await connection.QueryAsync<CompteViewModel>(@"select * from V_ListeComptes Where etat IN ('C', 'E') order by Date_Ouverture desc");
                             else
                                 return await connection.QueryAsync<CompteViewModel>(@"select * from V_ListeComptes where Etat=@etat order by Date_Ouverture desc", new { etat });
                         }
@@ -52,7 +61,7 @@ namespace OPTICIP.API.Application.Queries.Implementation
                         if (!string.IsNullOrEmpty(etat))
                         {
                             if (etat == PreparationQueries._codeToutCompte)
-                                return await connection.QueryAsync<CompteViewModel>(@"select * from V_ListeComptes where substring(RIB, 6, 5) = @agence order by Date_Ouverture desc", new { agence });
+                                return await connection.QueryAsync<CompteViewModel>(@"select * from V_ListeComptes where substring(RIB, 6, 5) = @agence and etat IN ('C', 'E') order by Date_Ouverture desc", new { agence });
                             else
                                 return await connection.QueryAsync<CompteViewModel>(@"select * from V_ListeComptes where substring(RIB, 6, 5) = @agence and etat=@etat order by Date_Ouverture desc", new { agence, etat });
                         }
@@ -79,7 +88,7 @@ namespace OPTICIP.API.Application.Queries.Implementation
                         if (!string.IsNullOrEmpty(etat))
                         {
                             if (etat == PreparationQueries._codeToutCompte)
-                                return await connection.QueryAsync<PersPhysiqueViewModel>(@"select * from V_ListePersPhysiques");
+                                return await connection.QueryAsync<PersPhysiqueViewModel>(@"select * from V_ListePersPhysiques Where etat IN ('C', 'E')");
                             else
                                 return await connection.QueryAsync<PersPhysiqueViewModel>(@"select * from V_ListePersPhysiques where Etat=@etat ", new { etat });
 
@@ -91,7 +100,7 @@ namespace OPTICIP.API.Application.Queries.Implementation
                         if (!string.IsNullOrEmpty(etat))
                         {
                             if (etat == PreparationQueries._codeToutCompte)
-                                return await connection.QueryAsync<PersPhysiqueViewModel>(@"select * from V_ListePersPhysiques where substring(RIB, 6, 5) = @agence", new { agence });
+                                return await connection.QueryAsync<PersPhysiqueViewModel>(@"select * from V_ListePersPhysiques where substring(RIB, 6, 5) = @agence and etat IN ('C', 'E')", new { agence });
                             else
                                 return await connection.QueryAsync<PersPhysiqueViewModel>(@"select * from V_ListePersPhysiques where substring(RIB, 6, 5) = @agence and etat=@etat", new { agence, etat });
                         }
@@ -140,7 +149,7 @@ namespace OPTICIP.API.Application.Queries.Implementation
                         if (!string.IsNullOrEmpty(etat))
                         {
                             if (etat == PreparationQueries._codeToutCompte)
-                                return await connection.QueryAsync<PersMoraleViewModel>(@"select * from V_ListePersMorales");
+                                return await connection.QueryAsync<PersMoraleViewModel>(@"select * from V_ListePersMorales Where etat IN ('C', 'E')");
                         else
                                 return await connection.QueryAsync<PersMoraleViewModel>(@"select * from V_ListePersMorales where Etat=@etat ", new { etat });
                         }
@@ -151,7 +160,7 @@ namespace OPTICIP.API.Application.Queries.Implementation
                         if (!string.IsNullOrEmpty(etat))
                         {
                             if (etat == PreparationQueries._codeToutCompte)
-                                return await connection.QueryAsync<PersMoraleViewModel>(@"select * from V_ListePersMorales where substring(RIB, 6, 5) = @agence", new { agence });
+                                return await connection.QueryAsync<PersMoraleViewModel>(@"select * from V_ListePersMorales where substring(RIB, 6, 5) = @agence and etat IN ('C', 'E')", new { agence });
                         else
                                 return await connection.QueryAsync<PersMoraleViewModel>(@"select * from V_ListePersMorales where substring(RIB, 6, 5) = @agence and etat=@etat", new { agence, etat });
                         }
@@ -245,7 +254,7 @@ namespace OPTICIP.API.Application.Queries.Implementation
                         if (!string.IsNullOrEmpty(etat))
                         {
                             if (etat == PreparationQueries._codeToutCompte)
-                                return await connection.QueryAsync<IncidentsChequesViewModel>(@"select * from V_ListeIncidentsCheques order by Date_Emission desc");
+                                return await connection.QueryAsync<IncidentsChequesViewModel>(@"select * from V_ListeIncidentsCheques Where etat IN ('C', 'E') order by Date_Emission desc");
                         else
                                 return await connection.QueryAsync<IncidentsChequesViewModel>(@"select * from V_ListeIncidentsCheques where Etat=@etat order by Date_Emission desc", new { etat });
                         }
@@ -256,7 +265,7 @@ namespace OPTICIP.API.Application.Queries.Implementation
                         if (!string.IsNullOrEmpty(etat))
                         {
                             if (etat == PreparationQueries._codeToutCompte)
-                                return await connection.QueryAsync<IncidentsChequesViewModel>(@"select * from V_ListeIncidentsCheques where substring(RIB, 6, 5) = @agence order by Date_Emission desc", new { agence });
+                                return await connection.QueryAsync<IncidentsChequesViewModel>(@"select * from V_ListeIncidentsCheques where substring(RIB, 6, 5) = @agence and etat IN ('C', 'E') order by Date_Emission desc", new { agence });
                         else
                                 return await connection.QueryAsync<IncidentsChequesViewModel>(@"select * from V_ListeIncidentsCheques where substring(RIB, 6, 5) = @agence and etat=@etat order by Date_Emission desc", new { agence, etat });
                         }
@@ -284,18 +293,18 @@ namespace OPTICIP.API.Application.Queries.Implementation
                         if (!string.IsNullOrEmpty(etat))
                         {
                             if (etat == PreparationQueries._codeToutCompte)
-                                return await connection.QueryAsync<ChequesIrreguliersViewModel>(@"select * from V_ListeChequesIrreguliers order by Date_Opposition desc");
+                                return await connection.QueryAsync<ChequesIrreguliersViewModel>(@"select * from V_ListeChequesIrreguliers Where etat IN ('C', 'E') order by Date_Opposition desc");
                         else
                                 return await connection.QueryAsync<ChequesIrreguliersViewModel>(@"select * from V_ListeChequesIrreguliers where Etat=@etat order by Date_Opposition desc", new { etat });
                         }
-                        return await connection.QueryAsync<ChequesIrreguliersViewModel>(@"select * from V_ListeChequesIrreguliersRetires  by Date_Opposition desc");
+                        return await connection.QueryAsync<ChequesIrreguliersViewModel>(@"select * from V_ListeChequesIrreguliersRetires order by Date_Opposition desc");
                     }
                     else
                     {
                         if (!string.IsNullOrEmpty(etat))
                         {
                             if (etat == PreparationQueries._codeToutCompte)
-                                return await connection.QueryAsync<ChequesIrreguliersViewModel>(@"select * from V_ListeChequesIrreguliers where substring(RIB, 6, 5) = @agence order by Date_Opposition desc", new { agence });
+                                return await connection.QueryAsync<ChequesIrreguliersViewModel>(@"select * from V_ListeChequesIrreguliers where substring(RIB, 6, 5) = @agence and etat IN ('C', 'E') order by Date_Opposition desc", new { agence });
                         else
                                 return await connection.QueryAsync<ChequesIrreguliersViewModel>(@"select * from V_ListeChequesIrreguliers where substring(RIB, 6, 5) = @agence and etat=@etat order by Date_Opposition desc", new { agence, etat });
                         }
@@ -323,7 +332,7 @@ namespace OPTICIP.API.Application.Queries.Implementation
                         if (!string.IsNullOrEmpty(etat))
                         {
                             if (etat == PreparationQueries._codeToutCompte)
-                                return await connection.QueryAsync<IncidentsEffetsViewModel>(@"select * from V_ListeIncidentsEffets order by Date_Refus_Paiement desc");
+                                return await connection.QueryAsync<IncidentsEffetsViewModel>(@"select * from V_ListeIncidentsEffets Where etat IN ('C', 'E') order by Date_Refus_Paiement desc");
                             else
                                 return await connection.QueryAsync<IncidentsEffetsViewModel>(@"select * from V_ListeIncidentsEffets where Etat=@etat order by Date_Refus_Paiement desc", new { etat });
                         }
@@ -334,7 +343,7 @@ namespace OPTICIP.API.Application.Queries.Implementation
                         if (!string.IsNullOrEmpty(etat))
                         {
                             if (etat == PreparationQueries._codeToutCompte)
-                                return await connection.QueryAsync<IncidentsEffetsViewModel>(@"select * from V_ListeIncidentsEffets where substring(RIB, 6, 5) = @agence order by Date_Refus_Paiement desc", new { agence });
+                                return await connection.QueryAsync<IncidentsEffetsViewModel>(@"select * from V_ListeIncidentsEffets where substring(RIB, 6, 5) = @agence and etat IN ('C', 'E') order by Date_Refus_Paiement desc", new { agence });
                         else
                                 return await connection.QueryAsync<IncidentsEffetsViewModel>(@"select * from V_ListeIncidentsEffets where substring(RIB, 6, 5) = @agence and etat=@etat order by Date_Refus_Paiement desc", new { agence, etat });
                         }
@@ -357,6 +366,27 @@ namespace OPTICIP.API.Application.Queries.Implementation
             }
         }
 
+        public async Task<IEnumerable<DeclarationsViewModel>> GetDeclarationsInitialesAsync(String NbreCompte, bool decInitiale = false, int NumFichier = 0)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                return await connection.QueryAsync<DeclarationsViewModel>(@"SP_DONNEES_A_DECLARER_2", new { DateDeclaration = DateTime.UtcNow.Date, Nombre_Compte_CIP = int.Parse(NbreCompte), declarationInitiale = decInitiale == true ? "1" : "0", TailleBlock = iTailleBlockDeclaration, NumeroFichier = NumFichier }, commandType: CommandType.StoredProcedure);
+            }
+        }
+
+        public async Task<int> GetNombreDeLignesADeclarerAsync()
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                //==> Exclure les agences supprimées : Statut = 1
+                //return await connection.QueryAsync<AgencesViewModel>(@"select * from V_ListeAgences ");
+                return await connection.ExecuteScalarAsync<int>(@"select Count(*) from Donnees_A_Declarer WHERE Statut = 0 OR Statut IS NULL");
+            }
+        }
+
         public int GetNbreCompteETC(String Agence, int bInitialisation)
         {
             using (var connection = new SqlConnection(_connectionString))
@@ -373,34 +403,39 @@ namespace OPTICIP.API.Application.Queries.Implementation
             }
         }
 
-        public int GetNbreCompteFromSIB()
+        public Task<int> GetNbreCompteFromSIB()
         {
-            try
+            return Task.Run(() =>
             {
-                _coreDBConnection.Open();
+                try
+                {
+                    _coreDBConnection.Open();
 
-                IDbCommand dbCommand = _coreDBConnection.CreateCommand();
-                dbCommand.CommandType = CommandType.StoredProcedure;
-                dbCommand.CommandText = "PK_CIP.F_Open_Account_Nb";
+                    IDbCommand dbCommand = _coreDBConnection.CreateCommand();
+                    dbCommand.CommandType = CommandType.StoredProcedure;
+                    dbCommand.CommandText = "PK_CIP.F_Open_Account_Nb";
 
-                IDbDataParameter param = dbCommand.CreateParameter();
-                param.ParameterName = "return_value";
-                param.Direction = ParameterDirection.ReturnValue;
-                param.DbType = DbType.Int32;
-                dbCommand.Parameters.Add(param);
-                dbCommand.ExecuteNonQuery();
+                    IDbDataParameter param = dbCommand.CreateParameter();
+                    param.ParameterName = "return_value";
+                    param.Direction = ParameterDirection.ReturnValue;
+                    param.DbType = DbType.Int32;
+                    dbCommand.Parameters.Add(param);
+                    int res = dbCommand.ExecuteNonQuery();
 
-                _coreDBConnection.Close();
+                    _coreDBConnection.Close();
 
-                if (param.Value != null)
-                    return (int)param.Value;
-                else
+                    if (param.Value != null)
+                        return (int)param.Value;
+                    else
+                        return 0;
+                }
+                catch (Exception ex)
+                {
                     return 0;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+                    //throw ex;
+                }
+
+            });
         }
 
         public IEnumerable<DeclarationsViewModel> GetDeclarationsSync(String Agences, String NbreCompte, bool decInitiale=false)
@@ -456,6 +491,26 @@ namespace OPTICIP.API.Application.Queries.Implementation
                 throw ex;
             }
            
+        }
+
+        public async Task<FileDeclarationInfoViewModel> PostHistorisationDeclarationInitialeInfoAsync(String FileName, String Nbre_Compte_CIP, Guid DeclarePar, String ZipFolderName = "", int numFichier=0)
+        {
+            FileDeclarationInfoViewModel file = new FileDeclarationInfoViewModel();
+
+            try
+            {
+                using (var connection = new SqlConnection(_connectionString))
+                {
+                    connection.Open();
+                    var result = await connection.QueryAsync<FileDeclarationInfoViewModel>(@"SP_HISTORISATION_DECLARATION_2", new { DateDeclaration = DateTime.UtcNow.Date, NOM_FICHIER = FileName, Nombre_Compte_CIP = Nbre_Compte_CIP, DECLARE_PAR = DeclarePar.ToString(), ZipFolder = ZipFolderName, NumeroFichier = numFichier }, commandType: CommandType.StoredProcedure);
+                    return result.FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
 
         public async Task<IEnumerable<HistorisationDeclarationsViewModel>> GetListHistorisationDeclarationInfoSync()
@@ -944,6 +999,26 @@ namespace OPTICIP.API.Application.Queries.Implementation
                 }
             }
         }
+
+        public async Task<string> InitialisationDeclaration()
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                int iNbreCompteARegulariser = 100;
+                string sNombreRegul = Startup.Configuration["NOMBRE_COMPTE_A_REGUL"];
+                var param = _parametresQueries.GetParametreByCodeAsync("NOMBRE_COMPTE_A_REGUL");
+                if (param != null)
+                {
+                    sNombreRegul = param.Libelle;
+                }
+
+                if (!String.IsNullOrWhiteSpace(sNombreRegul) && int.TryParse(sNombreRegul, out _))
+                    iNbreCompteARegulariser = int.Parse(sNombreRegul);
+                return await connection.ExecuteScalarAsync<string>(@"SP_INITIALISATION_DECLARATION", new { NombreCptARegul = iNbreCompteARegulariser }, commandType: CommandType.StoredProcedure);
+            }
+        }
+
     }
-    
+
 }

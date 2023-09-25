@@ -158,7 +158,7 @@ namespace OPTICIP.API.Controllers
         {
             try
             {
-                var user = _userQueries.GetUser(Login, MotPasse);
+                var user =  _userQueries.GetUser(Login, MotPasse);
                 return user != null ? Ok(user) : (IActionResult)BadRequest();
             }
             catch (Exception e)

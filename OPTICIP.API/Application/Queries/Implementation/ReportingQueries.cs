@@ -27,6 +27,7 @@ namespace OPTICIP.API.Application.Queries.Implementation
         private string _oracleConnectionString = string.Empty;
         string _reportingDirectory = string.Empty;
         int _DelaiLettre = 0;
+        private ParametresQuerie _parametresQueries;
 
         public ReportingQueries(IDbConnection dbConnection, IRepositoryFactory repositoryFactory, string constr, string reportingDirectory, int iDelaiLettre)
         {
@@ -36,6 +37,13 @@ namespace OPTICIP.API.Application.Queries.Implementation
             _reportingDirectory = reportingDirectory;
             _oracleConnectionString = _dbConnection.ConnectionString;
             _DelaiLettre = iDelaiLettre;
+            _parametresQueries = new ParametresQuerie(constr);
+            var param = _parametresQueries.GetParametreByCodeAsync("TailleBlockDeclaration");
+            if (param != null)
+            {
+                int.TryParse(param.Libelle, out _DelaiLettre);
+            }
+
         }
 
         public DateTime GetMaxDateIncident(string typeLettre)
@@ -165,7 +173,7 @@ namespace OPTICIP.API.Application.Queries.Implementation
         {
             try
             {
-                DateTime dMaxDate = GetMaxDateIncidentMandataire("1");
+                DateTime dMaxDate = GetMaxDateIncidentMandataire("2");
                 if (_dbConnection.State != ConnectionState.Open)
                     _dbConnection.Open();
                 return await _dbConnection.QueryAsync<InfMandViewModel>(@"select * from v_cip_ltinfomand where type_incident = 'INF' and datinc >= :MaxDate", new { MaxDate = dMaxDate });
